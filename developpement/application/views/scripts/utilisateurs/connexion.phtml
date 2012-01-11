@@ -1,0 +1,24 @@
+<div id="content">
+	<div id="indent-main">
+		<h2>Connexion</h2>
+		<div id="form-connexion">
+		<?php
+		
+		$this->form->setAction($this->url());
+		echo $this->form;
+		
+		echo $this->error;
+		
+		?>
+	</div></div>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("dt").addClass("connexion-left");
+		$("dd").addClass("connexion-right");
+		
+        $("#login-label > label").attr("id","connexion-login");
+        $("#password-label > label").attr("id","connexion-password");
+	});
+</script>

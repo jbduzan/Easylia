@@ -1,0 +1,50 @@
+
+.tail-top{ background:url(../images/bg.gif) top repeat-x #edefef}
+
+.right_bgd { position:absolute; top:0; right:0; width:50%; height:397px; background:url(../images/tall_top_right.gif) left top repeat-x;}
+
+.col-1, .col-2, .col-3, .col-4{ float:left}
+/*======= width =======*/
+.main{margin:0 auto; text-align:left; width:1024px; position:relative }
+
+/*======= header =======*/
+#header {height:598px;  background:url(../images/top.jpg) top center no-repeat}
+
+/*======= index.html =======*/
+#page1 #content .col-1{ width:600px; margin-right:42px}
+#page1 #content .col-2{ width:275px}
+#page1 #content .col-3{ width:275px; margin-right:56px}
+#page1 #content .col-4{ width:269px}
+/*======= index-1.html =======*/
+#page2 #content .col-1{ width:600px; margin-right:42px}
+#page2 #content .col-2{ width:275px}
+#page2 #content .col-3{ width:275px; margin-right:50px}
+#page2 #content .col-4{ width:270px}
+/*======= index-2.html =======*/
+#page3 #content .col-1{ width:600px; margin-right:42px}
+#page3 #content .col-2{ width:275px}
+/*======= index-3.html =======*/
+#page4 #content .col-1{ width:600px; margin-right:42px}
+#page4 #content .col-2{ width:275px}
+#page4 #content .col-3{ width:275px; margin-right:50px}
+#page4 #content .col-4{ width:270px}
+/*======= index-4.html =======*/
+#page5 #content .col-1{ width:600px; margin-right:42px}
+#page5 #content .col-2{ width:275px}
+#page5 #content .col-3{ width:285px; margin-right:30px}
+#page5 #content .col-4{ width:285px}
+/*======= index-5.html =======*/
+#page6 #content .col-1{ width:600px; margin-right:42px}
+#page6 #content .col-2{ width:275px}
+#page6 #content .col-3{ width:275px; margin-right:56px}
+#page6 #content .col-4{ width:269px}
+/*======= index-6.html =======*/
+#page7 #content .col-1{ width:600px; margin-right:42px}
+#page7 #content .col-2{ width:275px}
+#page7 #content .col-3{ width:300px; margin-right:0}
+#page7 #content .col-4{ width:296px}
+#page7 #content .col-1 .col-1{ width:170px; margin-right:50px}
+#page7 #content .col-1 .col-2{ width:170px}
+
+/*======= footer =======*/
+#footer { height:111px; }

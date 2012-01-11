@@ -1,0 +1,16 @@
+<div id="info_formation">
+	<h5 style="border-bottom : 1px solid">Formation</h5><br />
+	<p id="type_formation"><?php echo $this->type_formation; ?></p><br />
+	<h5 style="border-bottom : 1px solid">Choisissez un créneau horaire</h5><br />	
+	<p id="heure_formation">
+	<?php
+		$i=0;
+		
+		$test = split(',', $this->heure_formation);
+		foreach($test as $heure){
+			$i++;
+			echo "<input type='radio' id='heure$i' name='heure' value='".$heure."' /><label for='heure$i'>".$heure."</label><br />";
+		}
+	?>
+	</p>
+</div>

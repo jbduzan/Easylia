@@ -1,0 +1,529 @@
+<div id="content">
+	<div class="indent-main">
+		<div class="container">
+			<h2>Commander une formation</h2>
+			<?php
+				echo "<h3>".$this->formation_dispo->getNom()."</h2>";
+			?>
+
+				<div id="selection_formation">
+					
+					<div id="heures">
+						<p>
+							<label for="slider_value">Nombre d'heures que vous souhaitez commander :</label>
+							<span id="slider_value" style="border:0; font-weight:bold; margin-left : 0.7em"></span>
+						</p>
+						<div id="slider"></div>
+					</div>
+					
+				<br />
+				<div class="separateur"></div>
+				<p>Je choisis les jours et les heures où je suis disponible pour ma formation <a title="Appuyer sur le nom du jour pour séléctionner toute la journée"><img src="<?php APPLICATION_PATH?>/images/aide-point-interrogation-soutien-icone-4653-16.png" /></a></p><br />
+				<div id="select_jour">
+					<div id="jour1" class="select_horaire" >
+						<span class="span_jour"></span>
+						
+						<div id="checkbox_heures1" class="div_checkbox" style="display : inline">
+							<input type="checkbox" id="1" value="8h"/><label for="1" class="button_commande">8h</label>
+							<input type="checkbox" id="2" value="9h"/><label for="2" class="button_commande">9h</label>
+							<input type="checkbox" id="3" value="10h"/><label for="3" class="button_commande">10h</label>
+							<input type="checkbox" id="4" value="11h"/><label for="4" class="button_commande">11h</label>
+							<input type="checkbox" id="5" value="12h"/><label for="5" class="button_commande">12h</label>
+							<input type="checkbox" id="6" value="13h"/><label for="6" class="button_commande">13h</label>
+							<input type="checkbox" id="7" value="14h"/><label for="7" class="button_commande">14h</label>
+							<input type="checkbox" id="8" value="15h"/><label for="8" class="button_commande">15h</label>
+							<input type="checkbox" id="9" value="16h"/><label for="9" class="button_commande">16h</label>
+							<input type="checkbox" id="10" value="17h" /><label for="10" class="button_commande">17h</label>	
+							<input type="checkbox" id="141" value="18h" /><label for="141" class="button_commande">18h</label>							
+							<input type="checkbox" id="142" value="19h" /><label for="142" class="button_commande">19h</label>
+							<input type="checkbox" id="143" value="20h" /><label for="143" class="button_commande">20h</label>
+							<input type="checkbox" id="144" value="21h" /><label for="144" class="button_commande">21h</label>
+							<input type="checkbox" id="145" value="22h" /><label for="145" class="button_commande">22h</label>
+						</div>
+						
+					</div>
+					<br />
+					<div id="jour2" class="select_horaire">
+						<span class="span_jour"></span>
+						
+						<div id="checkbox_heures2" class="div_checkbox" style="display : inline">
+							<input type="checkbox" id="11" value="8h"/><label for="11" class="button_commande">8h</label>
+							<input type="checkbox" id="12" value="9h"/><label for="12" class="button_commande">9h</label>
+							<input type="checkbox" id="13" value="10h"/><label for="13" class="button_commande">10h</label>
+							<input type="checkbox" id="14" value="11h"/><label for="14" class="button_commande">11h</label>
+							<input type="checkbox" id="15" value="12h"/><label for="15" class="button_commande">12h</label>
+							<input type="checkbox" id="16" value="13h"/><label for="16" class="button_commande">13h</label>
+							<input type="checkbox" id="17" value="14h"/><label for="17" class="button_commande">14h</label>
+							<input type="checkbox" id="18" value="15h"/><label for="18" class="button_commande">15h</label>
+							<input type="checkbox" id="19" value="16h"/><label for="19" class="button_commande">16h</label>
+							<input type="checkbox" id="20" value="17h"/><label for="20" class="button_commande">17h</label>	
+							<input type="checkbox" id="146" value="18h" /><label for="146" class="button_commande">18h</label>							
+							<input type="checkbox" id="147" value="19h" /><label for="147" class="button_commande">19h</label>
+							<input type="checkbox" id="148" value="20h" /><label for="148" class="button_commande">20h</label>
+							<input type="checkbox" id="149" value="21h" /><label for="149" class="button_commande">21h</label>
+							<input type="checkbox" id="150" value="22h" /><label for="150" class="button_commande">22h</label>			
+						</div>
+					</div>
+					<br />
+					<div id="jour3" class="select_horaire">
+						<span class="span_jour"></span>
+						
+						<div id="checkbox_heures3" class="div_checkbox" style="display : inline">
+							<input type="checkbox" id="21" value="8h"/><label for="21" class="button_commande">8h</label>
+							<input type="checkbox" id="22" value="9h"/><label for="22" class="button_commande">9h</label>
+							<input type="checkbox" id="23" value="10h"/><label for="23" class="button_commande">10h</label>
+							<input type="checkbox" id="24" value="11h"/><label for="24" class="button_commande">11h</label>
+							<input type="checkbox" id="25" value="12h"/><label for="25" class="button_commande">12h</label>
+							<input type="checkbox" id="26" value="13h"/><label for="26" class="button_commande">13h</label>
+							<input type="checkbox" id="27" value="14h"/><label for="27" class="button_commande">14h</label>
+							<input type="checkbox" id="28" value="15h"/><label for="28" class="button_commande">15h</label>
+							<input type="checkbox" id="29" value="16h"/><label for="29" class="button_commande">16h</label>
+							<input type="checkbox" id="30" value="17h"/><label for="30" class="button_commande">17h</label>				
+							<input type="checkbox" id="151" value="18h" /><label for="151" class="button_commande">18h</label>							
+							<input type="checkbox" id="152" value="19h" /><label for="152" class="button_commande">19h</label>
+							<input type="checkbox" id="153" value="20h" /><label for="153" class="button_commande">20h</label>
+							<input type="checkbox" id="154" value="21h" /><label for="154" class="button_commande">21h</label>
+							<input type="checkbox" id="155" value="22h" /><label for="155" class="button_commande">22h</label>
+						</div>
+					</div>
+					<br />
+					<div id="jour4" class="select_horaire">
+						<span class="span_jour"></span>
+						
+						<div id="checkbox_heures4" class="div_checkbox" style="display : inline">
+							<input type="checkbox" id="31" value="8h"/><label for="31" class="button_commande">8h</label>
+							<input type="checkbox" id="32" value="9h"/><label for="32" class="button_commande">9h</label>
+							<input type="checkbox" id="33" value="10h"/><label for="33" class="button_commande">10h</label>
+							<input type="checkbox" id="34" value="11h"/><label for="34" class="button_commande">11h</label>
+							<input type="checkbox" id="35" value="12h"/><label for="35" class="button_commande">12h</label>
+							<input type="checkbox" id="36" value="13h"/><label for="36" class="button_commande">13h</label>
+							<input type="checkbox" id="37" value="14h"/><label for="37" class="button_commande">14h</label>
+							<input type="checkbox" id="38" value="15h"/><label for="38" class="button_commande">15h</label>
+							<input type="checkbox" id="39" value="16h"/><label for="39" class="button_commande">16h</label>
+							<input type="checkbox" id="40" value="17h"/><label for="40" class="button_commande">17h</label>		
+							<input type="checkbox" id="156" value="18h" /><label for="156" class="button_commande">18h</label>							
+							<input type="checkbox" id="157" value="19h" /><label for="157" class="button_commande">19h</label>
+							<input type="checkbox" id="158" value="20h" /><label for="158" class="button_commande">20h</label>
+							<input type="checkbox" id="159" value="21h" /><label for="159" class="button_commande">21h</label>
+							<input type="checkbox" id="160" value="22h" /><label for="160" class="button_commande">22h</label>		
+						</div>
+					</div>
+					<br />
+					<div id="jour5" class="select_horaire">
+						<span class="span_jour"></span>
+						
+						<div id="checkbox_heures5" class="div_checkbox" style="display : inline">
+							<input type="checkbox" id="41" value="8h"/><label for="41" class="button_commande">8h</label>
+							<input type="checkbox" id="42" value="9h"/><label for="42" class="button_commande">9h</label>
+							<input type="checkbox" id="43" value="10h"/><label for="43" class="button_commande">10h</label>
+							<input type="checkbox" id="44" value="11h"/><label for="44" class="button_commande">11h</label>
+							<input type="checkbox" id="45" value="12h"/><label for="45" class="button_commande">12h</label>
+							<input type="checkbox" id="46" value="13h"/><label for="46" class="button_commande">13h</label>
+							<input type="checkbox" id="47" value="14h"/><label for="47" class="button_commande">14h</label>
+							<input type="checkbox" id="48" value="15h"/><label for="48" class="button_commande">15h</label>
+							<input type="checkbox" id="49" value="16h"/><label for="49" class="button_commande">16h</label>
+							<input type="checkbox" id="50" value="17h"/><label for="50" class="button_commande">17h</label>
+							<input type="checkbox" id="161" value="18h" /><label for="161" class="button_commande">18h</label>							
+							<input type="checkbox" id="162" value="19h" /><label for="162" class="button_commande">19h</label>
+							<input type="checkbox" id="163" value="20h" /><label for="163" class="button_commande">20h</label>
+							<input type="checkbox" id="164" value="21h" /><label for="164" class="button_commande">21h</label>
+							<input type="checkbox" id="165" value="22h" /><label for="165" class="button_commande">22h</label>				
+						</div>
+					</div>
+					<br />
+					<div id="jour6" class="select_horaire">
+						<span class="span_jour"></span>
+						
+						<div id="checkbox_heures6" class="div_checkbox" style="display : inline">
+							<input type="checkbox" id="51" value="8h"/><label for="51" class="button_commande">8h</label>
+							<input type="checkbox" id="52" value="9h"/><label for="52" class="button_commande">9h</label>
+							<input type="checkbox" id="53" value="10h"/><label for="53" class="button_commande">10h</label>
+							<input type="checkbox" id="54" value="11h"/><label for="54" class="button_commande">11h</label>
+							<input type="checkbox" id="55" value="12h"/><label for="55" class="button_commande">12h</label>
+							<input type="checkbox" id="56" value="13h"/><label for="56" class="button_commande">13h</label>
+							<input type="checkbox" id="57" value="14h"/><label for="57" class="button_commande">14h</label>
+							<input type="checkbox" id="58" value="15h"/><label for="58" class="button_commande">15h</label>
+							<input type="checkbox" id="59" value="16h"/><label for="59" class="button_commande">16h</label>
+							<input type="checkbox" id="60" value="17h"/><label for="60" class="button_commande">17h</label>		
+							<input type="checkbox" id="166" value="18h" /><label for="166" class="button_commande">18h</label>							
+							<input type="checkbox" id="167" value="19h" /><label for="167" class="button_commande">19h</label>
+							<input type="checkbox" id="168" value="20h" /><label for="168" class="button_commande">20h</label>
+							<input type="checkbox" id="169" value="21h" /><label for="169" class="button_commande">21h</label>
+							<input type="checkbox" id="170" value="22h" /><label for="170" class="button_commande">22h</label>		
+						</div>
+					</div>
+					<br />  
+					<div id="jour7" class="select_horaire">
+						<span class="span_jour"></span>
+						
+						<div id="checkbox_heures7" class="div_checkbox" style="display : inline">
+							<input type="checkbox" id="61" value="8h"/><label for="61" class="button_commande">8h</label>
+							<input type="checkbox" id="62" value="9h"/><label for="62" class="button_commande">9h</label>
+							<input type="checkbox" id="63" value="10h"/><label for="63" class="button_commande">10h</label>
+							<input type="checkbox" id="64" value="11h"/><label for="64" class="button_commande">11h</label>
+							<input type="checkbox" id="65" value="12h"/><label for="65" class="button_commande">12h</label>
+							<input type="checkbox" id="66" value="13h"/><label for="66" class="button_commande">13h</label>
+							<input type="checkbox" id="67" value="14h"/><label for="67" class="button_commande">14h</label>
+							<input type="checkbox" id="68" value="15h"/><label for="68" class="button_commande">15h</label>
+							<input type="checkbox" id="69" value="16h"/><label for="69" class="button_commande">16h</label>
+							<input type="checkbox" id="70" value="17h"/><label for="70" class="button_commande">17h</label>			
+							<input type="checkbox" id="171" value="18h" /><label for="171" class="button_commande">18h</label>							
+							<input type="checkbox" id="172" value="19h" /><label for="172" class="button_commande">19h</label>
+							<input type="checkbox" id="173" value="20h" /><label for="173" class="button_commande">20h</label>
+							<input type="checkbox" id="174" value="21h" /><label for="174" class="button_commande">21h</label>
+							<input type="checkbox" id="175" value="22h" /><label for="175" class="button_commande">22h</label>	
+						</div>
+					</div>
+					
+					<br />
+					<div id="next_periode" style="display : none">
+						<div id="jour8" class="select_horaire" >
+							<span class="span_jour"></span>
+							
+							<div id="checkbox_heures8" class="div_checkbox" style="display : inline">
+								<input type="checkbox" id="71" value="8h"/><label for="71" class="button_commande">8h</label>
+								<input type="checkbox" id="72" value="9h"/><label for="72" class="button_commande">9h</label>
+								<input type="checkbox" id="73" value="10h"/><label for="73" class="button_commande">10h</label>
+								<input type="checkbox" id="74" value="11h"/><label for="74" class="button_commande">11h</label>
+								<input type="checkbox" id="75" value="12h"/><label for="75" class="button_commande">12h</label>
+								<input type="checkbox" id="76" value="13h"/><label for="76" class="button_commande">13h</label>
+								<input type="checkbox" id="77" value="14h"/><label for="77" class="button_commande">14h</label>
+								<input type="checkbox" id="78" value="15h"/><label for="78" class="button_commande">15h</label>
+								<input type="checkbox" id="79" value="16h"/><label for="79" class="button_commande">16h</label>
+								<input type="checkbox" id="80" value="17h" /><label for="80" class="button_commande">17h</label>	
+								<input type="checkbox" id="176" value="18h" /><label for="176" class="button_commande">18h</label>							
+								<input type="checkbox" id="177" value="19h" /><label for="177" class="button_commande">19h</label>
+								<input type="checkbox" id="178" value="20h" /><label for="178" class="button_commande">20h</label>
+								<input type="checkbox" id="179" value="21h" /><label for="179" class="button_commande">21h</label>
+								<input type="checkbox" id="180" value="22h" /><label for="180" class="button_commande">22h</label>							
+							</div>
+						</div>
+						<br />
+						<div id="jour9" class="select_horaire">
+							<span class="span_jour"></span>
+							
+							<div id="checkbox_heures9" class="div_checkbox" style="display : inline">
+								<input type="checkbox" id="81" value="8h"/><label for="81" class="button_commande">8h</label>
+								<input type="checkbox" id="82" value="9h"/><label for="82" class="button_commande">9h</label>
+								<input type="checkbox" id="83" value="10h"/><label for="83" class="button_commande">10h</label>
+								<input type="checkbox" id="84" value="11h"/><label for="84" class="button_commande">11h</label>
+								<input type="checkbox" id="85" value="12h"/><label for="85" class="button_commande">12h</label>
+								<input type="checkbox" id="86" value="13h"/><label for="86" class="button_commande">13h</label>
+								<input type="checkbox" id="87" value="14h"/><label for="87" class="button_commande">14h</label>
+								<input type="checkbox" id="88" value="15h"/><label for="88" class="button_commande">15h</label>
+								<input type="checkbox" id="89" value="16h"/><label for="89" class="button_commande">16h</label>
+								<input type="checkbox" id="90" value="17h"/><label for="90" class="button_commande">17h</label>		
+								<input type="checkbox" id="181" value="18h" /><label for="181" class="button_commande">18h</label>							
+								<input type="checkbox" id="182" value="19h" /><label for="182" class="button_commande">19h</label>
+								<input type="checkbox" id="183" value="20h" /><label for="183" class="button_commande">20h</label>
+								<input type="checkbox" id="184" value="21h" /><label for="184" class="button_commande">21h</label>
+								<input type="checkbox" id="185" value="22h" /><label for="185" class="button_commande">22h</label>		
+							</div>
+						</div>
+						<br />
+						<div id="jour10" class="select_horaire">
+							<span class="span_jour"></span>
+							
+							<div id="checkbox_heures10" class="div_checkbox" style="display : inline">
+								<input type="checkbox" id="91" value="8h"/><label for="91" class="button_commande">8h</label>
+								<input type="checkbox" id="92" value="9h"/><label for="92" class="button_commande">9h</label>
+								<input type="checkbox" id="93" value="10h"/><label for="93" class="button_commande">10h</label>
+								<input type="checkbox" id="94" value="11h"/><label for="94" class="button_commande">11h</label>
+								<input type="checkbox" id="95" value="19h"/><label for="95" class="button_commande">12h</label>
+								<input type="checkbox" id="96" value="13h"/><label for="96" class="button_commande">13h</label>
+								<input type="checkbox" id="97" value="14h"/><label for="97" class="button_commande">14h</label>
+								<input type="checkbox" id="98" value="15h"/><label for="98" class="button_commande">15h</label>
+								<input type="checkbox" id="99" value="16h"/><label for="99" class="button_commande">16h</label>
+								<input type="checkbox" id="100" value="17h"/><label for="100" class="button_commande">17h</label>	
+								<input type="checkbox" id="186" value="18h" /><label for="186" class="button_commande">18h</label>							
+								<input type="checkbox" id="187" value="19h" /><label for="187" class="button_commande">19h</label>
+								<input type="checkbox" id="188" value="20h" /><label for="188" class="button_commande">20h</label>
+								<input type="checkbox" id="189" value="21h" /><label for="189" class="button_commande">21h</label>
+								<input type="checkbox" id="190" value="22h" /><label for="190" class="button_commande">22h</label>			
+							</div>
+						</div>
+						<br />
+						<div id="jour11" class="select_horaire">
+							<span class="span_jour"></span>
+							
+							<div id="checkbox_heures11" class="div_checkbox" style="display : inline">
+								<input type="checkbox" id="101" value="8h"/><label for="101" class="button_commande">8h</label>
+								<input type="checkbox" id="102" value="9h"/><label for="102" class="button_commande">9h</label>
+								<input type="checkbox" id="103" value="10h"/><label for="103" class="button_commande">10h</label>
+								<input type="checkbox" id="104" value="11h"/><label for="104" class="button_commande">11h</label>
+								<input type="checkbox" id="105" value="12h"/><label for="105" class="button_commande">12h</label>
+								<input type="checkbox" id="106" value="13h"/><label for="106" class="button_commande">13h</label>
+								<input type="checkbox" id="107" value="14h"/><label for="107" class="button_commande">14h</label>
+								<input type="checkbox" id="108" value="15h"/><label for="108" class="button_commande">15h</label>
+								<input type="checkbox" id="109" value="16h"/><label for="109" class="button_commande">16h</label>
+								<input type="checkbox" id="110" value="17h"/><label for="110" class="button_commande">17h</label>
+								<input type="checkbox" id="191" value="18h" /><label for="191" class="button_commande">18h</label>							
+								<input type="checkbox" id="192" value="19h" /><label for="192" class="button_commande">19h</label>
+								<input type="checkbox" id="193" value="20h" /><label for="193" class="button_commande">20h</label>
+								<input type="checkbox" id="194" value="21h" /><label for="194" class="button_commande">21h</label>
+								<input type="checkbox" id="195" value="22h" /><label for="195" class="button_commande">22h</label>				
+							</div>
+						</div>
+						<br />
+						<div id="jour12" class="select_horaire">
+							<span class="span_jour"></span>
+							
+							<div id="checkbox_heures12" class="div_checkbox" style="display : inline">
+								<input type="checkbox" id="111" value="8h"/><label for="111" class="button_commande">8h</label>
+								<input type="checkbox" id="112" value="9h"/><label for="112" class="button_commande">9h</label>
+								<input type="checkbox" id="113" value="10h"/><label for="113" class="button_commande">10h</label>
+								<input type="checkbox" id="114" value="11h"/><label for="114" class="button_commande">11h</label>
+								<input type="checkbox" id="115" value="12h"/><label for="115" class="button_commande">12h</label>
+								<input type="checkbox" id="116" value="13h"/><label for="116" class="button_commande">13h</label>
+								<input type="checkbox" id="117" value="14h"/><label for="117" class="button_commande">14h</label>
+								<input type="checkbox" id="118" value="15h"/><label for="118" class="button_commande">15h</label>
+								<input type="checkbox" id="119" value="16h"/><label for="119" class="button_commande">16h</label>
+								<input type="checkbox" id="120" value="17h"/><label for="120" class="button_commande">17h</label>	
+								<input type="checkbox" id="196" value="18h" /><label for="196" class="button_commande">18h</label>							
+								<input type="checkbox" id="197" value="19h" /><label for="197" class="button_commande">19h</label>
+								<input type="checkbox" id="198" value="20h" /><label for="198" class="button_commande">20h</label>
+								<input type="checkbox" id="199" value="21h" /><label for="199" class="button_commande">21h</label>
+								<input type="checkbox" id="200" value="22h" /><label for="200" class="button_commande">22h</label>			
+							</div>
+						</div>
+						<br />
+						<div id="jour13" class="select_horaire">
+							<span class="span_jour"></span>
+							
+							<div id="checkbox_heures13" class="div_checkbox" style="display : inline">
+								<input type="checkbox" id="121" value="8h"/><label for="121" class="button_commande">8h</label>
+								<input type="checkbox" id="122" value="9h"/><label for="122" class="button_commande">9h</label>
+								<input type="checkbox" id="123" value="10h"/><label for="123" class="button_commande">10h</label>
+								<input type="checkbox" id="124" value="11h"/><label for="124" class="button_commande">11h</label>
+								<input type="checkbox" id="125" value="12h"/><label for="125" class="button_commande">12h</label>
+								<input type="checkbox" id="126" value="13h"/><label for="126" class="button_commande">13h</label>
+								<input type="checkbox" id="127" value="14h"/><label for="127" class="button_commande">14h</label>
+								<input type="checkbox" id="128" value="15h"/><label for="128" class="button_commande">15h</label>
+								<input type="checkbox" id="129" value="16h"/><label for="129" class="button_commande">16h</label>
+								<input type="checkbox" id="130" value="17h"/><label for="130" class="button_commande">17h</label>	
+								<input type="checkbox" id="201" value="18h" /><label for="201" class="button_commande">18h</label>							
+								<input type="checkbox" id="202" value="19h" /><label for="202" class="button_commande">19h</label>
+								<input type="checkbox" id="203" value="20h" /><label for="203" class="button_commande">20h</label>
+								<input type="checkbox" id="204" value="21h" /><label for="204" class="button_commande">21h</label>
+								<input type="checkbox" id="205" value="22h" /><label for="205" class="button_commande">22h</label>			
+							</div>
+						</div>
+						<br />  
+						<div id="jour14" class="select_horaire">
+							<span class="span_jour"></span>
+							
+							<div id="checkbox_heures14" class="div_checkbox" style="display : inline">
+								<input type="checkbox" id="131" value="8h"/><label for="131" class="button_commande">8h</label>
+								<input type="checkbox" id="132" value="9h"/><label for="132" class="button_commande">9h</label>
+								<input type="checkbox" id="133" value="10h"/><label for="133" class="button_commande">10h</label>
+								<input type="checkbox" id="134" value="11h"/><label for="134" class="button_commande">11h</label>
+								<input type="checkbox" id="135" value="12h"/><label for="135" class="button_commande">12h</label>
+								<input type="checkbox" id="136" value="13h"/><label for="136" class="button_commande">13h</label>
+								<input type="checkbox" id="137" value="14h"/><label for="137" class="button_commande">14h</label>
+								<input type="checkbox" id="138" value="15h"/><label for="138" class="button_commande">15h</label>
+								<input type="checkbox" id="139" value="16h"/><label for="139" class="button_commande">16h</label>
+								<input type="checkbox" id="140" value="17h"/><label for="140" class="button_commande">17h</label>		
+								<input type="checkbox" id="206" value="18h" /><label for="206" class="button_commande">18h</label>							
+								<input type="checkbox" id="207" value="19h" /><label for="207" class="button_commande">19h</label>
+								<input type="checkbox" id="208" value="20h" /><label for="208" class="button_commande">20h</label>
+								<input type="checkbox" id="209" value="21h" /><label for="209" class="button_commande">21h</label>
+								<input type="checkbox" id="210" value="22h" /><label for="210" class="button_commande">22h</label>		
+							</div>
+						</div>
+					
+					</div>
+					
+				</div>
+				<br />
+
+			</div>
+			<input type="submit" id="plus" value="Afficher sept jours supplémentaires" />
+			<div class="separateur"></div>
+			<div id="date_paiement">
+				<p><input type="radio" value="maintenant" name="date_payement" id="maintenant" /><label for="maintenant" >Je souhaite être débité maintenant.</label></p>
+				<p><input type="radio" value="jour_formation" name="date_payement" id="jour_formation" /><label for="jour_formation">Je souhaite être débité au jour de la formation (dans la limite de 1 mois maximum).</label></p>
+				
+				<br /><p><input type="checkbox" value="cgv" name="cgv" id="cgv" /><label for="cgv">J'ai pris connaissance des <a href="#">conditions générales de ventes</a>, et je les accepte.</label></p>
+			</div>
+			<br /> <br />
+				<input type='image' style="width : 150px;height : 50px; border : none;margin-left: 28em;margin-top: 5em;" name="submit" id="submit" src='https://www.paypal.com/fr_FR/i/btn/btn_xpressCheckout.gif' align='top' alt='Check out with PayPal'/>
+				
+			<p id="info" style="display : none; color : green"></p>
+			<p id="error" style="display : none; color : red"></p>
+		</div>	
+	</div>
+</div>
+<input type="hidden" id="nom_formation" value="<?php echo $this->formation_dispo->getNom() ?>" />
+<input type="hidden" value="<?php echo $this->formation_dispo->getIdFormationDispo() ?>" id="id_formation_dispo" />
+<script type="text/javascript">
+	$(document).ready(function(){			
+		
+		// préparation et affichage des dates pour le choix de la formation
+		setDate();
+		
+		$("a").wTooltip();
+		
+		var selected;
+		$(".span_jour").click(function(){
+			if(selected){
+				$(this).next('div').children('label').removeClass("ui-state-active").attr('aria-pressed', 'false');
+				selected = false;
+			}	
+			else if(selected != true){
+				$(this).next('div').children('label').addClass("ui-state-active").attr('aria-pressed', 'true');
+				selected = true;
+			}
+		});
+		
+		// Bouton pour afficher la deuxième semaine d'horaire
+		$("#plus").click(function(){
+			$("#next_periode").slideDown();
+			$("#plus").hide();
+		});
+		
+		// Gestion du slider pour le choix des heures
+		
+		$( "#slider" ).slider({
+			min: 1,
+			max: 4,
+			range : "min",
+			slide: function( event, ui ) {
+				$( "#slider_value" ).html(ui.value  + " h");
+			}
+		});
+		
+		$( "#slider_value" ).html($( "#slider" ).slider( "value" ) + " h");
+		
+		// Lorsque on valide le formulaire
+		$("#submit").click(function(){
+		
+			// On vérifie que tous les champs soit remplis
+			
+			if($("#date_formation_commande").val() == ""){
+				$("#error").html("Veuillez saisir une date !").show();
+				setTimeout(function() {
+                    $( "#error" ).fadeOut("slow");
+                }, 2000 );
+                return false;
+			}
+			
+			if($("#cgv").attr('checked') != 'checked'){
+				$("#error").html("Veuillez accepter les conditions générales de ventes !").show();
+				setTimeout(function() {
+                    $( "#error" ).fadeOut("slow");
+                }, 2000 );
+                return false;
+			}
+						
+			var nbr_heures = $("#slider_value").html();
+			
+			// Récupération des checkbox pour l'envoie ajax
+					
+			var disponibilite = [];
+			
+			$(".select_horaire").each(function(){
+				var jour = $(this).children(":first-child").html();
+				$(this).children(":nth-child(2)").each(function(){
+						$(this).children('label').each(function(){
+							if($(this).attr('aria-pressed') == "true")
+								disponibilite.push(jour + " " + $(this).children('span').html());
+						});						
+				});
+			});
+							
+			$.ajax({
+				type : "post",
+				url : "/formation/payer",
+				data : {
+					"nbr_heures" : nbr_heures,
+					"nom_formation" : $("#nom_formation").val(),
+					"date_formation_commande" : disponibilite,
+					"id_formation_dispo" : $("#id_formation_dispo").val(),
+					"date_payement" : $("input[type=radio][name=date_payement]:checked").val()
+				},
+				success : function(){
+					$("#info").html("Vous allez être redirigé vers Paypal").show();
+                	location.href = "/formation/sendcommandtopaypal";
+				}
+			});
+						
+		});
+				
+		function setDate(){
+		
+			/*									*/
+			/* Paramètre les dates des checkbox */
+			/*									*/
+			
+			// Affichage du select jour sous forme de boutton
+			$("#checkbox_heures1").buttonset();
+			$("#checkbox_heures2").buttonset();
+			$("#checkbox_heures3").buttonset();
+			$("#checkbox_heures4").buttonset();
+			$("#checkbox_heures5").buttonset();
+			$("#checkbox_heures6").buttonset();
+			$("#checkbox_heures7").buttonset();
+			$("#checkbox_heures8").buttonset();
+			$("#checkbox_heures9").buttonset();
+			$("#checkbox_heures10").buttonset();
+			$("#checkbox_heures11").buttonset();
+			$("#checkbox_heures12").buttonset();
+			$("#checkbox_heures13").buttonset();
+			$("#checkbox_heures14").buttonset();
+			
+			// Création des dates nécessaires
+			var date_1 = new Date();
+			var date_2 = new Date();
+			var date_3 = new Date();
+			var date_4 = new Date();
+			var date_5 = new Date();
+			var date_6 = new Date();
+			var date_7 = new Date();
+			var date_8 = new Date();
+			var date_9 = new Date();
+			var date_10 = new Date();
+			var date_11 = new Date();
+			var date_12 = new Date();
+			var date_13 = new Date();
+			var date_14 = new Date();
+					
+			// Paramétrage des dates 
+			date_2.setDate(date_1.getDate() + 1);
+			date_3.setDate(date_2.getDate() + 1);
+			date_4.setDate(date_3.getDate() + 1);
+			date_5.setDate(date_4.getDate() + 1);
+			date_6.setDate(date_5.getDate() + 1);
+			date_7.setDate(date_6.getDate() + 1);
+			date_8.setDate(date_7.getDate() + 1);
+			date_9.setDate(date_8.getDate() + 1);
+			date_10.setDate(date_9.getDate() + 1);
+			date_11.setDate(date_10.getDate() + 1);
+			date_12.setDate(date_11.getDate() + 1);
+			date_13.setDate(date_12.getDate() + 1);
+			date_14.setDate(date_13.getDate() + 1);
+			
+			// Affichage dans des dates dans les buttons
+			
+			// Array des mois et des jours pour le formatage à l'affichage
+			var mois = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+			var jours = [ "Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
+			
+			// Affichage des labels en fonction du jour						
+			$("#jour1").children(":first-child").html(jours[date_1.getDay()] + " " + date_1.getDate() + "/" + mois[date_1.getMonth()]);
+			$("#jour2").children(":first-child").html(jours[date_2.getDay()] + " " + date_2.getDate() + "/" + mois[date_2.getMonth()]);
+			$("#jour3").children(":first-child").html(jours[date_3.getDay()] + " " + date_3.getDate() + "/" + mois[date_3.getMonth()]);
+			$("#jour4").children(":first-child").html(jours[date_4.getDay()] + " " + date_4.getDate() + "/" + mois[date_4.getMonth()]);
+			$("#jour5").children(":first-child").html(jours[date_5.getDay()] + " " + date_5.getDate() + "/" + mois[date_5.getMonth()]);
+			$("#jour6").children(":first-child").html(jours[date_6.getDay()] + " " + date_6.getDate() + "/" + mois[date_6.getMonth()]);
+			$("#jour7").children(":first-child").html(jours[date_7.getDay()] + " " + date_7.getDate() + "/" + mois[date_7.getMonth()]);	
+			$("#jour8").children(":first-child").html(jours[date_8.getDay()] + " " + date_8.getDate() + "/" + mois[date_8.getMonth()]);
+			$("#jour9").children(":first-child").html(jours[date_9.getDay()] + " " + date_9.getDate() + "/" + mois[date_9.getMonth()]);
+			$("#jour10").children(":first-child").html(jours[date_10.getDay()] + " " + date_10.getDate() + "/" + mois[date_10.getMonth()]);
+			$("#jour11").children(":first-child").html(jours[date_11.getDay()] + " " + date_11.getDate() + "/" + mois[date_11.getMonth()]);
+			$("#jour12").children(":first-child").html(jours[date_12.getDay()] + " " + date_12.getDate() + "/" + mois[date_12.getMonth()]);
+			$("#jour13").children(":first-child").html(jours[date_13.getDay()] + " " + date_13.getDate() + "/" + mois[date_13.getMonth()]);
+			$("#jour14").children(":first-child").html(jours[date_14.getDay()] + " " + date_14.getDate() + "/" + mois[date_14.getMonth()]);			
+			
+		}
+	});
+</script>

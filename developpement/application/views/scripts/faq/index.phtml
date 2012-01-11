@@ -1,0 +1,34 @@
+<div id="content">
+	<div class="indent-main">
+		<h2>Foire aux questions</h2>
+		<div class="container">
+			<h3>Liste des questions</h3>
+				<div class="indent-main">
+				<?php
+					echo $this->faq;
+				?>
+				</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		
+		// Gestion des effets de la FAQ
+		
+		// On cache toutes les réponses
+		$(".reponse-faq").hide();
+		
+		// Lorsque on clique sur une question
+		$(".question-faq").click(function(){
+			// On cache la réponses déjà affichée
+			$(".reponse-faq").slideUp();
+			
+			if($(this).next().is(":visible") == false)
+				// On affiche la réponse associée
+				$(this).next().slideDown();
+		});
+		
+	});
+</script>

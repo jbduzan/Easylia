@@ -1,0 +1,521 @@
+
+<?php echo $this->doctype();
+$user = new Zend_Session_Namespace('user');?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>Easylia</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link href="<?php APPLICATION_PATH?>/css/temp.css" rel="stylesheet" type="text/css" />
+    <link href="<?php APPLICATION_PATH?>/css/layout.css" rel="stylesheet" type="text/css" />
+    <link href="<?php APPLICATION_PATH?>/css/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css" />
+    <link href="<?php APPLICATION_PATH?>/css/flexigrid.css" rel="stylesheet" type="text/css" />
+    <link href="<?php APPLICATION_PATH?>/css/flexigrid.pack.css" rel="stylesheet" type="text/css" />
+    <script src="<?php APPLICATION_PATH?>/js/jquery.1.6.2.min.js" type="text/javascript"></script>
+    <script src="<?php APPLICATION_PATH?>/js/cufon-yui.js" type="text/javascript"></script>
+    <script src="<?php APPLICATION_PATH?>/js/cufon-replace.js" type="text/javascript"></script>
+    <script src="<?php APPLICATION_PATH?>/js/jquery-browser.js" type="text/javascript"></script>
+    <script src="<?php APPLICATION_PATH?>/js/Humnst777_BT_700.font.js" type="text/javascript"></script>
+    <script src="<?php APPLICATION_PATH?>/js/Myriad_Pro_400.font.js" type="text/javascript"></script>
+    <script src="<?php APPLICATION_PATH?>/js/flexigrid.js" type="text/javascript"></script>
+    <script src="<?php APPLICATION_PATH?>/js/flexigrid.pack.js" type="text/javascript"></script>
+    <script src="<?php APPLICATION_PATH?>/js/wtootltip.js" type="text/javascript"></script>
+    <script type="text/javascript" src="<?php APPLICATION_PATH?>/js/jquery.slideshow.js"></script>  
+    <script type="text/javascript" src="<?php APPLICATION_PATH?>/js/script.js"></script>     
+	<script type="text/javascript" src="<?php APPLICATION_PATH?>/js/jquery-ui-1.8.16.custom.min.js"></script>
+	<script type="text/javascript" src="<?php APPLICATION_PATH?>/js/jquery.jcountdown1.3.2.js"></script>	
+	<script type="text/javascript" src="<?php APPLICATION_PATH?>/js/timepicker.js"></script>	
+</head>
+
+<body id="page1">
+<div class="right_bgd"></div>
+<div class="tail-top">
+    <div class="main">
+        <div id="header">
+
+            <form action="" id="form1">
+                <div class="indent">
+                    
+                  </div>
+            </form>
+                <div class="indent1">
+                	<div class="container">
+                    </div>
+                    <a href="http://formateurs.easylia.com/inscription"><img alt="" src="<?php APPLICATION_PATH?>/images/logo.jpg" class="logo" id="logo_temp" /></a><br />
+                </div>
+            </div>
+
+<div id="content">
+	<h1>Formulaire de pré-inscription au poste de formateur</h1>
+	<div class="indent-main">
+		<div class="container">
+			<div class="form-center">
+				<p id="info_inscription"><i>Tous les champs marqués d'une * sont obligatoires.</i></p>
+				<form id="inscription_form" enctype="application/x-www-form-urlencoded" method="post" action="/inscription/">
+				<dl class="zend_form">
+					<div id="form-content">
+						<div id="inscription_civilite">
+							<h4>Informations personnelles</h4>
+						</div>
+						<dt id="inscription_type-label"><label for="inscription_type" class="optional"><span class="red">*</span> Civilité :</label></dt>
+						<dd id="inscription_type-element">
+							<select name="inscription_type" id="inscription_type">
+							    <option value="mr" >M.</option>
+							    <option value="mlle">Mlle</option>
+							    <option value="mme" >Mme</option>
+							</select></dd>
+						<dt id="nom-label"><label for="nom" class="optional"><span class="red">*</span> Nom :</label></dt>
+						<dd id="nom-element">
+							<input type="text" name="nom" id="nom" value="" /></dd>
+						<dt id="prenom-label"><label for="prenom" class="optional"><span class="red">*</span> Prenom :</label></dt>
+						<dd id="prenom-element">
+							<input type="text" name="prenom" id="prenom" value="" /></dd>
+						<!--<dt id="siret-label"><label for="siret" class="optional">Siret :</label></dt>
+						<dd id="siret-element">
+							<input type="text" name="siret" id="siret" value="" /></dd>-->
+						<dt id="adresse-label"><label for="adresse" class="optional"><span class="red">*</span> Adresse :</label></dt>
+						<dd id="adresse-element">
+							<input type="text" name="adresse" id="adresse" value="" /></dd>
+						<dt id="adresse2-label"><label for="adresse2" class="optional">Complément d'adresse :</label></dt>
+						<dd id="adresse2-element">
+							<input type="text" name="adresse2" id="adresse2" value="" /></dd>
+						<dt id="codePostal-label"><label for="codePostal" class="optional"><span class="red">*</span> Code postal :</label></dt>
+						<dd id="codePostal-element">
+							<input type="text" name="codePostal" id="codePostal" value="" /></dd>
+						<dt id="ville-label"><label for="ville" class="optional"><span class="red">*</span> Ville <i style="font-size : 10.3px;">(Se remplit automatiquement en fonction du code postal)</i> :</label></dt>
+						<dd id="ville-element">
+							<input type="text" name="ville" id="ville" value="" /></dd>
+						<dt id="telephone-label"><label for="telephone" class="optional"><span class="red">*</span> Téléphone :</label></dt>
+						<dd id="telephone-element">
+							<input type="text" name="telephone" id="telephone" value="" /></dd>
+						<dt id="dateNaissance-label"><label for="dateNaissance" class="optional"><span class="red">*</span> Date de naissance :</label></dt>
+						<dd id="dateNaissance-element">
+							<input type="text" name="dateNaissance" id="dateNaissance" value="" /></dd>
+						<dt id="departementNaissance-label"><label for="departementNaissance" class="optional"><span class="red">*</span> Département de naissance :</label></dt>
+						<dd id="departementNaissance-element">
+							<input type="text" name="departementNaissance" id="departementNaissance" value="" /></dd>
+						<dt id="paysNaissance-label"><label for="paysNaissance" class="optional"><span class="red">*</span> Pays de naissance :</label></dt>
+						<dd id="paysNaissance-element">
+							<input type="text" name="paysNaissance" id="paysNaissance" value="France" /></dd>
+	
+						<div id="inscription_login">
+							<h4>Informations de connexion</h4>
+						</div>
+						<dt id="login-label"><label for="login" class="optional"><span class="red">*</span> Nom d'utilisateur :</label></dt>
+						<dd id="login-element">
+							<input type="text" name="login" id="login" value="" /></dd>
+						<dt id="password-label"><label for="password" class="optional"><span class="red">*</span> Mot de passe<i> (8 caratères, 1 majuscule, 1 chiffre)</i> :</label></dt>
+						<dd id="password-element">
+							<input type="password" name="password" id="password" value="" /></dd>
+						<dt id="password_conf-label"><label for="password_conf" class="optional"><span class="red">*</span> Confirmez le mot de passe :</label></dt>
+						<dd id="password_conf-element">
+							<input type="password" name="password_conf" id="password_conf" value="" /></dd>
+						<dt id="mail-label"><label for="mail" class="optional"><span class="red">*</span> Adresse E-mail :</label></dt>
+						<dd id="mail-element">
+							<input type="text" name="mail" id="mail" value="" /></dd>
+						<dt id="submit-label">&#160;</dt><dd id="submit-element">
+							<input type="submit" name="submit" id="submit_inscription" value="Valider" /></dd>
+						<dt id="csrf-label">&#160;</dt>
+						<dd id="csrf-element">
+							<input type="hidden" name="csrf" value="aba16d4f1bf0547303d91b4a02ceb80a" id="csrf" />
+						</dd>
+					</div>
+				</dl>
+				</form>	
+				<div id="information_inscriptions">
+					<p>
+						Les informations que vous nous communiquez ne sont jamais confiées à des tiers. En application de la loi n° 2004-801 du 6 août 2004 relative à la protection des personnes physiques à l'égard des traitements de données à caractère personnel, modifiant la loi n° 78-17 du 6 janvier 1978, vous disposez par ailleurs d'un droit d'accès, de rectification, de modification et de suppression concernant les données qui vous concernent. Vous pouvez exercer ce droit en envoyant un e-mail à contact@easylia.com.
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+ <div id="footer">
+    	</div>
+
+
+</body>
+<script type="text/javascript">
+
+    $(document).ready(function(){
+		var cache = {};
+                
+        var isLogged = false;
+         <?php
+            // le namespace est setté en haut de la page
+            if(!empty($user->is_logged) && $user->is_logged == true) {?> 
+             isLogged = true;
+         <?php } ?>
+        
+       //Récupération des infos et envoie à l'action login du controller utilisateurs.
+       $("#submitLogin").click(function(){
+           $.ajax({
+              type: 'post',
+              url: '/utilisateurs/connexionFromIndex',
+              data: {'login' : $("#login_top").val(), 'password' : $("#password_top").val(), 'loginFromIndex' : true, 'remember' : $("#remember").val()},
+              success : function(data){
+                   if(data != ''){
+                       $("#userHello").html('Bonjour '+ data + " !");
+                       $("#isNotLogged").hide();
+                       $("#isLogged").show();
+                       location.reload();
+                    }else{
+                        $("#erreur").html("Votre nom d'utilisateur ou votre mot de passe ne correspond pas !");
+                        $("#erreur").show();
+                        setTimeout(function() {
+                            $( "#erreur" ).fadeOut("slow");
+                        }, 2000 );
+                    }                
+              }
+           });
+       });
+       
+       $("#deconnexion").click(function(){
+           $.ajax({
+               type: 'post',
+               url: '/utilisateurs/deconnexion',
+               success: function(){
+				location.href = "http://dev.easylia.com";
+               }
+           }); 
+       });
+       
+       $("#votreCompte").click(function(){
+            window.location.replace("/utilisateurs");
+       });
+                  
+       if( isLogged === true){
+            $("#isNotLogged").hide();
+            $("#isLogged").show();
+       }else{
+           $("#isNotLogged").show();
+           $("#isLogged").hide();
+       }
+       
+                         
+        // Ajout des champs pour le design
+        $("dd").addClass("inscription-right"); 
+        $("dt").addClass("inscription-left");
+        $("#login-label > label").attr("id","inscription-login");
+        $("#password-label > label").attr("id","inscription-password");
+        $("#nom-label > label").attr('id', 'inscription_nom');
+        $("#prenom-label > label").attr('id', 'inscription_prenom');
+        $("#adresse-label > label").attr('id', 'inscription_adresse');
+        $("#adresse2-label > label").attr('id', 'inscription_adresse2');
+        $("#codePostal-label > label").attr('id', 'inscription_codePostal');
+        $("#ville-label > label").attr('id', 'inscription_ville');
+        $("#telephone-label > label").attr('id', 'inscription_telephone');
+        $("#mail-label > label").attr('id', 'inscription_mail');
+                 
+        // Ajout des champs info
+                
+        $("#nom-element").append("<span class='errors_inscription' id='info_nom'>&nbsp;</span>"); 
+        $("#prenom-element").append("<span class='errors_inscription' id='info_prenom'>&nbsp;</span>");
+        $("#login-element").append("<span class='errors_inscription' id='info_login'>&nbsp;</span>");
+        $("#password-element").append("<span class='errors_inscription' id='info_password'>&nbsp;</span>");
+        $("#password_conf-element").append("<span class='errors_inscription' id='info_password_conf'>&nbsp;</span>");        
+        $("#adresse-element").append("<span class='errors_inscription' id='info_adresse'>&nbsp;</span>");
+        $("#codePostal-element").append("<span class='errors_inscription' id='info_codePostal'>&nbsp;</span>");
+        $("#ville-element").append("<span class='errors_inscription' id='info_ville'>&nbsp;</span>");
+        $("#telephone-element").append("<span class='errors_inscription' id='info_telephone'>&nbsp;</span>");
+        $("#mail-element").append("<span class='errors_inscription' id='info_email'>&nbsp;</span>");
+        $("#dateNaissance-element").append("<span class='errors_inscription' id='info_dateNaissance'>&nbsp;</span>");
+        $("#departementNaissance-element").append("<span class='errors_inscription' id='info_departementNaissance'>&nbsp;</span>");
+        $("#paysNaissance-element").append("<span class='errors_inscription' id='info_paysNaissance'>&nbsp;</span>");
+        $("#submit-element").append("<span class='errors_inscription' id='info_submit'>&nbsp;</span>");
+        $("#inscription_type-label").append("<span class='errors_inscription' id='info_typet>&nbsp;</span>");
+         
+        // Date picker sur le champ dateNaissance
+        
+        $("#dateNaissance").datepicker({changeYear : true, autoSize : true, dateFormat : 'dd/mm/yy', changeMonth : true, yearRange : '1930 : 2011', onClose : function(){ $("#dateNaissance").focus() }});      
+               
+               
+        // Autocomplétion de la ville et du code postal
+       
+        $("#codePostal, #ville").autocomplete({
+            source: function(request, response){
+                
+                // Si la réponse est dans le cache
+            	if (('FR' + '-' + request.term) in cache){
+    				response($.map(cache['FR' + '-' + request.term], function (item){
+    					return {
+    						label: item.code_postal + ", " + item.ville,
+    						value: function (){
+    							if ($(this).attr('id') == 'codePostal'){
+    								$('#ville').val(item.ville);
+    								$('#ville').attr('disabled', 'disabled');
+    								return item.codePostal;
+    							}
+    							else{
+    								$('#codePostal').val(item.codePostal);
+							    	$('#codePostal').attr('disabled', 'disabled');
+    								return item.ville;
+    							}
+    						}
+    					}
+    				}));
+    			}
+    			
+    			// Sinon -> Requete Ajax
+                else{
+                    var objData = {};
+                    if($(this.element).attr('id') == 'codePostal'){
+                        objData = {codePostal : request.term, pays : 'FR', maxRows : 10};
+                    }else{
+                        objData = {ville : request.term, pays : 'FR', maxRows : 10};
+                    }
+                
+                    $.ajax({
+                       url : "/Autocomplete/index",
+                       dataType : "json",
+                       data : objData,
+                       type : 'POST',
+                       success : function(data){
+                           // Ajout de reponse dans le cache
+						   cache[('FR' + '-' + request.term)] = data;
+                           response($.map(data, function (item){
+                               return{
+                                   label : item.code_postal + ", " + item.ville,
+                                   value: function (){
+										if ($(this).attr('id') == 'codePostal'){
+											$('#ville').val(item.ville);
+											$('#ville').attr('disabled', 'disabled');
+											return item.code_postal;
+										}
+										else{
+											$('#codePostal').val(item.code_postal);
+											$('#codePostal').attr('disabled', true);
+											return item.ville;
+										}
+									}
+                               }
+                           }));
+                       }
+                    });
+                }                
+            },
+            minLength : 2,
+            delay : 0
+        });
+        
+        // Variables pour la validation du submit, doit être à 12 pour valider le submit
+        var okForSubmit = 0;
+        
+        // Vérification de okForSubmit et envoie du form si ok
+        $("#inscription_form").submit(function(event){
+            if(okForSubmit >= 11){
+				$("#inscription_form").submit();
+            }else{
+                $("#info_submit").html("Veuillez remplir tous les champs requis avant de valider");
+            }
+            return false;
+        });
+        
+        // Vérification de l'existance du login
+        $("#login").blur(function(){
+            if($("#login").val().length < 3){
+                $("#info_login").html("<img src='<?php APPLICATION_PATH?>/images/icone_erreur.png' height='20px' width='20px' alt='erreur' />&nbsp;Veuillez remplir le nom d'utilisateur ");
+            }else{
+                $.ajax({
+                   url: "/utilisateurs/testloginexist",
+                   type: "post",
+                   data: {'login' : $('#login').val()},
+                   success: function(data){
+                       if(data == 'true'){
+                           $("#info_login").html("<img src='<?php APPLICATION_PATH?>/images/icone_erreur.png' height='20px' width='20px' alt='erreur' />&nbsp;Le nom d'utilisateur existe déjà !");
+                       }else{   
+                            $("#info_login").html("<img src='<?php APPLICATION_PATH?>/images/icone_ok.png' height='20px' width='20px' alt='valide' />");
+                            okForSubmit ++;
+                       }
+                   }
+                });
+            }
+        });
+        
+        // Vérification du champs téléphone
+        $("#telephone").blur(function(){
+            var regExp = new RegExp(/^0[1-9][0-9]{8}$/);
+            
+            if($("#telephone").val().length === 10){
+                if(regExp.test($("#telephone").val())){
+                    $("#info_telephone").html("<img src='<?php APPLICATION_PATH?>/images/icone_ok.png' height='20px' width='20px' alt='valide' />");
+                    okForSubmit ++;
+                }else{
+                    $("#info_telephone").html("<img src='<?php APPLICATION_PATH?>/images/icone_erreur.png' height='20px' width='20px' alt='erreur' />&nbsp;Veuillez rentrer un numéros de téléphone correct ");
+                }
+            }else if($("#telephone").val().length < 10){
+                $("#info_telephone").html("<img src='<?php APPLICATION_PATH?>/images/icone_erreur.png' height='20px' width='20px' alt='erreur' />&nbsp; Le numéro de téléphone est trop court");
+            }else if($("#telephone").val().length > 10){
+            	$("#info_telephone").html("<img src='<?php APPLICATION_PATH?>/images/icone_erreur.png' height='20px' width='20px' alt='erreur' />&nbsp; Le numéro de téléphone est trop long");
+            }
+        });
+        
+        // Vérification de la validité et de la non-existance de l'adresse mail
+        $("#mail").blur(function(){
+            var regExp = new RegExp(/^^[a-z0-9._-]+@[a-z0-9._-àáâãäåçèéêëìíîïðòóôõöùúûüýÿ]{2,}\.[a-z]{2,4}$/);
+            if($("#mail").val().length < 1)
+                $("#info_email").html("<img src='<?php APPLICATION_PATH?>/images/icone_erreur.png' height='20px' width='20px' alt='erreur' />&nbsp;Veuillez remplir l'adresse e-mail ");
+            else if(regExp.test($("#mail").val())){
+                $.ajax({
+                   url: "/utilisateurs/testemailexist",
+                   type: "post",
+                   data: {'mail' : $("#mail").val()},
+                   success : function(data){
+                       if(data == "true")
+                            $("#info_email").html("<img src='<?php APPLICATION_PATH?>/images/icone_erreur.png' height='20px' width='20px' alt='erreur' />&nbsp;L'adresse e-mail existe déjà ");
+                        else{
+                          $("#info_email").html("<img src='<?php APPLICATION_PATH?>/images/icone_ok.png' height='20px' width='20px' alt='valide' />");
+                            okForSubmit ++;
+                        }
+                   } 
+                });
+            }else
+                $("#info_email").html("<img src='<?php APPLICATION_PATH?>/images/icone_erreur.png' height='20px' width='20px' alt='erreur' />&nbsp;Le format de l'adresse e-mail n'est pas correct ");
+        });
+        
+        // Vérification de la longueur du password
+        $("#password").blur(function(){
+        	var regExp = new RegExp(/(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/);
+            if(!regExp.test($("#password").val()))
+                 $("#info_password").html("<img src='<?php APPLICATION_PATH?>/images/icone_erreur.png' height='20px' width='20px' style='font-size:5px' alt='erreur' />&nbsp;8 charactères, 1 majuscule, 1 chiffre minimum");
+            else{
+                $("#info_password").html("<img src='<?php APPLICATION_PATH?>/images/icone_ok.png' height='20px' width='20px' alt='valide' />");
+                okForSubmit ++;
+            }
+        });
+        
+        $("#password_conf").blur(function(){
+        	if($("#password").val() == $("#password_conf").val()){
+        		$("#info_password_conf").html("<img src='<?php APPLICATION_PATH?>/images/icone_ok.png' height='20px' width='20px' alt='valide' />");
+                okForSubmit ++;
+        	}
+			else
+				$("#info_password_conf").html("<img src='<?php APPLICATION_PATH?>/images/icone_erreur.png' height='20px' width='20px' alt='erreur' />&nbsp; La confirmation ne correspond pas");        		
+        });
+        
+        // Vérification du format de la date
+        $("#dateNaissance").blur(function(){
+            if($('#dateNaissance').val().length > 0){
+                var regExp = new RegExp(/^[0-9]{2}[\/][0-9]{2}[\/][0-9]{4}$/);
+                if(regExp.test($("#dateNaissance").val())){
+                	// On regarde si la personne qui s'inscrie à au minimum 18 ans
+                	var date = new Date();
+                	var date_string = new String(date);
+                	var date_year = date_string.split(' ');
+                	date_year = date_year[3];
+					
+					var formateur_year = $("#dateNaissance").val().split('/');
+					formateur_year = formateur_year[2];
+					
+					if((date_year - formateur_year) >= 18){
+						$("#info_dateNaissance").html("<img src='<?php APPLICATION_PATH?>/images/icone_ok.png' height='20px' width='20px' alt='valide' />");
+	                    okForSubmit ++;
+					}else
+						$("#info_dateNaissance").html("<img src='<?php APPLICATION_PATH?>/images/icone_erreur.png' height='20px' width='20px' alt='erreur' />&nbsp;Vous devez avoir au moins 18 ans pour vous inscrire ");
+                }
+                else{
+                    $("#info_dateNaissance").html("<img src='<?php APPLICATION_PATH?>/images/icone_erreur.png' height='20px' width='20px' alt='erreur' />&nbsp;Veuillez saisir votre date de naissance ");
+                }
+            }
+        });
+        
+        // Vérification du remplissage de tout les champs
+        
+        $("#nom").blur(function(){
+	        var regExp = new RegExp(/^[A-Z]*[a-z]*(-)?[a-z]*$/);
+	        if(regExp.test($("#nom").val())){
+	            if($('#nom').val().length > 0){
+	                $("#info_nom").html("<img src='<?php APPLICATION_PATH?>/images/icone_ok.png' height='20px' width='20px' alt='valide' />");
+	                okForSubmit ++;
+	            }else
+	                $("#info_nom").html("<img src='<?php APPLICATION_PATH?>/images/icone_erreur.png' height='20px' width='20px' alt='erreur' />&nbsp; Veuillez saisir votre nom ");
+            }else
+            	$("#info_nom").html("<img src='<?php APPLICATION_PATH?>/images/icone_erreur.png' height='20px' width='20px' alt='erreur' />&nbsp; Veuillez saisir votre nom ");
+        });
+        
+        $("#prenom").blur(function(){
+	         var regExp = new RegExp(/^[A-Z]?[a-z]*(-)?[a-z]+$/);
+            if($('#prenom').val().length > 0 && regExp.test($("#prenom").val())){
+                $("#info_prenom").html("<img src='<?php APPLICATION_PATH?>/images/icone_ok.png' height='20px' width='20px' alt='valide' />");
+                okForSubmit ++;
+            }else
+                $("#info_prenom").html("<img src='<?php APPLICATION_PATH?>/images/icone_erreur.png' height='20px' width='20px' alt='erreur' />&nbsp; Veuillez saisir votre prénom ");
+        });
+        
+        $("#adresse").blur(function(){
+            if($('#adresse').val().length > 0){
+                $("#info_adresse").html("<img src='<?php APPLICATION_PATH?>/images/icone_ok.png' height='20px' width='20px' alt='valide' />");
+                okForSubmit ++;
+            }else
+                $("#info_adresse").html("<img src='<?php APPLICATION_PATH?>/images/icone_erreur.png' height='20px' width='20px' alt='erreur' />&nbsp; Veuillez saisir votre adresse ");
+        });
+        
+        $("#codePostal").blur(function(){
+        	var regExp = new RegExp(/[0-9]{5}/);
+            if(regExp.test($("#codePostal").val()) && $("#codePostal").val().length == 5){
+                $("#info_codePostal").html("<img src='<?php APPLICATION_PATH?>/images/icone_ok.png' height='20px' width='20px' alt='valide' />");
+                okForSubmit ++;
+            }else
+                $("#info_codePostal").html("<img src='<?php APPLICATION_PATH?>/images/icone_erreur.png' height='20px' width='20px' alt='erreur' />&nbsp; Veuillez saisir votre code postal ");
+        });
+        
+        $("#ville").blur(function(){
+            if($('#ville').val().length > 0){
+                $("#info_ville").html("<img src='<?php APPLICATION_PATH?>/images/icone_ok.png' height='20px' width='20px' alt='valide' />");
+                okForSubmit ++;
+            }else
+                $("#info_ville").html("<img src='<?php APPLICATION_PATH?>/images/icone_erreur.png' height='20px' width='20px' alt='erreur' />&nbsp; Veuillez saisir votre ville ");
+        });
+            
+        $("#departementNaissance").blur(function(){
+            var regExp = new RegExp(/[0-9]{2}/);
+            if(!regExp.test($("#departementNaissance").val()) || $("#departementNaissance").val().length > 2){
+            	$("#info_departementNaissance").html("<img src='<?php APPLICATION_PATH?>/images/icone_erreur.png' height='20px' width='20px' alt='erreur' />&nbsp; Votre département doit être de la forme suivante : 33 ");
+            }else{
+                $("#info_departementNaissance").html("<img src='<?php APPLICATION_PATH?>/images/icone_ok.png' height='20px' width='20px' alt='valide' />");
+                okForSubmit ++;
+            }
+        });
+        
+        $("#paysNaissance").blur(function(){
+        	var regExp = new RegExp(/[a-zA-Z]/);
+        	if(regExp.test($("#paysNaissance").val())){
+	            if($('#paysNaissance').val().length > 0){
+	                $("#info_paysNaissance").html("<img src='<?php APPLICATION_PATH?>/images/icone_ok.png' height='20px' width='20px' alt='valide' />");
+	                okForSubmit ++;
+	            }else
+	                $("#info_paysNaissance").html("<img src='<?php APPLICATION_PATH?>/images/icone_erreur.png' height='20px' width='20px' alt='erreur' />&nbsp; Veuillez saisir votre pays de naissance ");
+            }else{
+	                $("#info_paysNaissance").html("<img src='<?php APPLICATION_PATH?>/images/icone_erreur.png' height='20px' width='20px' alt='erreur' />&nbsp; Veuillez saisir votre pays de naissance ");            
+            }
+            if(okForSubmit >= 13){
+                $("#info_submit").html("<img src='<?php APPLICATION_PATH?>/images/icone_ok.png' height='20px' width='20px' alt='valide' />");                
+            }
+        });
+        
+    });
+
+
+</script>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-23892247-1']);
+  _gaq.push(['_setDomainName', '.easylia.com']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+</html>
+
+
+

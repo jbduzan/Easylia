@@ -1,0 +1,57 @@
+<div id="content">
+	<div class="indent-main">
+		<h2>Vos Documents</h2>
+		<div class="container">
+			<div id="info" style="color : green"></div>
+				<?php
+					echo $this->liste;
+				?>
+				
+				<br /><button type="button" id="envoyer">Envoyer les documents à la validation</button>
+		</div>
+	</div>
+</div>
+<div id="confirmation_dialog" style="display : none">
+	Etes vous sur de vouloir envoyer vos documents ? Ils ne seront plus modifiable ensuite.
+</div>
+<input type="hidden" id="document_envoye" value="<?php echo $this->document_envoye?>" />
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		if($("#document_envoye").val() == true){
+			$(".modifier").hide(); 
+			$("#envoyer").hide();
+			$("#info").html("Vos documents on été envoyé, vous ne pouvez plus les modifier, un administrateur les valideras");
+		}
+	
+		$("#envoyer").click(function(){
+			$("#confirmation_dialog").dialog({
+				title : "Confirmer",
+				buttons : [
+					{	
+						text : "Valider",
+						click : function(){
+							$.ajax({
+								type : 'post',
+								url : 'validerdocument',
+								data : {'valid_doc' : true},
+								success : function(data){
+									if(data == true){
+										$("#confirmation_dialog").dialog('close');
+										$(".modifier").hide();
+										$("#envoyer").hide();
+									}
+								}
+							});
+						}
+					},{
+						text : "Annuler",
+						click : function(){
+							$(this).dialog('close');
+						}
+					}
+				]
+			});
+		});
+	});
+</script>

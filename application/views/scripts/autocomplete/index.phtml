@@ -1,0 +1,17 @@
+<?php
+
+$list = array();
+
+foreach($this->list as $row){
+    $liste = array(
+       'code_postal' => $row['code_postal'],
+       'ville' => $row['ville'],
+       'code_pays' => $row['code_pays']
+    );
+    
+    $list[] = $liste;
+}
+
+echo json_encode($list);
+
+?>

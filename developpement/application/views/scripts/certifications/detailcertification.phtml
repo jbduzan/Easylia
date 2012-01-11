@@ -1,0 +1,233 @@
+<div id="content">
+    <table id="tableau_question">
+    </table>
+</div>
+<div id="delete_dialog" style="display:none">
+    <p>Etes vous sur de vouloir supprimer cette question ?</p>
+</div>
+<div id="edit_form" style="display : none">
+    <?php
+        echo $this->edit_form;
+    ?>
+</div>
+<div id="select_ajouter_question" style="display : none" >
+    <select id="select_question">
+    </select>
+</div>
+<input type="hidden" id="certification_demande" value="<?php echo $this->certification_demande?>" />
+<input type="hidden" id="ajouter_question" value="<?php echo $this->ajouter_question?>" />
+<input type="hidden" id="editer_question" value="<?php echo $this->editer_question?>" />
+<input type="hidden" id="supprimer_question" value="<?php echo $this->supprimer_question?>" />
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#tableau_question").flexigrid({
+            url : 'getlistequestionreponse?id_certification='+$("#certification_demande").val(),
+            dataType: 'json',
+            colModel : [
+                    {display: 'Question', name : 'question', width : 150, sortable : true, align: 'left'},
+                    {display: 'Nombre de réponse', name : 'nbr_reponse', width : 150, sortable : true, align: 'left'}                    
+            ],
+           buttons : [
+                    {name: 'Ajouter', bclass: 'add', onpress : add_record},
+                    {separator: true},                    
+                    /*{name: 'Editer', bclass: 'edit', onpress : edit_record},
+                    {separator: true},*/
+                    {name: 'Supprimer', bclass: 'delete', onpress : delete_record},
+            ],
+            searchitems : [
+                    {display: 'Question', name : 'question', isdefault: true}
+            ],
+            sortname: "id_question_reponse",
+            sortorder: "asc",
+            usepager: true,
+            title: "Liste des questions",
+            useRp: true,
+            rp: 20,
+            showTableToggleBtn: false,
+            resizable: false,
+            height: 480,
+            singleSelect: true
+        });
+        $(".ftitle").append('<span id="error" style="color : red">&nbsp;</span>');
+        $(".ftitle").append('<span id="info" style="color : green">&nbsp;</span>');
+        
+        
+        function add_record(command, grid){
+            if($("#ajouter_question").val() != "true"){
+                $("#error").html("Vous n'avez pas le droit d'effectuer cette action !");
+                $("#error").show();
+                setTimeout(function() {
+                    $( "#error" ).fadeOut("slow");
+                }, 2000 );
+                return;
+            }    
+            
+            $.ajax({
+                type : 'post',
+                url : '/Questions/getlistenomformate',
+                data : { 'id_certification' : $("#certification_demande").val()},
+                success : function(data){
+                    $("#select_question").html(data);
+                }
+            });
+            
+            $("#select_ajouter_question").dialog({
+                title : "Ajouter une question",
+                buttons : [
+                    {
+                        text : "Valider",
+                        click : function(){
+                            $.ajax({
+                                type : 'post',
+                                url : 'ajouteracertification',
+                                data : {
+                                    'id_certification' : $("#certification_demande").val(),
+                                    'id_question' : $("#select_question").val()
+                                },
+                                success : function(){
+                                    $("#tableau_question").flexReload();
+                                    $("#select_ajouter_question").dialog('close');
+                                    $("#info").html("Question ajoutée !");
+                                    $("#info").show();
+                                    setTimeout(function() {
+                                        $( "#info" ).fadeOut("slow");
+                                    }, 2000 );                                    
+                                }
+                            })
+                        }
+                    },
+                    {
+                        text : "Annuler",
+                        click : function(){
+                            $(this).dialog('close');
+                        }
+                    }
+                ]
+            });   
+        }
+        
+        function edit_record(command, grid){
+            if($("#editer_question").val() != "true"){
+                $("#error").html("Vous n'avez pas le droit d'effectuer cette action !");
+                $("#error").show();
+                setTimeout(function() {
+                    $( "#error" ).fadeOut("slow");
+                }, 2000 );
+                return;
+            }
+            
+            var record_count = $('.trSelected',grid).length;
+            if (0 == record_count)
+            {
+                $("#error").html('Veuillez dabord sélectionner une ligne !');
+                $("#error").show();
+                setTimeout(function() {
+                    $("#error").fadeOut("slow");
+                }, 2000 );
+                return;
+             }
+             
+             var id;
+             $('.trSelected',grid).each(function(){
+                 id = this.id.substr(3);
+                 $("#question").val($('td[abbr="question"] >div', this).html());
+                 $("#nbr_reponse").val($('td[abbr="nbr_reponse"] >div', this).html());                 
+             });            
+             
+             $("#edit_form").dialog({
+                 title : "Editer une question",
+                 buttons : [
+                     {
+                         text : "Valider",
+                         click : function(){
+                             $.ajax({
+                                 type : 'post',
+                                 url : '/Questions/editer',
+                                 data : {
+                                     'id_question' : id,
+                                     'question' : $("#question").val(),
+                                     'nbr_reponse' : $("#nbr_reponse").val(),
+                                 },
+                                 success : function(){
+                                     $("#tableau_question").flexReload();
+                                     $("#edit_form").dialog('close');
+                                     $("#info").html("Question editée !");
+                                     $("#info").show();
+                                     setTimeout(function() {
+                                         $( "#info" ).fadeOut("slow");
+                                     }, 2000 );                                    
+                                 }
+                             })
+                         }
+                     },
+                     {
+                         text : "Annuler",
+                         click : function(){
+                             $(this).dialog('close');
+                         }
+                     }
+                 ]
+             });
+            
+        }
+        
+        function delete_record(command, grid){
+            if($("#supprimer_question").val() != "true"){
+                $("#error").html("Vous n'avez pas le droit d'effectuer cette action !");
+                $("#error").show();
+                setTimeout(function() {
+                    $( "#error" ).fadeOut("slow");
+                }, 2000 );
+                return;
+            }
+            
+            var record_count = $('.trSelected',grid).length;
+            if (0 == record_count)
+            {
+                $("#error").html('Veuillez dabord sélectionner une ligne !');
+                $("#error").show();
+                setTimeout(function() {
+                    $("#error").fadeOut("slow");
+                }, 2000 );
+                return;
+             }
+
+             var id;
+             $('.trSelected',grid).each(function(){
+                 id = this.id.substr(3);
+             });
+             
+             $("#delete_dialog").dialog({
+                 title : "Supprimer une question",
+                 buttons : [
+                    {
+                        text : "Valider",
+                        click : function(){
+                            $.ajax({
+                                type : 'post',
+                                url : '/Questions/delete',
+                                data : {'id_question' : id},
+                                success : function(){
+                                    $("#tableau_question").flexReload();
+                                    $("#delete_dialog").dialog('close');
+                                    $("#info").html("Question supprimée !");
+                                    $("#info").show();
+                                    setTimeout(function() {
+                                        $( "#info" ).fadeOut("slow");
+                                    }, 2000 );
+                                }
+                            })
+                        }
+                    },
+                    {
+                        text : "Annuler",
+                        click : function(){
+                            $(this).dialog('close');
+                        }
+                    }
+                 ]
+             });
+        }
+    });
+</script>

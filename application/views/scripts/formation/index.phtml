@@ -1,0 +1,8 @@
+<div id="content">
+	<?php
+		foreach($this->formations as $row){
+			echo "<p>".$row->getNom()." <a href='commander?id=".$row->getIdFormationDispo()."'>Commander</a></p>";
+		}
+	?>
+</div>
+

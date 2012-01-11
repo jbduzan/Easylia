@@ -1,0 +1,82 @@
+	<div id="content">
+	<p>Curriculum Vitae ==> 
+	<?php
+		if($this->cv != "")
+			echo "<span style='color : green'>OK</span>, <a href='http://dev.easylia.com".$this->cv."'>Télécharger</a>";
+		else
+			echo "<span style='color : red'>Manquant</span>";
+	?>
+	</p>
+	<p>Lettre de motivation ==> 
+	<?php
+		if($this->motivation != "")
+			echo "<span style='color : green'>OK</span>, <a href='http://dev.easylia.com".$this->motivation."'>Télécharger</a>";
+		else
+			echo "<span style='color : red'>Manquant</span>";
+	?>
+	</p>
+	<p>Photo ==> 
+	<?php
+		if($this->photo != "")
+			echo "<span style='color : green'>OK</span>, <a href='http://dev.easylia.com".$this->photo."'>Télécharger</a>";
+		else
+			echo "<span style='color : red'>Manquant</span>";
+	?>
+	</p>
+	<p>RIB ==> 
+	<?php
+		if($this->rib != "")
+			echo "<span style='color : green'>OK</span>, <a href='http://dev.easylia.com".$this->rib."'>Télécharger</a>";
+		else
+			echo "<span style='color : red'>Manquant</span>";
+	?>
+	</p>
+	<button id="valider">Valider cet utilisateur !</button>
+	<div id="info"></div>
+</div>
+<div id="valider_dialog" style="display : none">
+	Etes vous sur de vouloir valider cet utilisateur ? 
+</div>
+<input type="hidden" id="id_utilisateur" value="<?php echo $this->id_utilisateur;?>" />
+
+<script>
+	$(document).ready(function(){
+		$("#valider").click(function(){
+			$("#valider_dialog").dialog({
+				title : "Valider un utilisateur",
+				buttons : [
+					{
+						text : "Valider",
+						click : function(){
+							$.ajax({
+								type: 'post',
+								url: '/utilisateurs/valideuserajax',
+								data: {'id_utilisateur' : $("#id_utilisateur").val(), "valider_utilisateur" : true},
+								success : function(data){
+									$("#valider_dialog").dialog("close");
+									if(data){
+										$("#info").append("<br /><p style='color : green'>L\'utilisateur à été validé</p>")
+										setTimeout(function() {
+                                            $( "#info" ).fadeOut("slow");
+                                        }, 2000 );
+									}else{
+										$("#info").append("<br /><p style='color : red'>une erreur c'est produite</p>")	
+										setTimeout(function() {
+                                            $( "#info" ).fadeOut("slow");
+                                        }, 2000 );
+                                    }
+								}
+							});
+						}	
+					},
+					{
+						text : "Annuler",
+						click : function(){
+							$(this).dialog('close');
+						}
+					}
+				]
+			});
+		});
+	});
+</script>
