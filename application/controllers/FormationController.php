@@ -109,30 +109,8 @@ class FormationController extends Zend_Controller_Action
         
         $type = array();
 
-        // Si l'utilisateur est un formateur validé
-        if($this->utilisateur->id_groupe == "2"){
-        	// Récupère les certifications du formateur afin de filtrer les formation
-	        $historique = $this->historique_mapper->findByIdUtilisateur($this->utilisateur->id_utilisateur);
-	        
-	        $id_certifications = array();
-	        
-	        foreach($historique as $row){
-	        	array_push($id_certifications, $row->getIdCertification());
-	        }
-	        
-	        $certifications = $this->certification_mapper->fetchAll();
-	        
-	        foreach($certifications as $row){
-	        	if(in_array($row->getidCertification(), $id_certifications)){
-	        		array_push($type, $row->getType());
-	        	}
-	        }
-	        $this->view->rows = $this->formation_mapper->fetchAllForFlexigrid($page, $sort_column, $sort_order, $search_column, $search_for, $limit, $request->getParam('sansFormateur'), $type);
-        }else
-        	$this->view->rows = $this->formation_mapper->fetchAllForFlexigrid($page, $sort_column, $sort_order, $search_column, $search_for, $limit, $request->getParam('sansFormateur'));
-                               
+		$this->view->rows = $this->formation_mapper->fetchAllForFlexigrid($page, $sort_column, $sort_order, $search_column, $search_for, $limit, $request->getParam('sansFormateur'));
         
-
     }
 
     public function deleteAction()
@@ -156,6 +134,7 @@ class FormationController extends Zend_Controller_Action
 
 		$amount = 55 * $quantite;
 		
+/*
 		if($request->getParam("date_payement") == "maintenant"){
 			$payement_action = "Sale";
 			$description = "Paiement de la formation";
@@ -164,6 +143,10 @@ class FormationController extends Zend_Controller_Action
 			$payement_action = "Authorization";		
 			$description = "Autorisation de paiement de la formation";			
 		}
+*/
+
+		$payement_action = "Authorization";		
+		$description = "Autorisation de paiement de la formation";			
 					
 		$formation = new Application_Model_Formations();
 		
@@ -404,6 +387,39 @@ class FormationController extends Zend_Controller_Action
 		$this->view->type_formation = $formation->getType()." - ".$formation->getNombreHeure()."H";
 	}
 
+	public function checkcertificationAction(){
+		// Vérifie si le formateur possède la certification pour accepter une formation
+		       
+		$this->getHelper('layout')->disableLayout();
+		       
+        $historique = $this->historique_mapper->findByIdUtilisateur($this->utilisateur->id_utilisateur);
+        
+        $id_certifications = array();
+        
+        foreach($historique as $row){
+        	if($row->getScore() >= 70)
+        	array_push($id_certifications, $row->getIdCertification());
+        }
+        
+        $certifications = $this->certification_mapper->fetchAll();
+        
+        $type = array(); 
+        
+        foreach($certifications as $row){
+        	if(in_array($row->getidCertification(), $id_certifications)){
+        		array_push($type, $row->getType());
+        	}
+        }
+        
+        $formation = new Application_Model_Formations();
+		$this->formation_mapper->find($this->getRequest()->getParam('id_formation'), $formation);
+		
+		if(in_array($formation->getType(), $type))
+			$this->view->result = "true";
+		else
+			$this->view->result = "false";
+			
+	}
 
 }
 

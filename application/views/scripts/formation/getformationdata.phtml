@@ -1,16 +1,38 @@
+<?php
+	$i=0;
+	
+	$radio_left = array();
+	$radio_right = array();
+	
+	$heure_dispo = split(',', $this->heure_formation);
+	foreach($heure_dispo as $heure){
+		$i++;
+		if($i <= round((count($heure_dispo) / 2)))
+			array_push($radio_left,"<input type='radio' id='heure$i' name='heure' value='".$heure."' class='heure_left' /><label for='heure$i'>".$heure."</label><br />");
+		else
+			array_push($radio_right,"<input type='radio' id='heure$i' name='heure' value='".$heure."' class='heure_right' /><label for='heure$i'>".$heure."</label><br />");
+	}
+?>
+
+
 <div id="info_formation">
 	<h5 style="border-bottom : 1px solid">Formation</h5><br />
 	<p id="type_formation"><?php echo $this->type_formation; ?></p><br />
 	<h5 style="border-bottom : 1px solid">Choisissez un créneau horaire</h5><br />	
-	<p id="heure_formation">
-	<?php
-		$i=0;
-		
-		$test = split(',', $this->heure_formation);
-		foreach($test as $heure){
-			$i++;
-			echo "<input type='radio' id='heure$i' name='heure' value='".$heure."' /><label for='heure$i'>".$heure."</label><br />";
-		}
-	?>
+	</div>
+<div id="heure_formation">
+	<p id="heure_left">
+		<?php
+			foreach($radio_left as $row){
+				echo $row;
+			}
+		?>	
+	</p>
+	<p id="heure_right">
+		<?php
+			foreach($radio_right as $row){
+				echo $row;
+			}
+		?>
 	</p>
 </div>

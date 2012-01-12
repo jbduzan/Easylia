@@ -589,3 +589,21 @@ h3{
 #add_formateur_self{
 	width : 60em;
 }
+
+/*Affichage des heures disponible pour les formateurs*/
+#heure_left{
+	float : left;
+}
+
+.heure_left{
+	margin-right : -15em;
+}
+
+#heure_right{
+	float : right;
+	margin-right : 15em;
+}
+
+.heure_right{
+	margin-right : -15em;
+}

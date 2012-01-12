@@ -15,6 +15,7 @@ class UtilisateursController extends Zend_Controller_Action
 		$this->nom_groupe = $this->groupeMapper->getGroupeNameWithId($this->user->id_groupe); 
 		$this->document_mapper = new Application_Model_DocumentMapper();
 		$this->certification_mapper = new Application_Model_ListeCertificationMapper();
+		$this->formation_mapper = new Application_Model_FormationsMapper();
     }
     
     public function preDispatch(){
@@ -30,6 +31,18 @@ class UtilisateursController extends Zend_Controller_Action
             
             $mapper->find($this->user->id_utilisateur, $utilisateur);
             
+            // Compte le nombre de formation en attente de formateur
+            $result = $this->formation_mapper->fetchAll();
+            
+           	$nombre_formation = 0;
+           	
+           	foreach($result as $row){
+           		if($row->getIdFormateur() == null)
+           			$nombre_formation += 1;
+           	}
+           	
+           	$this->view->nombre_formation = $nombre_formation;
+                        
             // Vérifie si le profil de l'utilisateur est activé
             if($utilisateur->getProfilActif() != 1){
             	$this->view->profil_inactif = "<p style='color : orange'>Votre profil n'as pas encore été activé. <br /> Vérifiez votre adresse mail, ou votre dossier 'courrier indésirable' si vous n'avez pas reçu de mail.</p>";

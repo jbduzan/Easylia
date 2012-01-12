@@ -20,6 +20,7 @@
 <input type="hidden" id="ajouter_formation" value="<?php echo $this->ajouter_formation ?>" />
 <input type="hidden" id="modifier_formation" value="<?php echo $this->modifier_formation ?>" />
 <input type="hidden" id="supprimer_formation" value="<?php echo $this->supprimer_formation ?>" />
+<input type="hidden" id="type_certification" value="false"/>
 <?php
 	echo $this->input;
 ?>
@@ -27,18 +28,20 @@
 	$(document).ready(function(){
 		
 		var sans_formateur = $("#sans_formateur").val();
-		
+			
 		if($("#sans_formateur").val() == "")
 			sans_formateur = false; 
+			
+		$("#heure_disponible").buttonset();
 	
         $("#tableau_formation").flexigrid({
             url : 'getlisteformation?sansFormateur='+sans_formateur,
             dataType: 'json',
             colModel : [
-                    {display: 'Nom', name : 'nom', width : 250, sortable : true, align: 'center'},
-                    {display: 'Durée (H)', name : 'hombre_heure', width : 50, sortable : true, align: 'center'},
-                    {display: 'Client', name :'client', width : 150, sortable : true, align: 'center'},
-                    {display: 'Formateur', name :'formateur', width : 150, sortable : true, align: 'center'},                    
+                    {display: 'Nom', name : 'type', width : 250, sortable : true, align: 'center'},
+                    {display: 'Durée (H)', name : 'nombre_heure', width : 50, sortable : true, align: 'center'},
+                    {display: 'Client', name :'client', width : 150, sortable : false, align: 'center'},
+                    {display: 'Formateur', name :'formateur', width : 150, sortable : false, align: 'center'},                    
                     /* {display: 'Date', name : 'date', width : 150, sortable : true, align: 'center'}, */
                     /* {display: 'Payée', name : 'payee', width : 100, sortable : true, align: 'center'} */
             ],
@@ -160,6 +163,10 @@
     	 		id = this.id.substr(3);	
         	});
 			
+			// Vérifie si le formateur possède la certification adaptée
+			var test = checkCertification(id);
+			console.log(test);
+			// Récupère les informations sur la formations et les affiche
 			getFormationData(id);
 			
         	$("#add_formateur_self").dialog({
@@ -255,7 +262,7 @@
 	
 	        					}
         					});
-        				}
+        				}	
         			},
         			{
         				text : "Annuler",
@@ -277,6 +284,21 @@
 					$("#add_formateur_self").html(data);
         		}
         	});
+        }
+        
+        function checkCertification(id_formation){
+        	// Vérifie si le formateur à la certification correspondante à la formation
+			var result;
+	
+        	$.ajax({
+        		type : "post",
+        		url : "checkcertification",
+        		data : {id_formation : id_formation},
+        		success : function(data){
+					return "test";
+			    }
+        	});
+        	
         }
 	
 	});
