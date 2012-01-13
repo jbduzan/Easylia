@@ -10,35 +10,153 @@
         echo $this->edit_form;
     ?>
 </div>
-<div id="select_ajouter_question" style="display : none" >
-    <select id="select_question">
-    </select>
+<div id="lier_question" style="display : none" >
+	<p>
+		<label for="recherche_question">Rechercher par une question</label><br />
+		<input type="text" id="recherche_question" />
+	</p>
+	<p>
+		<label for="recherche_id">Rechercher par un id</label><br />
+		<input type="text" id="recherche_id" />
+	</p>
+	<br />
+	<p>
+		<input type="submit" id="enregistrer_lier" value="lier" />
+		<span id="info_enregistrer" style="color : green"></span>
+		<span id="erreur_enregistrer" style="color : red"></span>
+	</p>
 </div>
+<div id="ajouter_question" style="display : none">
+	<div id="question_reponse">
+		<p style="text-align : center"><label for="question_obligatoire">Question obligatoire : </label><input type="checkbox" id="question_obligatoire" /></p><br />
+		<p style="margin-left : 0.7em; margin-bottom : 0.5em"><label class="ajouter_question_label" for="question">Question : </label><textarea id="question" class="question"></textarea></p>
+		<p><label class="ajouter_question_label" for="reponse">Réponse 1: </label><textarea id="reponse" class="reponse"></textarea><input type="checkbox" id="reponse_juste" class="reponse_juste"/><label for="reponse_juste">Réponse juste</label></p>
+		<p><label class="ajouter_question_label" for="reponse2">Réponse 2: </label><textarea id="reponse2" class="reponse"></textarea><input type="checkbox" id="reponse_juste" class="reponse_juste"/><label for="reponse_juste">Réponse juste</label></p>
+		<div id="container_reponse"></div>
+	</div>
+	<a id="ajouter_reponse" ><img alt="Ajouter une reponse" src="<?php APPLICATION_PATH?>/images/ajouter-modifier-icone-9159-16.png" />&nbsp;Ajouter une réponse</a>
+	<input type="checkbox" id="reponse_ouverte" /><label for="reponse_ouverte">Réponse ouverte</label>
+	<p><input type="submit" id="valider_question_reponse" value="Enregistrer" /> <span id="info_enregistrer" style="color : green"></span><span id="erreur_enregistrer" style="color : red"></span></p>
+</div>
+
 <input type="hidden" id="certification_demande" value="<?php echo $this->certification_demande?>" />
-<input type="hidden" id="ajouter_question" value="<?php echo $this->ajouter_question?>" />
+<input type="hidden" id="ajouter_question_droit" value="<?php echo $this->ajouter_question?>" />
 <input type="hidden" id="editer_question" value="<?php echo $this->editer_question?>" />
 <input type="hidden" id="supprimer_question" value="<?php echo $this->supprimer_question?>" />
 
 <script type="text/javascript">
     $(document).ready(function(){
+    
+    	// Lorsque on coche la case réponse ouverte
+    	$("#reponse_ouverte").change(function(){
+    		// Si on coche la case, on efface toute les réponses, et on les disabled
+    		if($(this).attr('checked') == "checked"){
+    			$(".reponse").each(function(){
+    				$(this).attr('disabled', 'disabled');
+    				$(this).val('');
+    			});
+    		}else{
+    			// Sinon on les réactive
+    			$(".reponse").each(function(){
+    				$(this).removeAttr('disabled');
+    			});
+    		}
+   	
+    	});
+    	    	
+    	// Lorsque on enregistre une question
+    	$("#valider_question_reponse").click(function(){
+
+			// OOn récupère les valeurs
+			var reponse = [];
+			var question = $(".question").val();
+			var question_obligatoire = $("#question_obligatoire").attr('checked');
+			var reponse_ouverte = $("#reponse_ouverte").attr('checked');
+			$(".reponse").each(function(){
+				if($(this).val() == "")
+					return;
+				reponse.push($(this).val() + ',' + $(this).next('input[:checked]').attr('checked'));
+			});
+			
+			// On vérifie que la question a été remplie
+			if(question == ""){
+				$("#erreur_enregistrer").html("Veuillez remplir la question");
+	            $("#erreur_enregistrer").show();
+	                setTimeout(function() {
+	                    $( "#erreur_enregistrer" ).fadeOut("slow");
+	                }, 2000 );  
+				return;
+			}
+				
+			// On vérifie que il y a au moins deux réponses de remplies		
+			if(reponse.length < 2){
+				if(reponse_ouverte == "checked"){
+					// On ne fait rien et on sors de la boucle si la réponse ouverte est cochée
+				}else{
+					$("#erreur_enregistrer").html("Veuillez remplir au moins deux réponses");
+	            	$("#erreur_enregistrer").show();
+	                setTimeout(function() {
+	                    $( "#erreur_enregistrer" ).fadeOut("slow");
+	                }, 2000 );  
+				return;
+				}
+			}
+									
+			// On enregistre le tout
+			$.ajax({
+				type : "post",
+				url : "/questions/ajouter",
+				data : {question : question, reponse : reponse, id_certification : $("#certification_demande").val(), question_obligatoire : question_obligatoire, reponse_ouverte : reponse_ouverte},
+				success : function(){
+					// On remet le formulaire à zero
+		    		var div = $("#question_reponse");
+		    		div.html('<p style="text-align : center"><label for="question_obligatoire">Question obligatoire : </label><input type="checkbox" id="question_obligatoire" /></p><br />');
+		    		div.append('<p style="margin-left : 0.7em; margin-bottom : 0.5em"><label class="ajouter_question_label" for="question">Question : </label><textarea id="question" class="question"></textarea></p>');
+		    		div.append('<p><label class="ajouter_question_label" for="reponse">Réponse 1: </label><textarea id="reponse" class="reponse"></textarea><input type="checkbox" id="reponse_juste" class="reponse_juste"/><label for="reponse_juste">Réponse juste</label></p>');
+		    		div.append('<p><label class="ajouter_question_label" for="reponse2">Réponse 2: </label><textarea id="reponse2" class="reponse"></textarea><input type="checkbox" id="reponse_juste" class="reponse_juste"/><label for="reponse_juste">Réponse juste</label></p>');
+		    		div.append('<div id="container_reponse"></div>');
+				
+					// On affiche la confirmation
+					$("#info_enregistrer").html("Votre question a été enregistrée");
+	                $("#info_enregistrer").show();
+	                setTimeout(function() {
+	                    $( "#info_enregistrer" ).fadeOut("slow");
+	                }, 2000 );    
+				}
+			});		
+       	});
+    	
+    	// Ajoute un champ de réponse supplémentaire
+    	$("#ajouter_reponse").click(function(){	
+    		var nombre_reponse = 0;
+	
+    		$(".reponse").each(function(){
+    			nombre_reponse ++;
+    		});
+    		
+    		$("#container_reponse").append("<p><label class='ajouter_question_label' for='reponse"+nombre_reponse+"'>Réponse "+(nombre_reponse+1)+": </label><textarea id='reponse"+nombre_reponse+"' class='reponse'></textarea><input type='checkbox' class='reponse_juste' id='reponse_juste"+nombre_reponse+"'/><label for='reponse_juste"+nombre_reponse+"'>Réponse juste</label></p>");
+    	});
+    
         $("#tableau_question").flexigrid({
             url : 'getlistequestionreponse?id_certification='+$("#certification_demande").val(),
             dataType: 'json',
             colModel : [
                     {display: 'Question', name : 'question', width : 150, sortable : true, align: 'left'},
-                    {display: 'Nombre de réponse', name : 'nbr_reponse', width : 150, sortable : true, align: 'left'}                    
+                    {display: 'Nombre de réponse', name : 'nbr_reponse', width : 150, sortable : true, align: 'left'},                    
+                    {display: 'Question obligatoire', name : 'question_obligatoire', width : 150, sortable : false, align: 'left'},
+                    {display: 'Réponse ouverte', name : 'reponse_ouverte', width : 150, sortable : false, align: 'left'}
             ],
            buttons : [
                     {name: 'Ajouter', bclass: 'add', onpress : add_record},
                     {separator: true},                    
-                    /*{name: 'Editer', bclass: 'edit', onpress : edit_record},
-                    {separator: true},*/
+                    {name: 'Lier', bclass: 'relier', onpress : link_question},
+                    {separator: true},
                     {name: 'Supprimer', bclass: 'delete', onpress : delete_record},
             ],
             searchitems : [
                     {display: 'Question', name : 'question', isdefault: true}
             ],
-            sortname: "id_question_reponse",
+            sortname: "id_question",
             sortorder: "asc",
             usepager: true,
             title: "Liste des questions",
@@ -54,14 +172,32 @@
         
         
         function add_record(command, grid){
-            if($("#ajouter_question").val() != "true"){
+        
+        	// On vérifie si l'utilisateur à l'authorisation d'ajouter une question
+        	if($("#ajouter_question_droit").val() != "true"){
                 $("#error").html("Vous n'avez pas le droit d'effectuer cette action !");
                 $("#error").show();
                 setTimeout(function() {
                     $( "#error" ).fadeOut("slow");
                 }, 2000 );
                 return;
-            }    
+            }  
+            
+        	$("#ajouter_question").dialog({
+        		title : "Ajouter une question",
+        		width : 900,
+        		height : 600,
+        		buttons : [
+        			{
+        				text : "Fermer",
+        				click : function(){
+        					$("#tableau_question").flexReload();
+        					$(this).dialog('close');
+        				}
+        			}
+        		]
+        	});
+            /*
             
             $.ajax({
                 type : 'post',
@@ -105,6 +241,7 @@
                     }
                 ]
             });   
+*/
         }
         
         function edit_record(command, grid){
@@ -228,6 +365,99 @@
                     }
                  ]
              });
+        }
+        
+        function link_question(){
+        	// Lie une question existante à la certification
+        	
+        	// On vérifie si l'utilisateur à l'authorisation d'ajouter une question
+        	if($("#ajouter_question_droit").val() != "true"){
+                $("#error").html("Vous n'avez pas le droit d'effectuer cette action !");
+                $("#error").show();
+                setTimeout(function() {
+                    $( "#error" ).fadeOut("slow");
+                }, 2000 );
+                return;
+            }  
+
+        	$("#lier_question").dialog({
+        		title : "Lier une question",
+        		buttons : [
+        			{
+						text : "Fermer",
+						click : function(){
+							$("#tableau_question").flexReload();
+							$(this).dialog('close');
+						}        			
+        			}
+        		]
+        	});	
+        	
+        	var cache = [];
+        	
+        	// Autocomplete de la question
+        	$("#recherche_question, #recherche_id").autocomplete({
+            source: function(request, response){
+                
+                // Si la réponse est dans le cache
+            	if (('FR' + '-' + request.term) in cache){
+    				response($.map(cache['FR' + '-' + request.term], function (item){
+    					return {
+    						label: item.id_question + " - " + item.question,
+    						value: function (){
+    							if ($(this).attr('id') == 'recherche_id'){
+									$('#recherche_question').val(item.question);
+									return item.id_question;
+								}
+								else{
+									$('#recherche_id').val(item.id_question);
+									return item.question;
+								}
+    						}
+    					}
+    				}));
+    			}
+    			
+    			// Sinon -> Requete Ajax
+                else{
+                    var objData = {};
+                    if($(this.element).attr('id') == 'recherche_id'){
+                        objData = {id : request.term, id_certification : $("#certification_demande").val(), maxRows : 10};
+                    }else{
+                        objData = {question : request.term, id_certification : $("#certification_demande").val(), maxRows : 10};
+                    }
+                
+                    $.ajax({
+                       url : "/Autocomplete/autocompletequestion",
+                       dataType : "json",
+                       data : objData,
+                       type : 'POST',
+                       success : function(data){
+                           // Ajout de reponse dans le cache
+						   cache[('FR' + '-' + request.term)] = data;
+                           response($.map(data, function (item){
+                               return{
+                                   label : item.id_question + " - " + item.question,
+                                   value: function (){
+										if ($(this).attr('id') == 'recherche_id'){
+											$('#recherche_question').val(item.question);
+											return item.id_question;
+										}
+										else{
+											$('#recherche_id').val(item.id_question);
+											return item.question;
+										}
+									}
+                               }
+                           }));
+                       }
+                    });
+                }                
+            },
+            minLength : 2,
+            delay : 0
+        });
+
         }
     });
 </script>

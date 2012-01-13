@@ -79,7 +79,7 @@ class Application_Model_QuestionsCertificationsMapper
         $select = $this->getDbTable()->select()->where("id_certification = ? ", $id_certification);
         $resultSet = $this->getDbTable()->fetchAll($select);
         $entries = array();
-                
+                        
         foreach($resultSet as $row){
             $entry = new Application_Model_QuestionsCertifications();
             $entry->setIdQuestionCertification($row->id_question_certification);

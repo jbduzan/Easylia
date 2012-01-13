@@ -52,7 +52,7 @@ class Application_Model_Reponses
     }
     
     public function setReponse($reponse){
-        $this->_reponse = (string) $reponse;
+        $this->_reponse = $reponse;
         return $this;
     }
     

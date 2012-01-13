@@ -10,6 +10,7 @@
 .flexigrid div.fbutton .delete { background: url('/../images/editdelete-icone-7500-16.png') no-repeat center left; }
 .flexigrid div.fbutton .edit { background: url('../images/editeurs-forfait-icone-8056-16.png') no-repeat center left; }
 .flexigrid div.fbutton .add { background : url('../images/ajouter-modifier-icone-9159-16.png') no-repeat center left;}
+.flexigrid div.fbutton .relier { background : url('../images/connecter-en-creant-icone-8226-16.png') no-repeat center left; }
 .flexigrid div.fbutton .add_user { background : url('../images/ajouter-modifier-icone-9159-16.png') no-repeat center left;}
 .flexigrid div.fbutton .detail { background : url('../images/loupe.png') no-repeat center left;}
 
@@ -607,3 +608,44 @@ h3{
 .heure_right{
 	margin-right : -15em;
 }
+
+/*Certification : ajouter une question*/
+.ajouter_question_label{
+	vertical-align: top;
+}
+
+#question{
+	width : 40em;
+	height : 8em;
+}
+
+.reponse{
+	width : 40em;	
+	height : 8em;
+	margin-left : 0.41em;
+	margin-bottom : 0.5em;
+}
+
+#reponse{
+	width : 40em;	
+	height : 8em;
+}
+
+.reponse_juste{
+	margin-right : -17em;
+}
+
+#ajouter_reponse, #ajouter_reponse:hover{
+	text-decoration: none;
+	cursor: pointer;
+	margin-left : 6em;
+}
+
+#reponse_ouverte{
+	margin-left : 9em;
+	margin-right : -17em;
+}
+
+#valider_question_reponse{
+	margin-top : 1em;
+}	

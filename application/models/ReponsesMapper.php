@@ -30,7 +30,7 @@ class Application_Model_ReponsesMapper
     public function save(Application_Model_Reponses $reponse){
        $data = array(
            'id_reponse' => $reponse->getIdReponse(),
-           'reponse' => $reponse->getReponse(),
+           'reponse' => utf8_decode($reponse->getReponse()),
            'est_juste' => $reponse->getEstJuste(),
            'id_question' => $reponse->getIdQuestion()
        );
@@ -52,7 +52,7 @@ class Application_Model_ReponsesMapper
            }
            $row = $result->current();
            $reponse->setIdReponse($row->id_reponse);
-           $reponse->setReponse($row->reponse);
+           $reponse->setReponse(utf8_encode($row->reponse));
            $reponse->setEstJuste($row->est_juste);
            $reponse->setIdQuestion($row->id_question);
            
@@ -66,7 +66,7 @@ class Application_Model_ReponsesMapper
       foreach($resultSet as $row){
           $entry = new Application_Model_Reponses();
           $entry->setIdReponse($row->id_reponse);
-          $entry->setReponse($row->reponse);
+          $entry->setReponse(utf8_encode($row->reponse));
           $entry->setEstJuste($row->est_juste);
           $entry->setIdQuestion($row->id_question);
           $entries[] = $entry;
@@ -83,7 +83,7 @@ class Application_Model_ReponsesMapper
         foreach($resultSet as $row){
             $entry = new Application_Model_Reponses();
             $entry->setIdReponse($row->id_reponse);
-            $entry->setReponse($row->reponse);
+            $entry->setReponse(utf8_encode($row->reponse));
             $entry->setEstJuste($row->est_juste);
             $entry->setIdQuestion($row->id_question);
             $entries[] = $entry;
@@ -128,7 +128,7 @@ class Application_Model_ReponsesMapper
                 $estJuste = "oui";
               $data['rows'][] = array(
                   'id' => $row->id_reponse,
-                  'cell' => array($row->reponse, $estJuste)
+                  'cell' => array(utf8_encode($row->reponse), $estJuste)
               );
           }
 
@@ -166,7 +166,7 @@ class Application_Model_ReponsesMapper
               if($row->est_juste == 1)
                 $estJuste = "oui";
               $data['rows'][] = array(
-                  'id' => $row->id_reponse,
+                  'id' => utf8_encode($row->id_reponse),
                   'cell' => array($row->reponse, $estJuste)
               );
           }

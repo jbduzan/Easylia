@@ -9,8 +9,9 @@ class QuestionsController extends Zend_Controller_Action
         $this->acl = MyAcl::getInstance();
         $this->user = new Zend_Session_Namespace('user');
         $this->certification_liste_mapper = new Application_Model_ListeCertificationMapper();
-        $this->question_reponse_mapper = new Application_Model_QuestionsReponsesMapper();
+        $this->question_reponse_mapper = new Application_Model_QuestionsMapper();
         $this->question_certification_mapper = new Application_Model_QuestionsCertificationsMapper();
+        $this->reponse_mapper = new Application_Model_ReponsesMapper();
         $this->groupeMapper = new Application_Model_GroupesMapper();            
         $this->nom_groupe = $this->groupeMapper->getGroupeNameWithId($this->user->id_groupe);
     }
@@ -52,12 +53,56 @@ class QuestionsController extends Zend_Controller_Action
     {
         // Ajoute une question
         
+        $this->getHelper('layout')->disableLayout();
+        
         $request = $this->getRequest();
         if($request->isPost()){
-            $question = new Application_Model_QuestionsReponses();
-            $question->setQuestion($request->getParam('question'));
+        	// On ajoute dabord la question dans la base
+        	
+        	if($request->getParam('reponse_ouverte') == "checked")
+        		$reponse_ouverte = 1;
+        	else
+        		$reponse_ouverte = 0;
+        		
+            $question = new Application_Model_Questions();
+            $question->setQuestion($request->getParam('question'))
+            		 ->setNbrReponse(count($request->getParam('reponse')))
+            		 ->setReponseOuverte($reponse_ouverte);
             
-            $this->question_reponse_mapper->save($question);
+            $id_question = $this->question_reponse_mapper->save($question);
+            
+            if($id_question == null)
+            	return;
+            
+            // Ensuite chaque réponse
+            foreach($request->getParam('reponse') as $row){
+           		$row = explode(',', $row); 	
+            	$reponse = new Application_Model_Reponses();
+            	
+            	if($row[1] == "checked")
+            		$checked = 1;
+            	else
+            		$checked = 0;
+            	
+            	$reponse->setReponse($row[0])
+            			->setIdQuestion($id_question)
+            			->setEstJuste($checked);
+            	
+            	$this->reponse_mapper->save($reponse);
+            }
+            
+            // Et on lie le tout à la certification
+            if($request->getParam('question_obligatoire') == "checked")
+            	$question_obligatoire = 1;
+            else
+            	$question_obligatoire = 0;
+                        	
+            $question_certification = new Application_Model_QuestionsCertifications();
+            $question_certification->setIdQuestion($id_question)
+            					   ->setIdCertification($request->getParam('id_certification'))
+            					   ->setQuestionObligatoire($question_obligatoire);
+            					   
+			$this->question_certification_mapper->save($question_certification);
         }
         
     }

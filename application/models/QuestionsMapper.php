@@ -27,20 +27,21 @@ class Application_Model_QuestionsMapper
     }
 
     // Insert ou update les données
-    public function save(Application_Model_QuestionsReponses $question){
+    public function save(Application_Model_Questions $question){
        $data = array(
            'id_question' => $question->getidQuestion(),
-           'question' => $question->getQuestion(),
+           'question' => utf8_decode($question->getQuestion()),
            'nbr_reponse' => $question->getNbrReponse(),
            'reponse_ouverte' => $question->getReponseOuverte()
        );
 
        if(null === ($id = $question->getidQuestion())){
            unset($data['id_question']);
-           $this->getDbTable()->insert($data);
+           $id = $this->getDbTable()->insert($data);
        }else{
-           $this->getDbTable()->update($data, array('id_question = ?' => $id));
+           $id = $this->getDbTable()->update($data, array('id_question = ?' => $id));
        }
+       return $id;
     }
 
     // Trouve un enregistrement en fonction de son id
@@ -52,7 +53,7 @@ class Application_Model_QuestionsMapper
            }
            $row = $result->current();
            $question->setidQuestion($row->id_question);
-           $question->setQuestion($row->question);
+           $question->utf8_encode(setQuestion($row->question));
            $question->setNbrReponse($row->nbr_reponse);
            $question->setReponseOuverte($row->reponse_ouverte);
            
@@ -66,7 +67,7 @@ class Application_Model_QuestionsMapper
       foreach($resultSet as $row){
           $entry = new Application_Model_QuestionsReponses();
           $entry->setidQuestion($row->id_question);
-          $entry->setQuestion($row->question);
+          $entry->utf8_encode(setQuestion($row->question));
           $entry->setNbrReponse($row->nbr_reponse);
           $entry->setReponseOuverte($row->reponse_ouverte);
           $entries[] = $entry;
@@ -82,10 +83,14 @@ class Application_Model_QuestionsMapper
           $search_sql = ($qtype != '' && $query != '') ? "$qtype LIKE '%$query%'" : '';
                               
           $id_question = array();
+          $questions_obligatoire = array();
           
           foreach($id_question_array as $row){
               $id = $row->getidQuestion();
               $id_question[] = $id;
+              
+              if($row->getQuestionObligatoire() == 1)
+              	array_push($questions_obligatoire, $row->getIdQuestion());
           }
                                         
           // Setup paging
@@ -104,11 +109,21 @@ class Application_Model_QuestionsMapper
               $select->where($search_sql);
 
           $result = $this->getDbTable()->fetchAll($select);
-
-          foreach($result as $row){		         
+          
+          foreach($result as $row){
+          	if(in_array($row->id_question, $questions_obligatoire))
+          		$question_obligatoire = "oui";
+          	else
+          		$question_obligatoire = "non";
+          		
+          	if($row->reponse_ouverte == 1)
+          		$reponse_ouverte = "oui";
+          	else
+          		$reponse_ouverte = "non";
+          		         
             $data['rows'][] = array(
                   'id' => $row->id_question,
-                  'cell' => array($row->question, $row->nbr_reponse, $row->reponse_ouverte)
+                  'cell' => array(utf8_encode($row->question), $row->nbr_reponse, $question_obligatoire, $reponse_ouverte)
               );
           }
 
@@ -152,7 +167,7 @@ class Application_Model_QuestionsMapper
  	          		        	            
                 $data['rows'][] = array(
                     'id' => $row->id_question,
-                    'cell' => array($row->question, $nbr_reponse, $row->reponse_ouverte)
+                    'cell' => array(utf8_encode($row->question), $nbr_reponse, $row->reponse_ouverte)
                 );
             }
 
@@ -180,7 +195,7 @@ class Application_Model_QuestionsMapper
           foreach($result as $row){
               $entry = new Application_Model_Questions();
               $entry->setidQuestion($row->id_question);
-              $entry->setQuestion($row->question);
+              $entry->setQuestion(utf8_encode($row->question));
               $entry->setNbrReponse($row->nbr_reponse);
               $entry->setReponseOuverte($row->reponse_ouverte);
               
@@ -189,6 +204,25 @@ class Application_Model_QuestionsMapper
                     
           return $entries;
       }
-
+      
+      public function autoComplete($id = null, $question = null){
+      	// Recherche les question par autoComplétion de la question ou de l'id
+      	$list = array();
+      	
+      	$where = "";
+      	
+		if($id != null && $question == null)	
+			$where .= "id_question like '".$id."%'";
+		if($id == null && $question != null)
+			$where .= "question like '".$question."%'";
+      	
+      	$select = $this->getDbTable()->select('id_question', 'question')->distinct('id_question')->where($where)->limit(10,0);
+                
+        $list = $this->getDbTable()->fetchAll($select);
+        
+        return $list; 
+      	 
+      }
+	
 }
 
