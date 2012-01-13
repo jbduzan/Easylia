@@ -205,7 +205,7 @@ class Application_Model_QuestionsMapper
           return $entries;
       }
       
-      public function autoComplete($id = null, $question = null){
+      public function autoComplete($id = null, $question = null, $id_exclure){
       	// Recherche les question par autoComplétion de la question ou de l'id
       	$list = array();
       	
@@ -215,9 +215,17 @@ class Application_Model_QuestionsMapper
 			$where .= "id_question like '".$id."%'";
 		if($id == null && $question != null)
 			$where .= "question like '".$question."%'";
+			
+		$id = "";
+		
+		foreach($id_exclure as $row){
+			$id .= $row->getIdQuestion().",";
+		}
+		
+		$id = substr($id, 0, -1);
       	
-      	$select = $this->getDbTable()->select('id_question', 'question')->distinct('id_question')->where($where)->limit(10,0);
-                
+      	$select = $this->getDbTable()->select('id_question', 'question')->distinct('id_question')->where($where)->where("id_question not in ($id)")->limit(10,0);
+          	                
         $list = $this->getDbTable()->fetchAll($select);
         
         return $list; 

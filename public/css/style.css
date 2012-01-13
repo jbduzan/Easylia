@@ -649,3 +649,15 @@ h3{
 #valider_question_reponse{
 	margin-top : 1em;
 }	
+
+/*Certification : lier une question*/
+
+#question_obligatoire_lier{
+	margin-right: -17em;
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
+
+#enregistrer_lier{
+	margin-bottom: 2em; 
+}

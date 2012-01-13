@@ -186,8 +186,7 @@ class QuestionsController extends Zend_Controller_Action
         
         $this->view->edit_form = new Application_Form_Editreponse();
     }
-
-
+    
 }
 
 

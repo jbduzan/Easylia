@@ -58,27 +58,15 @@ class AutocompleteController extends Zend_Controller_Action
         	$id = null;
         	$question = $request->getParam('question');
         }
-             
-        $list = $mapper->autoComplete($id, $question, $request->getParam('id_certification'));
         
-        /*
-// On enleve les questions qui sont deja dans la certifications
+        // On récupère les questions déjà présentes dans la certification pour les exclure plus tard
         $certification_mapper = new Application_Model_QuestionsCertificationsMapper();
         
         $list_certification = $certification_mapper->fetchAllWithId($request->getParam('id_certification'));
         
-        $list_finale = array();
-        
-		foreach($list as $row){
-			if(!in_array($row->id_question, $list_certification)){
-				$list_finale['id_question'] = $row->id_question;
-				$list_finale['question'] = $row->question;
-			}
-			
-		}
-        	
-        $this->view->list = $list_finale;
-*/
+        // On effectue la requete pour récupérer les résultats     
+        $list = $mapper->autoComplete($id, $question, $list_certification);
+                
      	$this->view->list = $list;
     }
 

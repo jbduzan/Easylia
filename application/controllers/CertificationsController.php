@@ -163,13 +163,19 @@ class CertificationsController extends Zend_Controller_Action
 
     public function ajouteracertificationAction()
     {
-        // Ajoute une question à une certification
+        // lie une question à une certification
         $request = $this->getRequest();
         
         if($request->isPost()){
+        	if($request->getParam('question_obligatoire') == "checked")
+        		$question_obligatoire = 1;
+        	else
+        		$question_obligatoire = 0;
+        
             $question = new Application_Model_QuestionsCertifications();
             $question->setIdCertification($request->getParam('id_certification'));
             $question->setidQuestion($request->getParam('id_question'));
+            $question->setQuestionObligatoire($question_obligatoire);
             
             $this->question_certification_mapper->save($question);
         }
