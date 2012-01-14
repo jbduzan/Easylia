@@ -1,20 +1,13 @@
-<div id="content">
-	<div class="indent-main">
-		<h2>Mes formations</h2>
-		<div class="container">
-			<div id="calendrier">
-			
-			</div>	
-		</div>
-	</div>
-</div>
+<h2 class="h5_modifie">Mes formations</h2>
+<div id="calendrier">
+</div>	
 <div id="event_detail" style="display : none"></div>
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('#calendrier').fullCalendar({
-			weekends : false,
+			weekends : true,
 			weekMode : 'liquid',
-			allDaySlot : true,
+			firstDay : 1,
 			header: {
 				left: 'prev,next today',
 				center: 'title',

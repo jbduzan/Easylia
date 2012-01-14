@@ -177,30 +177,27 @@ class UtilisateursController extends Zend_Controller_Action
                 
         // Connexion depuis la page connexion
         $request = $this->getRequest();
-        $form = new Application_Form_Connexion();
     
         if($this->getRequest()->isPost()){
-            if($form->isValid($request->getPost())){
-                $client = new Application_Model_Utilisateurs();
+            $client = new Application_Model_Utilisateurs();
+        
+            $mapper = new Application_Model_UtilisateursMapper();
+            $mapper->findByLogin($request->getParam('login'), $client);
+                            
+            $path = APPLICATION_PATH."/configs/application.ini";
+            $config = new Zend_Config_Ini($path, 'development');
             
-                $mapper = new Application_Model_UtilisateursMapper();
-                $mapper->findByLogin($form->getValue('login'), $client);
-                                
-                $path = APPLICATION_PATH."/configs/application.ini";
-                $config = new Zend_Config_Ini($path, 'development');
-                
-                $password = sha1($config->salt.$form->getValue('password'));
-                                            
-                if($client->getPassword() == $password){
-                    $this->user->login = $client->getLogin();
-                    $this->user->id_utilisateur = $client->getIdUtilisateur();
-                    $this->user->id_groupe = $client->getIdGroupe();
-                    $this->user->is_logged = true;
+            $password = sha1($config->salt.$request->getParam('password'));
                                         
-                    return $this->_redirector->goToSimple($this->user->requested_action,$this->user->requested_controller);
-                }else{
-                    $this->view->error =  "<p id='error_connexion' style='color:red;margin-top : 5em;margin-left:2em;'>Le nom d'utilisateur ou le mot de passe ne correspondent pas à ceux enregistrés</p>";
-                }
+            if($client->getPassword() == $password){
+                $this->user->login = $client->getLogin();
+                $this->user->id_utilisateur = $client->getIdUtilisateur();
+                $this->user->id_groupe = $client->getIdGroupe();
+                $this->user->is_logged = true;
+                                    
+                return $this->_redirector->goToSimple($this->user->requested_action,$this->user->requested_controller);
+            }else{
+                $this->view->error =  "<p id='error_connexion' style='color:red;margin-top : 5em;margin-left:2em;'>Le nom d'utilisateur ou le mot de passe ne correspondent pas à ceux enregistrés</p>";
             }
         }
         return $this->view->form = $form;
@@ -424,8 +421,11 @@ class UtilisateursController extends Zend_Controller_Action
             'telephone' => $utilisateur->getTelephone(),
             'mail' => $utilisateur->getMail()
             );
-        $form->populate($form_data);
-        $this->view->form = $form;
+		
+		foreach($form_data as $key=>$value){
+			$this->view->$key = $value;
+		}
+		
     }
 
     public function listeutilisateursAction()

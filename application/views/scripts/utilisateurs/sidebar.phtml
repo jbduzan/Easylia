@@ -5,25 +5,23 @@ if($user->id_groupe != 1)
 else
 	$id = 'sidebar';
 $this->placeholder('sidebar')->captureStart()?>
-<div id="<?php echo $id?>">
+<div id="sidebar">
 	<div id="login_div" >
 	  	<div id="isNotLogged">
-	  	    <h2 >Connexion utilisateur</h2>
-	          <form action="" id="form2"><div class=" container">
-	              <div class="h3 "><input id="login_top" type="text" class="input2" />Nom d'utilisateur:</div>
-	              <div class="h3 "><input id="password_top" type="password" class="input2" />Mot de passe:</div>
-	              <p class=""><button href="#" class="fright button" onClick="return false;" id="submitLogin">Valider</button> <input type="checkbox" id="remember" class="input3" /> &nbsp;Se souvenir de moi</p>
-	              <br /><a href="#" class="link1" style="color : white;">Mot de passe oublié?</a><br />
-	              
-	          </form>
-	          <br /><p id="erreur" style="color : red;"></p>
-	      </div>
-	     </div>
-	  <div id="isLogged" style="display : none;">
-	      <p id="userHello">Bonjour <?php echo $user->login;?> </p>
-	      <a href="#" id="votreCompte" onClick='return false;'>Votre compte</a> / <a href="#" id="deconnexion" onClick="return false;">Deconnexion</a>
-	  </div>
-	</div>
+			<h2 >Connexion utilisateur</h2>
+			<form action="" id="form2">
+				<div class="h3 "><input id="login_top" type="text" class="input2" />Nom d'utilisateur:</div>
+				<div class="h3 "><input id="password_top" type="password" class="input2" />Mot de passe:</div>
+				<p class=""><button href="#" class="fright button" onClick="return false;" id="submitLogin">Valider</button> <input type="checkbox" id="remember" class="input3" /> &nbsp;Se souvenir de moi</p>
+				<br /><a href="#" class="link1" style="color : white;">Mot de passe oublié?</a><br />
+			</form>
+			<br /><p id="erreur" style="color : red;"></p>
+	   	</div> <!-- isNotLogged -->
+		<div id="isLogged" style="display : none;">
+			<p id="userHello">Bonjour <?php echo $user->login;?> </p>
+			<a href="#" id="votreCompte" onClick='return false;'>Votre compte</a> / <a href="#" id="deconnexion" onClick="return false;">Deconnexion</a>
+		</div> <!-- isLogged -->
+	</div> <!-- login_div -->
 	<div id="col-droite-profil">         
 	    <?php
 	/*
@@ -41,6 +39,6 @@ $this->placeholder('sidebar')->captureStart()?>
 				echo "<br /><a href=".$this->url(array('controller' => 'utilisateurs', 'action' => 'changepassword'), 'default', true).">Changer mon mot de passe</a>";
 			}
 		?>
-	</div>
-</div>
+	</div> <!-- col-droite-profil -->
+</div> <!-- sidebar -->
 <?php $this->placeholder('sidebar')->captureEnd() ?>

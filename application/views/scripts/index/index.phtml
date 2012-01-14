@@ -1,215 +1,184 @@
-      <?php echo $this->doctype();
-      $user = new Zend_Session_Namespace('user');?>
-      <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-      <head>
-          <title>Easylia</title>
-          <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<?php echo $this->doctype();
+$user = new Zend_Session_Namespace('user');?>
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="#LANG" lang="#LANG" dir="#LANG_DIR">
+	<head> 
+    <title>Easylia</title>          
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
           <meta http-equiv="Content-Style-Type" content="text/css" />
-          <link href="css/style_index.css" rel="stylesheet" type="text/css" />
+          <link href="css/style.css" rel="stylesheet" type="text/css" />
           <link href="css/layout_index.css" rel="stylesheet" type="text/css" />
           <script src="js/jquery.1.6.2.min.js" type="text/javascript"></script>
           <script type="text/javascript" src="js/jquery.slideshow.js"></script>  
           <script type="text/javascript" src="js/script.js"></script>     
       </head>
 
-      <body id="page1">
-      <div class="right_bgd"></div>
-      <div class="tail-top">
-          <div class="main">
-              <div id="header">
-              	<a href="#"><img alt="" src="<?php APPLICATION_PATH?>/images/rss.gif" class="rss" /></a>
-                      <div class="indent1">
-                      	<div class="container">
-                          	<ul>
-                                  <li><a href="<?php APPLICATION_PATH?>" class="current">Acceuil</a></li>
-                                  <li><a href="/utilisateurs">Profil</a></li>
-                              </ul>
-                          </div>
-                      	<a href="<?php APPLICATION_PATH?>"><img alt="" src="<?php APPLICATION_PATH?>/images/logo.jpg" class="logo" /></a><br />
-                          <a href="#"><img alt="" src="<?php APPLICATION_PATH?>/images/button1.jpg" /></a><a href="#"><img alt="" src="<?php APPLICATION_PATH?>/images/button2.jpg" /></a><a href="#"><img alt="" src="<?php APPLICATION_PATH?>/images/button3.jpg" /></a>
-          				<div class="playPauseExample slideShow">
-          						<ul class="slides">
-          								<li class="slide"><img src="<?php APPLICATION_PATH?>/images/img1.jpg" alt="" width="691" height="288"/></li>
-          								<li class="slide"><img src="<?php APPLICATION_PATH?>/images/img2.jpg" alt="" width="691" height="288"/></li>
-          								<li class="slide"><img src="<?php APPLICATION_PATH?>/images/img3.jpg" alt="" width="691" height="288"/></li>
-          								<li class="slide"><img src="<?php APPLICATION_PATH?>/images/img4.jpg" alt="" width="691" height="288"/></li>
-          								<li class="slide"><img src="<?php APPLICATION_PATH?>/images/img5.jpg" alt="" width="691" height="288"/></li>
-          						</ul>
-          						<a href="#" class="togglePlayback"><img src="<?php APPLICATION_PATH?>/images/stop.png" alt="" /></a>
-          					</div>
-                      </div>
-                  </div>
-        <div id="content">		
-            <div class="indent-main">
-                <div class="container">
-                    <div class="col-1">
-                    	<h1>Expert advice on
-                        <span>complex human resources issues</span></h1>
-                        <h3>HR Consulting helps you incorporate practical, results-driven human resources practices into your business.</h3>
-                        <h4>Mollitia animi voluptates repudiandae sint et moles  Nam libero tempore, cum soluta nobis est eligendimo  mnis voluptas assumenda est, omnis doloresed repelendus wemporibautem quibsdam et aut</h4>
-                        Dficia deserunt mollitia animi voluptates repudiandae sint et moles mam libero tempore, cum soluta nobiest eligendi  mnis voluptas <a href="#">assumenda est, omnis doloresed</a> repelendus wemporibautem quibsdam et aut offiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestaenon
-                    	<div class="indent">
-                            <div class="container">
-                                <div class="col-3">
-                                	<h2>Shortly about us</h2>
-                                    <img alt="" src="images/1page_img1.jpg" class="img-indent" /><br />
-                                    <strong>Massa ipsum mollitia dolore, id est laborum eu          
-                                    Nam libero tempore, cum soluta nobis est eligni</strong>
-                                    <p>Omnis <a href="#">voluptas assumenda est omnis</a> doloresd repellendus. Temporibautem quibusdam et aut 
-                                    necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae Itaque earum rerum hic tenetur </p>
-                                    <div class="container"><a href="#" class="link-1"><em><b>Read more</b></em></a></div>
-                                </div>
-                                <div class="col-4">
-                                	<h2>HR Outsourcing</h2>
-                                    <img alt="" src="images/1page_img2.jpg" class="img-indent" /><br />
-                                    <p><strong>Dficia deserunt mollitia animi,</strong> id est laborum eu          
-                                    Nam libero tempore, cum soluta nobis est elieni  
-                                    omnis voluptas assumenda est, omnis dolore</p>
-                                    <p><strong>Dficia deserunt mollitia animi</strong>, id est laborum eu          
-                                    Nam libero tempore, cum soluta nobis est elieni  
-                                    omnis voluptas assumenda est, omnis dolore</p>
-                                    <div class="container"><a href="#" class="link-1"><em><b>Read more</b></em></a></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-2">
-                    	<div class="indent">
-                    	<div id="notLogged">
-                        	<h2 >Connexion utilisateur</h2>
-                            <form action="" id="form2"><div class=" container">
-                               	<div class="h3 txt"><input id="login" type="text" class="input2" />Nom d'utilisateur:</div>
-                                <div class="h3 txt"><input id="password" type="password" class="input2" />Mot de passe:</div>
-	                           	<p class="txt"><button class="fright button" onClick="return false;" id="submitLogin">Valider</button> <input type="checkbox" id="remember" class="input3" /> &nbsp;Se souvenir de moi</p>
-                               	<br /><a href="#" class="link1 txt" >Vous avez oublié votre mot de passe ?</a><br />
-	                           	<a class="link1 txt" href="<?php echo $this->url(array('controller' => 'utilisateurs', 'action' =>'inscriptionClient'), 'default', true)?>">Créer un compte</a>
-                              </form>
-                              <p id="erreur" style="color : red;"></p>
-                          </div>
-                          </div>
-                          <div id="isLogged" style="display : none;">
-                              <p id="userHello">Bonjour <?php echo $user->login;?> !</p>
-                              <a href="#" id="votreCompte"  onClick='return false;'>Votre compte</a> / <a href="#"  id="deconnexion" onClick="return false;">Deconnexion</a>
-                          </div>
-                  </div>
+	<body class="page_sommaire">
+		<div id="page">
+			<div class="right_bgd"></div>
+				<div id="header">
+					<div id="onglets">
+						<ul>
+	                    	<li><a href="http://dev.easylia.com" class="current">Accueil</a></li>
+	                        <li><a href="/utilisateurs">Profil</a></li>
+		                </ul>	   
+					</div> <!-- onglets -->
+					<div id="header_content">
+						<div id="logo">
+							<a href="http://dev.easylia.com"><img alt="" src="<?php APPLICATION_PATH?>/images/logo.jpg" class="logo" /></a><br />
+						</div> <!-- logo -->
+						<div id="search">
+							<h2>0810 123 456</h2>
+							<form action="" id="form1">
+								<p>
+									<input type="text" class="input" value="Rechercher…" onblur="if(this.value=='') this.value='Rechercher…'" onfocus="if(this.value =='Rechercher…' ) this.value=''"  />
+									<a href="#" onclick="document.getElementById('form1').submit()"><img alt="" src="images/button.gif" /></a>
+								</p>
+							</form>
+						</div> <!-- search -->
+					</div> <!-- header_content -->
+				</div> <!-- header -->
+				<div id="content">
+					<div id="content-main">
+						<!--
+<div class="playPauseExample slideShow">
+	  						<ul class="slides">
+	  								<li class="slide"><img src="<?php APPLICATION_PATH?>/images/img1.jpg" alt="" width="691" height="288"/></li>
+	  								<li class="slide"><img src="<?php APPLICATION_PATH?>/images/img2.jpg" alt="" width="691" height="288"/></li>
+	  								<li class="slide"><img src="<?php APPLICATION_PATH?>/images/img3.jpg" alt="" width="691" height="288"/></li>
+	  								<li class="slide"><img src="<?php APPLICATION_PATH?>/images/img4.jpg" alt="" width="691" height="288"/></li>
+	  								<li class="slide"><img src="<?php APPLICATION_PATH?>/images/img5.jpg" alt="" width="691" height="288"/></li>
+	  						</ul>
+	  						<a href="#" class="togglePlayback"><img src="<?php APPLICATION_PATH?>/images/stop.png" alt="" /></a>
+	  					</div>
+-->
+					</div> <!-- content-main> -->
+                        <div id="navigation">
+							<h2>Espace privé</h2>
+							<form action="" id="form-espace-prive" class="form-espace-prive">
+								<fieldset class="fieldset-espace-prive">
+									<p>
+										<label for="login" class="text">Utilisateur : </label>
+										<input type="text" name="login" id="login" value="Votre nom d'utilisateur" onblur="if(this.value=='') this.value='Votre nom d\'utilisateur'" onfocus="if(this.value =='Votre nom d\'utilisateur' ) this.value=''" />
+									</p>
+									<p>
+										<label for="password" class="text">Mot de passe : </label>
+										<input type="password" name="password" id="password" value="Votre mot de passe" onblur="if(this.value=='') this.value='Votre mot de passe'" onfocus="if(this.value =='Votre mot de passe' ) this.value=''" />
+									</p>
+									<p>
+										<input type="checkbox" id="remember" />
+										<label for="remember"> Se souvenir de moi</label>
+										<br /><a href="">Mot de passe oublié</a>
+									</p>
+									<p>
+										
+										<button class="button" onclick="return false;" id="submitLogin">Connexion</button>
+									</p>
+								</fieldset>
+							</form>
+		                    <div id="navigation-content">
+		                    </div>
+						</div>
+						<div style="clear: both;"> </div>
+				</div> <!-- content -->
+			</div>	<!-- right_bgd -->
+			<div id="footer">
+				<div id="footer_content">
+					<div id="footer_content_left">
+						<p><span class="h3" style="margin-rigth: 0.5em;">Easylia</span> &copy; 2012</p>
+					</div>
+					<div id="footer_content_right">
+						<h1 style="margin-bottom: 0;">0810 123 456</h1>
+						<p>Prix d'un appel local</p>
+					</div> <!-- footer_content_right -->
+				</div> <!-- footer-content -->
+			</div> <!-- footer -->
+		</div><!--Fin Page -->
+	</body>		
+</html>	
 
+			                <!--
+      <div id="notLogged">
+	                        	<h2 >Connexion utilisateur</h2>
+	                            <form action="" id="form2"><div class=" container">
+	                               	<div class="h3 txt"><input id="login" type="text" class="input2" />Nom d'utilisateur:</div>
+	                                <div class="h3 txt"><input id="password" type="password" class="input2" />Mot de passe:</div>
+		                           	<p class="txt"><button class="fright button" onClick="return false;" id="submitLogin">Valider</button> <input type="checkbox" id="remember" class="input3" /> &nbsp;Se souvenir de moi</p>
+	                               	<br /><a href="#" class="link1 txt" >Vous avez oublié votre mot de passe ?</a><br />
+		                           	<a class="link1 txt" href="<?php echo $this->url(array('controller' => 'utilisateurs', 'action' =>'inscriptionClient'), 'default', true)?>">Créer un compte</a>
+	                              </form>
+	                              <p id="erreur" style="color : red;"></p>
+	                          </div>
+	                          </div>
+	                          <div id="isLogged" style="display : none;">
+	                              <p id="userHello">Bonjour <?php echo $user->login;?> !</p>
+	                              <a href="#" id="votreCompte"  onClick='return false;'>Votre compte</a> / <a href="#"  id="deconnexion" onClick="return false;">Deconnexion</a>
+	                          </div>
+	                  </div>
+-->
+<script type="text/javascript">
 
-                        <div class="indent1">
-                        	<div class="box">
-                                <div class="corner-top-right">
-                                    <div class="corner-top-left">
-                                        <div class="corner-bottom-left">
-                                            <div class="corner-bottom-right"> 
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="indent">
-                        	<div class="container">
-                        		<div class="indent-box">
-									<h2>Vous êtes intéressés par la formation ? </h2>
-									<button id="devenez_formateur">Devenez formateur</button>
-                        		</div>
-                        	</div>
-                        </div>
-                        <div class="indent">
-                        	<div class="container">
-                        		<div class="indent-box">
-									<h2>Vous voulez vous former dans un domaine ? </h2>
-									<button id="liste_formation">C'est par ici</button>
-                        		</div>
-                        	</div>
-                        </div>
+    $(document).ready(function(){
 
-                    </div>
-                </div>
-            </div>
-        </div>	 
-        <div id="footer">
-            	<!--<img alt="" src="<?php APPLICATION_PATH?>/images/title.gif" class="title" />-->
-                <div class="indent-footer">
-                	<img alt="" src="<?php APPLICATION_PATH?>/images/title1.gif"  class="alignMiddle"/> &copy; 2011 | <a href="#">Privacy policy</a>
-                </div>
-            </div>
-         </div>
-        </div>
-
-
-        </body>
-        <script type="text/javascript">
-
-            $(document).ready(function(){
-
-                 var isLogged = false;
-                 <?php
-                    // le namespace est setté en haut de la page
-                    if(!empty($user->is_logged) && $user->is_logged == true) {?> 
-                     isLogged = true;
-                 <?php } ?>
-                
-               //Récupération des infos et envoie à l'action login du controller utilisateurs.
-               $("#submitLogin").click(function(){
-                   $.ajax({
-                      type: 'post',
-                      url: '/utilisateurs/connexionFromIndex',
-                      data: {'login' : $("#login").val(), 'password' : $("#password").val(), 'loginFromIndex' : true},
-                      success : function(data){
-                           if(data != ''){
-                              /*
- $("#userHello").html('Bonjour '+ data + " !");
-                               $("#notLogged").hide();
-                               $("#isLogged").show();
+         var isLogged = false;
+         <?php
+            // le namespace est setté en haut de la page
+            if(!empty($user->is_logged) && $user->is_logged == true) {?> 
+             isLogged = true;
+         <?php } ?>
+        
+       //Récupération des infos et envoie à l'action login du controller utilisateurs.
+       $("#submitLogin").click(function(){
+           $.ajax({
+              type: 'post',
+              url: '/utilisateurs/connexionFromIndex',
+              data: {'login' : $("#login").val(), 'password' : $("#password").val(), 'loginFromIndex' : true},
+              success : function(data){
+                   if(data != ''){
+                      /*
+$("#userHello").html('Bonjour '+ data + " !");
+                       $("#notLogged").hide();
+                       $("#isLogged").show();
 */
-                               location.href = "/utilisateurs";
-                            }else{
-                                $("#erreur").html("Votre nom d'utilisateur ou votre mot de passe ne correspond pas !");
-                                $("#erreur").show();
-                                setTimeout(function() {
-                                    $( "#erreur" ).fadeOut("slow");
-                                }, 2000 );
-                            }                
-                      }
-                   });
-               });
-               
-               $("#deconnexion").click(function(){
-                   $.ajax({
-                       type: 'post',
-                       url: '/utilisateurs/deconnexion',
-                       success: function(){
-                            $("#notLogged").show('slow');
-                            $("#isLogged").hide('slow');
-                       }
-                   }); 
-               });
-               
-               $("#votreCompte").click(function(){
-                    window.location.replace("/utilisateurs");
-               });
-                          
-               if( isLogged === true){
-                    $("#notLogged").hide();
-                    $("#isLogged").show();
-               }else{
-                   $("#notLogged").show();
-                   $("#isLogged").hide();
+                       location.href = "/utilisateurs";
+                    }else{
+                        $("#erreur").html("Votre nom d'utilisateur ou votre mot de passe ne correspond pas !");
+                        $("#erreur").show();
+                        setTimeout(function() {
+                            $( "#erreur" ).fadeOut("slow");
+                        }, 2000 );
+                    }                
+              }
+           });
+       });
+       
+       $("#deconnexion").click(function(){
+           $.ajax({
+               type: 'post',
+               url: '/utilisateurs/deconnexion',
+               success: function(){
+                    $("#notLogged").show('slow');
+                    $("#isLogged").hide('slow');
                }
-               
-               $("#devenez_formateur").click(function(){
-               		location.href = "utilisateurs/inscriptionformateur";
-               });
-               
-               $("#liste_formation").click(function(){
-               		location.href= "formation/listeformationdispo";
-               });
+           }); 
+       });
+       
+       $("#votreCompte").click(function(){
+            window.location.replace("/utilisateurs");
+       });
+                  
+       if( isLogged === true){
+            $("#notLogged").hide();
+            $("#isLogged").show();
+       }else{
+           $("#notLogged").show();
+           $("#isLogged").hide();
+       }
+    });
 
-            });
 
-
-        </script>
-        <script type="text/javascript">
+</script>
+<script type="text/javascript">
 
   var _gaq = _gaq || [];
   _gaq.push(['_setAccount', 'UA-23892247-1']);

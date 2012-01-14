@@ -1,56 +1,59 @@
-<div id="content">
-<?php  echo $this->navigation()->breadcrumbs()//fil d'ariane ou chemin de fer
-?>
-	<div class="indent-main">
-		<h2>Profil</h2>
-		<div class="col-1">
-			<div class="container">
-				<div id="titre_modifier">
-					<h3>Modification des informations personnelles</h3>
-				</div>
-				<p id="info" style="color : green"></p>
-			    <?php		
-			        if($this->canEdit == true){
-			            echo "<div id='modification_form'>".$this->form."</div>";
-			        }   
-			    ?>	
-    		</div>
-    	</div>
-	</div>
+<?php  /* echo $this->navigation()->breadcrumbs() *///fil d'ariane?>
+<div id="titre_modifier">
+	<h5>Modification des informations personnelles</h5>
 </div>
+<p id="info" style="color : green"></p>
+<?php		
+    if($this->canEdit == true){
+        ?>
+<div id="label-left">
+	<label for="nom" >Nom :</label>
+	<label for="prenom" >Prenom :</label>
+	<label for="adresse" >Adresse :</label>
+	<label for="adresse2" >Complement d'adresse :</label>
+	<label for="codePostal" >Code postal :</label>
+	<label for="ville" >ville :</label>
+	<label for="telephone" >Téléphone :</label>
+	<label for="mail" >Email :</label>
+</div> <!-- label-left -->
+<div id="input-right">
+	<input type="text" name="nom" id="nom" value="<?php echo $this->nom ?>">
+	<input type="text" name="prenom" id="prenom" value="<?php echo $this->prenom ?>">
+	<input type="text" name="adresse" id="adresse" value="<?php echo $this->adresse ?>">
+	<input type="text" name="adresse2" id="adresse2" value="<?php echo $this->adresse2 ?>">
+	<input type="text" name="codePostal" id="codePostal" value="<?php echo $this->codePostal ?>">
+	<input type="text" name="ville" id="ville" value="<?php echo $this->ville ?>">
+	<input type="text" name="telephone" id="telephone" value="<?php echo $this->telephone ?>">
+	<input type="text" name="mail" id="mail" value="<?php echo $this->mail ?>">
+</div> <!-- input-right -->
+<div id="span-right">
+	<span class="errors_modifier" id="info_nom">&nbsp;</span>
+	<span class="errors_modifier" id="info_prenom">&nbsp;</span>
+	<span class="errors_modifier" id="info_adresse">&nbsp;</span>   
+	<span class="errors_modifier" id="info_codePostal">&nbsp;</span>
+	<span class="errors_modifier" id="info_ville">&nbsp;</span>
+	<span class="errors_modifier" id="info_telephone">&nbsp;</span>
+	<span class="errors_modifier" id="info_email">&nbsp;</span>
+</div> <!-- span-right -->
+<input type="submit" name="submit" id="submit_modifier" value="Valider"><input type="submit" name="annuler" id="annuler" value="Annuler">	
+        <?php
+    }   
+?>	
+    		
 
 <script type="text/javascript">
 
     $(document).ready(function(){    
-    	$("dt").addClass('modification-left');
-    	$("dd").addClass('modification-right');
-    	$("#nom-label > label").attr('id', 'modifier_nom');
-    	$("#prenom-label > label").attr('id', 'modifier_prenom');
-    	$("#adresse-label > label").attr('id', 'modifier_adresse');
-    	$("#adresse2-label > label").attr('id', 'modifier_adresse2');
-    	$("#codePostal-label > label").attr('id', 'modifier_codePostal');
-    	$("#ville-label > label").attr('id', 'modifier_ville');
-        $("#telephone-label > label").attr('id', 'modifier_telephone');
-        $("#mail-label > label").attr('id', 'modifier_mail');
-            
+    	            
         var okForSubmit = 0;
-        
-        $("#nom-element").append("<span class='errors' id='info_nom'>&nbsp;</span>"); 
-        $("#prenom-element").append("<span class='errors' id='info_prenom'>&nbsp;</span>");
-        $("#adresse-element").append("<span class='errors' id='info_adresse'>&nbsp;</span>");
-        $("#codePostal-element").append("<span class='errors' id='info_codePostal'>&nbsp;</span>");
-        $("#ville-element").append("<span class='errors' id='info_ville'>&nbsp;</span>");
-        $("#telephone-element").append("<span class='errors' id='info_telephone'>&nbsp;</span>");
-        $("#mail-element").append("<span class='errors' id='info_email'>&nbsp;</span>");
-        $("#submit-element").append("<span class='errors' id='info_submit>&nbsp;</span>");
-               
+                       
         $("#annuler").click(function(event){
         	event.preventDefault();
 	        location.href = "/utilisateurs";
         });
                       
         // Lors que on veut submit
-        $("#submit").click(function(event){
+        $("#submit_modifier").click(function(event){
         	event.preventDefault();
             var regExp = new RegExp(/[0-9]{10}/);
                         

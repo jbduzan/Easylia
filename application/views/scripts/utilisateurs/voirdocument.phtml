@@ -1,16 +1,10 @@
-<div id="content">
-	<div class="indent-main">
-		<h2>Vos Documents</h2>
-		<div class="container">
-			<div id="info" style="color : green"></div>
-				<?php
-					echo $this->liste;
-				?>
-				
-				<br /><button type="button" id="envoyer">Envoyer les documents à la validation</button>
-		</div>
-	</div>
-</div>
+<h2>Vos Documents</h2>
+<div id="info" style="color : green"></div>
+<?php
+echo $this->liste;
+?>
+
+<br /><button type="button" id="envoyer">Envoyer les documents à la validation</button>
 <div id="confirmation_dialog" style="display : none">
 	Etes vous sur de vouloir envoyer vos documents ? Ils ne seront plus modifiable ensuite.
 </div>
