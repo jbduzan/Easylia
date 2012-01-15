@@ -49,6 +49,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		// retourne un routeur de réécriture par défaut
 		$router->addRoute('formation',new Zend_Controller_Router_Route('liste-des-formations-disponibles',array('controller' => 'formation','action' => 'listeformationdispo')));
 		$router->addRoute('inscription', new Zend_Controller_Router_Route('inscription-formateur', array('controller' => 'inscription', 'action' =>'index')));
+		$router->addRoute('formateuravalider', new Zend_Controller_Router_Route('formateurs-à-valider', array('controller' => 'utilisateurs', 'action' => 'formateuravalider')));
+		$router->addRoute('listeutilisateur', new Zend_Controller_Router_Route('liste-des-utilisateurs', array('controller' => 'utilisateurs', 'action' => 'listeutilisateurs')));
+		$router->addRoute('profil', new Zend_Controller_Router_Route('profil', array('controller' => 'utilisateurs', 'action' => 'index')));		
+		$router->addRoute('validerformateur', new Zend_Controller_Router_Route('valider-formateur', array('controller' => 'utilisateurs', 'action' => 'validerutilisateur')));		
     }
     
     public function _initSidebar(){

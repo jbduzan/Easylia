@@ -242,7 +242,7 @@ class Application_Model_UtilisateursMapper
             
             $data['rows'][] = array(
                 'id' => $row->id_utilisateur,
-                'cell' => array($row->nom, $row->prenom, $row->login, $groupe->nom, $row->adresse.' - '.$row->adresse2.'<br />'.$row->code_postal.' - '.$row->ville, $row->telephone, $row->mail, $row->date_naissance)
+                'cell' => array(utf8_encode($row->nom), utf8_encode($row->prenom), utf8_encode($row->login), $groupe->nom, utf8_encode($row->adresse).' - '.utf8_encode($row->adresse2).'<br />'.$row->code_postal.' - '.utf8_encode($row->ville), $row->telephone, $row->mail, $row->date_naissance)
             );
         }
         
@@ -294,5 +294,74 @@ class Application_Model_UtilisateursMapper
         
         return json_encode($data);        
     }
+    
+    // Retourne les données pour une flexigrid, avec les infos sur les documents formateurs
+    public function fetchAllForFlexigridWithDocuments($page, $sort_name, $sort_order, $qtype, $query, $rp){
+        // Setup sort and search SQL
+        $sort_sql = "$sort_name $sort_order";
+        $search_sql = ($qtype != '' && $query != '') ? "$qtype LIKE '%$query%'" : '';
+        
+        // Get total count of records
+        $sql = "select * from Utilisateurs where id_groupe = 3";
+        
+        $select = $this->getDbTable()->select($sql);
+        $result = $this->getDbTable()->fetchAll($select);
+        $total = count($result);
+        
+        // Setup paging
+        $page_start = ($page-1)*$rp;
+        $limit_sql = "limit $page_start, $rp";
+        
+        // Return json Data
+        $data = array();
+        $data['page'] = $page;
+        $data['total'] = $total;
+        $data['rows'] = array();
+
+        $select = $this->getDbTable()->select()->from('Utilisateurs')->limit($rp, $page_start)->order($sort_sql);
+
+        if($search_sql != '')
+            $select->where($search_sql);
+            
+        $select->where("id_groupe = 3");
+        
+        $result = $this->getDbTable()->fetchAll($select);
+   
+        foreach($result as $row){
+            // Le nom du groupe
+            $groupeMapper = new Application_Model_GroupesMapper();
+            $groupe = new Application_Model_Groupes();
+            $groupeMapper->find($row->id_groupe, $groupe);
+                   
+			// On vérifie la présence des documents
+			$filepath = "/home/easylia/public/documents/";
+	
+	        // On vérifie si l'utilisateur à uploadé les 4 documents
+	        if(file_exists($filepath."cv-".$row->id_utilisateur.".doc"))
+	        	$cv = "<img class='icone_ok' src='images/icone_ok.png' />";
+	        else
+	        	$cv = "<img class='icone_erreur' src='images/icone_erreur.png' />";
+	        		        	
+	        if(file_exists($filepath."motivation-".$row->id_utilisateur.".doc"))
+	        	$motivation = "<img class='icone_ok' src='images/icone_ok.png' />";
+	        else
+	        	$motivation = "<img class='icone_erreur' src='images/icone_erreur.png' />";
+
+	        	
+	        if(file_exists($filepath."rib-".$row->id_utilisateur.".png"))
+	        	$rib = "<img class='icone_ok' src='images/icone_ok.png' />";
+	        else
+	        	$rib = "<img class='icone_erreur' src='images/icone_erreur.png' />";
+
+            
+            $data['rows'][] = array(
+                'id' => $row->id_utilisateur,
+                'cell' => array(utf8_encode($row->nom), utf8_encode($row->prenom),$cv, $motivation, $rib)
+            );
+        }
+        
+        return json_encode($data);        
+    }
+
 }
 

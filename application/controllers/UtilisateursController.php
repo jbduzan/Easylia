@@ -731,20 +731,37 @@ class UtilisateursController extends Zend_Controller_Action
     	
     }
 
-    public function formateuravaliderAction()
+	public function formateuravaliderAction(){
+	
+	}
+
+    public function getformateuravaliderAction()
     {
         // Liste les formateurs en attente de validation
         
-        $result = $this->userMapper->fetchAll();
+        $this->getHelper('layout')->disableLayout();
         
-        $liste_nom = "";
+        // renvoie les donnée à la grid sous le bon format
+        $request = $this->getRequest();
+                
+         // Request parameters received via GET from flexigrid.
+        $sort_column = $this->_getParam('sortname','id_utilisateur'); 
+        $sort_order = $this->_getParam('sortorder','asc'); 
+        $page = $this->_getParam('page',1);
+        $limit = $this->_getParam('rp',17);
+        $offset = (($page - 1) * $limit);
+        $search_column = $this->_getParam('qtype');
+        $search_for = $this->_getParam('query');
+        $id_groupe = "";
         
-        foreach($result as $row){
-        	if($row->getDocumentEnvoye() == 1 && $row->getDocumentValide() == 0)
-				$liste_nom .= "<p><a href='validerutilisateur/id/".$row->getIdUtilisateur()."'>".$row->getPrenom()." ".$row->getNom()."</a></p>";
+        if($request->getParam('id_groupe')){
+            $id_groupe = $request->getParam('id_groupe');
         }
         
-        $this->view->liste_nom = $liste_nom;
+        // Récupération de la liste des utilisateurs
+        $mapper = new Application_Model_UtilisateursMapper();
+        
+        $this->view->rows = $mapper->fetchAllForFlexigridWithDocuments($page, $sort_column, $sort_order, $search_column, $search_for, $limit, $id_groupe);
     }
 
     public function validerutilisateurAction()
@@ -769,6 +786,11 @@ class UtilisateursController extends Zend_Controller_Action
         	$this->view->rib = "/documents/rib-".$id_utilisateur.".png";
         	
         $this->view->id_utilisateur = $id_utilisateur;
+        
+        $utilisateur = new Application_Model_Utilisateurs;
+        $this->userMapper->find($id_utilisateur, $utilisateur);
+        
+        $this->view->utilisateur = $utilisateur;
 
     }
 

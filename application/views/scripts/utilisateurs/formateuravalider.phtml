@@ -1,11 +1,46 @@
-<div id="content">
-	<div class="indent-main">
-		<div class="contenaire">
-			<h2>Formateurs à valider</h2>
-			<h3>Liste des formateurs à valider</h3>
-			<?php
-				echo $this->liste_nom;
-			?>
-		</div>
-	</div>
-</div>
+<table id="tableau_formateur">
+
+</table>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#tableau_formateur").flexigrid({
+            url : '/utilisateurs/getformateuravalider',
+            dataType: 'json',
+            colModel : [
+                    {display: 'Nom', name : 'nom', width : 100, sortable : true, align: 'left'},
+                    {display: 'Prénom', name : 'prenom', width : 100, sortable : true, align: 'left'},
+          			{display: 'CV', name : 'cv', width : 100, sortable : false, align: 'left'},
+          			{display: 'Motivation', name : 'motivation', width : 100, sortable : false, align: 'left'},
+          			{display: 'RIB', name : 'rib', width : 100, sortable : false, align: 'left'} 
+                      ],
+            buttons : [
+                    {name: 'Valider', bclass: 'valider', onpress : valid_record},
+                    {separator: true},                    
+            ],
+            searchitems : [
+                    {display: 'Nom', name : 'nom'},
+                    {display: 'Prenom', name : 'prenom', isdefault: true}
+                        ],
+            sortname: "id_utilisateur",
+            sortorder: "asc",
+            usepager: true,
+            title: "Liste des formateurs à valider",
+            useRp: true,
+            rp: 20,
+            showTableToggleBtn: false,
+            resizable: false,
+            height: 500,
+            singleSelect: true
+        });
+        $(".ftitle").append('<span id="info" style="color : green"></span>');
+        $(".ftitle").append('<span id="error" style="color : red"></span>');
+        
+        function valid_record(command, grid){
+        	$('.trSelected',grid).each(function(){
+                 
+                 console.log($('td[abbr=cv] > div',this).html());
+             });
+        }
+	});
+</script>

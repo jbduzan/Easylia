@@ -262,7 +262,7 @@
          }
                 
         $("#tableau_utilisateur").flexigrid({
-            url : 'getlisteutilisateurs?id_groupe='+$("#groupe_demande").val(),
+            url : '/utilisateurs/getlisteutilisateurs?id_groupe='+$("#groupe_demande").val(),
             dataType: 'json',
             colModel : [
                     {display: 'Nom', name : 'nom', width : 100, sortable : true, align: 'left'},

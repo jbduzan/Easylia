@@ -427,6 +427,7 @@ body {
 .flexigrid div.fbutton .relier { background : url('../images/connecter-en-creant-icone-8226-16.png') no-repeat center left; }
 .flexigrid div.fbutton .add_user { background : url('../images/ajouter-modifier-icone-9159-16.png') no-repeat center left;}
 .flexigrid div.fbutton .detail { background : url('../images/loupe.png') no-repeat center left;}
+.flexigrid div.fbutton .valider { background : url('../images/icone_ok_16.png') no-repeat center left;}
 
 
 /* Sidebar */

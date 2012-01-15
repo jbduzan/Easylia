@@ -1,39 +1,40 @@
-	<div id="content">
-	<p>Curriculum Vitae ==> 
-	<?php
-		if($this->cv != "")
-			echo "<span style='color : green'>OK</span>, <a href='http://dev.easylia.com".$this->cv."'>Télécharger</a>";
-		else
-			echo "<span style='color : red'>Manquant</span>";
-	?>
-	</p>
-	<p>Lettre de motivation ==> 
-	<?php
-		if($this->motivation != "")
-			echo "<span style='color : green'>OK</span>, <a href='http://dev.easylia.com".$this->motivation."'>Télécharger</a>";
-		else
-			echo "<span style='color : red'>Manquant</span>";
-	?>
-	</p>
-	<p>Photo ==> 
-	<?php
-		if($this->photo != "")
-			echo "<span style='color : green'>OK</span>, <a href='http://dev.easylia.com".$this->photo."'>Télécharger</a>";
-		else
-			echo "<span style='color : red'>Manquant</span>";
-	?>
-	</p>
-	<p>RIB ==> 
-	<?php
-		if($this->rib != "")
-			echo "<span style='color : green'>OK</span>, <a href='http://dev.easylia.com".$this->rib."'>Télécharger</a>";
-		else
-			echo "<span style='color : red'>Manquant</span>";
-	?>
-	</p>
-	<button id="valider">Valider cet utilisateur !</button>
-	<div id="info"></div>
-</div>
+<h1>Valider un formateur</h1>
+
+<h5 class="h5_modifie"><?php echo $this->utilisateur->getPrenom()." ".$this->utilisateur->getNom()?></h5>
+<p>Curriculum Vitae ==> 
+<?php
+	if($this->cv != "")
+		echo "<span style='color : green'>OK</span>, <a href='http://dev.easylia.com".$this->cv."'>Télécharger</a>";
+	else
+		echo "<span style='color : red'>Manquant</span>";
+?>
+</p>
+<p>Lettre de motivation ==> 
+<?php
+	if($this->motivation != "")
+		echo "<span style='color : green'>OK</span>, <a href='http://dev.easylia.com".$this->motivation."'>Télécharger</a>";
+	else
+		echo "<span style='color : red'>Manquant</span>";
+?>
+</p>
+<p>Photo ==> 
+<?php
+	if($this->photo != "")
+		echo "<span style='color : green'>OK</span>, <a href='http://dev.easylia.com".$this->photo."'>Télécharger</a>";
+	else
+		echo "<span style='color : red'>Manquant</span>";
+?>
+</p>
+<p>RIB ==> 
+<?php
+	if($this->rib != "")
+		echo "<span style='color : green'>OK</span>, <a href='http://dev.easylia.com".$this->rib."'>Télécharger</a>";
+	else
+		echo "<span style='color : red'>Manquant</span>";
+?>
+</p>
+<button id="valider">Valider cet utilisateur !</button>
+<div id="info"></div>
 <div id="valider_dialog" style="display : none">
 	Etes vous sur de vouloir valider cet utilisateur ? 
 </div>
