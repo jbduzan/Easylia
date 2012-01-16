@@ -1,6 +1,6 @@
 <?php $this->user = new Zend_Session_Namespace('user');      ?>
 	        
-<?php echo "<h1>Bonjour ".utf8_encode($this->utilisateur)."</h1>";?>
+<?php echo "<h1>Bonjour ".$this->utilisateur."</h1>";?>
 <div class="container">
 	<?php
 		// Les différentes étapes à remplir par le formateur pour être approuvé
@@ -82,24 +82,21 @@
     	?>
     <div id="action_formateur">
         <div class="block-left-formateur block-top-formateur">
-	        <img src="/images/certificat-icone-4129-48.png" class="img-left" />
 	        <?php
-	    		echo "<br /><a href=".$this->url(array('controller' => 'certifications', 'action' => 'listecertification'), 'default', true).">Passer une certification</a>";
+	    		echo "<br /><a href=".$this->url(array('controller' => 'certifications', 'action' => 'listecertification'), 'default', true)."><img src='/images/certificat-icone-4129-48.png' class='img-left' /> Passer une certification</a>";
 	        ?>
         </div>
         <div class="block-top-formateur block-right-formateur">
     	<?php
     		if($this->voir_formation_dispo){
-    			echo '<img src="/images/livres-agenda-education-bibliotheque-icone-5155-48.png" class="img-left" />';
-				echo "<br /><a href='formation/listeformation?sansFormateur=true'>Formations disponibles (".$this->nombre_formation.")</a>";
+				echo "<br /><a href='formation/listeformation?sansFormateur=true'><img src='/images/livres-agenda-education-bibliotheque-icone-5155-48.png' class='img-left' /> Formations disponibles (".$this->nombre_formation.")</a>";
 			}
 		?>
         </div>
         <div class="block-left-bottom-formateur">
-	        <img src="/images/evolution-calendrier-icone-6518-48.png" class="img-left" />
 	        <?php
 				if($this->creer_facture)
-					echo "<br /><a href=".$this->url(array('controller' => 'formation', 'action' => 'viewformation'), 'default', true).">Mes formations planifiées</a>";	                                    
+					echo "<br /><a href=".$this->url(array('controller' => 'formation', 'action' => 'viewformation'), 'default', true)."><img src='/images/evolution-calendrier-icone-6518-48.png' class='img-left' /> Mes formations planifiées</a>";	                                    
 	        ?>
         </div>
     </div> <!-- action_formateur -->

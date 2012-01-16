@@ -200,7 +200,6 @@ class UtilisateursController extends Zend_Controller_Action
                 $this->view->error =  "<p id='error_connexion' style='color:red;margin-top : 5em;margin-left:2em;'>Le nom d'utilisateur ou le mot de passe ne correspondent pas à ceux enregistrés</p>";
             }
         }
-        return $this->view->form = $form;
     }
 
     public function connexionfromindexAction()

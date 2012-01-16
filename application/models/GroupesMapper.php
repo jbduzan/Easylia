@@ -30,8 +30,8 @@ class Application_Model_GroupesMapper
     public function save(Application_Model_Groupes $groupe){
         $data = array(
             'id_groupe' => $groupe->getIdGroupe(),
-            'nom' => $groupe->getNom(),
-            'description' => $groupe->getDescription()
+            'nom' => utf8_decode($groupe->getNom()),
+            'description' => utf8_decode($groupe->getDescription())
         );
         
         if(null === ($id = $groupe->getIdGroupe())){
@@ -51,8 +51,8 @@ class Application_Model_GroupesMapper
         }
         $row = $result->current();
         $groupe->setIdGroupe($row->id_groupe);
-        $groupe->setNom($row->nom);
-        $groupe->setDescription($row->description);
+        $groupe->setNom(utf8_encode($row->nom));
+        $groupe->setDescription(utf8_encode($row->description));
     }
     
     // Retourne tous les enregistrement
@@ -63,8 +63,8 @@ class Application_Model_GroupesMapper
         foreach($resultSet as $row){
             $entry = new Application_Model_Groupes();
             $entry->setIdGroupe($row['id_groupe']);
-            $entry->setNom($row['nom']);
-            $entry->setDescription($row['description']);
+            $entry->setNom(utf8_encode($row['nom']));
+            $entry->setDescription(utf8_encode($row['description']));
             $entries[] = $entry;
         }
         
@@ -115,7 +115,7 @@ class Application_Model_GroupesMapper
            foreach($result as $row){
                $data['rows'][] = array(
                    'id' => $row->id_groupe,
-                   'cell' => array($row->id_groupe, $row->nom, $row->description)
+                   'cell' => array($row->id_groupe, utf8_encode($row->nom), utf8_encode($row->description))
                );
            }
 
@@ -158,7 +158,7 @@ class Application_Model_GroupesMapper
            foreach($result as $row){
                $data['rows'][] = array(
                    'id' => $row->id_groupe,
-                   'cell' => array($row->id_groupe, $row->nom, $row->description)
+                   'cell' => array($row->id_groupe, utf8_encode($row->nom), utf8_encode($row->description))
                );
            }
 

@@ -48,8 +48,7 @@
         var okForSubmit = 0;
                        
         $("#annuler").click(function(event){
-        	event.preventDefault();
-	        location.href = "/utilisateurs";
+        	history.back();
         });
                       
         // Lors que on veut submit

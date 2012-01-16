@@ -29,7 +29,7 @@
 			rp: 15, //results per page
 			rpOptions: [10, 15, 20, 30, 50], //allowed per-page values 
 			title: false,
-			pagestat: 'Affiche de {from} à {to} sur {total} objets',
+			pagestat: 'Affiche de {from} à {to} sur {total} lignes',
 			pagetext: 'Page',
 			outof: 'sur',
 			findtext: 'Recherche',

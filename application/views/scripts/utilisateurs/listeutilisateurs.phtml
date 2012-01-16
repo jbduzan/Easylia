@@ -3,9 +3,32 @@
     
 </table>
 <div id="form" style="display : none;">
-<?php
-    echo $this->form;
-?>
+	<div id="label_edit_user">
+		<label for="nom" class="optional">Nom :</label>
+		<label for="prenom" class="optional">Prénom :</label>
+		<label for="login" class="optional">Nom d'utilisateur :</label>
+		<label for="nom_groupe" class="optional">Groupe :</label>
+		<label for="adresse" class="optional">Adresse :</label>
+		<label for="adresse2edit" class="optional">Complément d'adresse :</label>
+		<label for="code_postal" class="optional">Code postal :</label>
+		<label for="ville" class="optional">Ville :</label>
+		<label for="telephone" class="optional">Téléphone :</label>
+		<label for="mail" class="optional">Email :</label>
+		<label for="date_naissance" class="optional">Date de naissance :</label>
+	</div> <!-- label_edit_user -->
+	<div id="input_edit_user">
+		<input type="text" name="nom" id="nom"  />
+		<input type="text" name="prenom" id="prenom"  />
+		<input type="text" name="login" id="login"  />
+		<select name="nom_groupe" id="nom_groupe"></select>
+		<input type="text" name="adresse" id="adresse"  />
+		<input type="text" name="adresse2edit" id="adresse2edit"  />
+		<input type="text" name="code_postal" id="code_postal"  />
+		<input type="text" name="ville" id="ville"  />
+		<input type="text" name="telephone" id="telephone"  />
+		<input type="text" name="mail" id="mail"  />
+		<input type="text" name="date_naissance" id="date_naissance"  />
+	</div> <!-- input_edit_user -->
 </div>
 <input type="hidden" id="editer_info" value="<?php echo $this->editer_info?>" />
 <input type="hidden" id="supprimer_utilisateur" value="<?php echo $this->supprimer_utilisateur ?>" />
@@ -96,20 +119,20 @@
         {            
             // On vérifie si l'utilisateur à le droit
             if($("#supprimer_utilisateur").val() != 'true'){
-                 $("#info").html('&nbsp;Vous n\'avez pas l\'autorisation d\'effectuer cette action !');
-                 $("#info").show();
+                 $("#error").html('&nbsp;Vous n\'avez pas l\'autorisation d\'effectuer cette action !');
+                 $("#error").show();
                  setTimeout(function() {
-                     $( "#info" ).fadeOut("slow");
+                     $( "#error" ).fadeOut("slow");
                      }, 2000 );
                 return false;
             }
             var record_count = $('.trSelected',grid).length;
             if (0 == record_count)
             {
-                $("#info").html('&nbsp;Veuillez dabord sélectionner une ligne !');
-                $("#info").show();
+                $("#error").html('&nbsp;Veuillez dabord sélectionner une ligne !');
+                $("#error").show();
                 setTimeout(function() {
-                    $("#info").fadeOut("slow");
+                    $("#error").fadeOut("slow");
                 }, 2000 );
                 return;
              }         
@@ -154,10 +177,10 @@
          {
              // On vérifie si l'utilisateur à le droit
              if($("#editer_info").val() != 'true'){
-                $("#info").html('&nbsp;Vous n\'avez pas l\'autorisation d\'effectuer cette action !');
-                $("#info").show();
+                $("#error").html('&nbsp;Vous n\'avez pas l\'autorisation d\'effectuer cette action !');
+                $("#error").show();
                 setTimeout(function() {
-                    $("#info").fadeOut("slow");
+                    $("#error").fadeOut("slow");
                 }, 2000 );     
                 return false;
             }
@@ -165,10 +188,10 @@
              var record_count = $('.trSelected',grid).length;
              if (0 == record_count)
              {
-                 $("#info").html('&nbsp;Veuillez dabord sélectionner une ligne !');
-                 $("#info").show();
+                 $("#error").html('&nbsp;Veuillez dabord sélectionner une ligne !');
+                 $("#error").show();
                  setTimeout(function() {
-                     $("#info").fadeOut("slow");
+                     $("#error").fadeOut("slow");
                  }, 2000 );
                  return;
              }
@@ -203,13 +226,14 @@
                     
                  $("#form").dialog({
                      title : 'Editer',
+                     width : 650,
                      buttons: [
                         {
                             text : "Valider",
                             click : function(){
                                 $.ajax({
                                     type : 'post',
-                                    url : 'listeutilisateurs',
+                                    url : '/utilisateurs/listeutilisateurs',
                                     data : {
                                         'id_utilisateur' : id,
                                         'nom' : $("#nom").val(),
@@ -228,6 +252,11 @@
                                     success : function(){
                                         $("#tableau_utilisateur").flexReload();
                                         $("#form").dialog('close');
+                                        $("#info").html('&nbsp;L\'utilisateur à été modifié');
+                                        $("#info").show();
+                                        setTimeout(function() {
+                                            $( "#info" ).fadeOut("slow");
+                                        }, 2000 );
                                     }
                                 });
                             }
@@ -243,43 +272,38 @@
              });
          }
          
-         function detail_record(command,grid)
-         {
-             var record_count = $('.trSelected',grid).length;
-              if (0 == record_count)
-              {
-                  $("#info").html('&nbsp;Veuillez dabord sélectionner une ligne !');
-                  $("#info").show();
-                  setTimeout(function() {
-                      $("#info").fadeOut("slow");
-                  }, 2000 );
-                  return;
-              }
-              $('.trSelected',grid).each(function(){
-                    var id = this.id.substr(3);
-                    location.href = "afficherinfo?id="+id;
-              });
-         }
-                
+        var nom_page = "";
+        
+        var temp = $("#groupe_demande").val();
+        
+        if(temp == 1)
+        	nom_page = "Liste des administrateurs";
+        else if(temp == 2)
+        	nom_page = "Liste des formateurs";
+        else
+        	nom_page = "Liste des utilisateurs"
+         
         $("#tableau_utilisateur").flexigrid({
             url : '/utilisateurs/getlisteutilisateurs?id_groupe='+$("#groupe_demande").val(),
             dataType: 'json',
             colModel : [
                     {display: 'Nom', name : 'nom', width : 100, sortable : true, align: 'left'},
                     {display: 'Prénom', name : 'prenom', width : 100, sortable : true, align: 'left'},
-                    {display: 'Nom d\'utilisateur', name :'login', width : 100, sortable : true, align: 'left'},
+                    /* {display: 'Nom d\'utilisateur', name :'login', width : 100, sortable : true, align: 'left'}, */
                     {display: 'Groupe', name :'groupe_name', width : 100, sortable : true, align: 'left'},                    
-                    {display: 'Adresse', name : 'adresse', width : 200, sortable : true, align: 'left'},
+                    {display: 'Adresse', name : 'adresse', width : 250, sortable : true, align: 'left'},
                     {display: 'Téléphone', name : 'telephone', width : 100, sortable : true, align: 'left'},
-                    {display: 'Mail', name : 'mail', width : 100, sortable : true, align: 'left'},
+                    {display: 'Mail', name : 'mail', width : 150, sortable : true, align: 'left'},
                     {display: 'Date de naissance', name : 'date_naissance', width : 100, sortable : true, align: 'left'}
             ],
             buttons : [
                     {name: 'Editer', bclass: 'edit', onpress : edit_record},
                     {separator: true},                    
                     {name: 'Supprimer', bclass: 'delete', onpress : delete_record},
-                    {separator: true},
+                   /*
+ {separator: true},
                     {name: 'Detail', bclass: 'detail', onpress : detail_record}
+*/
             ],
             searchitems : [
                     {display: 'Nom', name : 'nom'},
@@ -296,7 +320,7 @@
             sortname: "id_utilisateur",
             sortorder: "asc",
             usepager: true,
-            title: "Liste des utilisateur",
+            title: nom_page,
             useRp: true,
             rp: 20,
             showTableToggleBtn: false,
@@ -304,7 +328,8 @@
             height: 500,
             singleSelect: true
         });
-        $(".ftitle").append('<span id="info" style="color : red"></span>');
+        $(".ftitle").append('<span id="info" style="color : green"></span>');
+        $(".ftitle").append('<span id="error" style="color : red"></span>');
     });
 
 </script>

@@ -226,7 +226,8 @@ body {
 }
 
 #content-main {
-	width : 78.1em; 
+	min-width: 52em;
+	width: 78.1em;
 	background:transparent;
 	margin: 3em 3.5em; /* 40px 42px */
 	float: left;
@@ -486,7 +487,7 @@ body {
 }
 
 .block-right-formateur{
-	margin-left: 20em;
+	margin-left: 25em;
 	margin-top: -10.95em;
 	width: 20em;
 }
@@ -666,5 +667,92 @@ body {
 .ui-widget{
 	font-family: Arial, Helvetica, sans-serif; 
 	color:#7a7a7a;
+	font-size: 0.85em;
+}
+
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
+	font-family: Arial, Helvetica, sans-serif; 
+	color:#7a7a7a;
+	font-size: 0.85em;
+}
+
+/*Certification : ajouter une question*/
+.ajouter_question_label{
+	vertical-align: top;
+}
+
+#question{
+	width : 40em;
+	height : 8em;
+}
+
+.reponse{
+	width : 40em;	
+	height : 8em;
+	margin-left : 0.41em;
+	margin-bottom : 0.5em;
+}
+
+#reponse{
+	width : 40em;	
+	height : 8em;
+}
+
+.reponse_juste{
+	margin-right : 1em;
+	margin-left: 1em;
+}
+
+#ajouter_reponse, #ajouter_reponse:hover{
+	text-decoration: none;
+	cursor: pointer;
+	margin-left : 6em;
+}
+
+#reponse_ouverte{
+	margin-left : 9em;
+	margin-right : 1em;
+}
+
+#valider_question_reponse{
+	margin-top : 1em;
+}	
+
+/*Certification : lier une question*/
+
+#question_obligatoire_lier{
+	margin-right: 1em;
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
+
+#enregistrer_lier{
+	margin-bottom: 2em; 
+}
+
+/* Formulaire edition utilisateur */
+#label_edit_user{
+	float : left;
+	margin-left : 1em;
+}
+
+#label_edit_user > label{
+	display: block;
+	margin-top: 1em;
+}
+
+#input_edit_user{
+	margin-right: 5em;
+	float: right;
+}
+
+#input_edit_user > input, #input_edit_user > select{
+	display: block;
+	margin-top: 1.2em;
+	width: 20em;
+}
+
+#nom_groupe > option{
+	text-align: center;
 }
 

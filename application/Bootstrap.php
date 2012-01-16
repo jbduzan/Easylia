@@ -53,6 +53,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$router->addRoute('listeutilisateur', new Zend_Controller_Router_Route('liste-des-utilisateurs', array('controller' => 'utilisateurs', 'action' => 'listeutilisateurs')));
 		$router->addRoute('profil', new Zend_Controller_Router_Route('profil', array('controller' => 'utilisateurs', 'action' => 'index')));		
 		$router->addRoute('validerformateur', new Zend_Controller_Router_Route('valider-formateur', array('controller' => 'utilisateurs', 'action' => 'validerutilisateur')));		
+		$router->addRoute('infouser', new Zend_Controller_Router_Route('information-utilisateur', array('controller' => 'utilisateurs', 'action' => 'afficherinfo')));		
     }
     
     public function _initSidebar(){
