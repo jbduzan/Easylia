@@ -1,33 +1,26 @@
-<div id="content">
-	<div class="indent-main">
-		<div class="container">
-			<h2>Passage de certification</h2>
-			<div class="col-1">
-				<div id="nom_certification">
-		        <?php
-		            echo "<h3>$this->nom_certification</h3>"
-		        ?>
-		        </div>
-		        
-		    	<h4 id="countdown" ></h4>
-				
-			    <div id="qcm">
-				    <?php
-				        foreach($this->question as $row){
-				            echo $row;
-				        }
-				    ?>
-				    <p id="last"></p>			    	
-			    	<br /><p><button id="previous">Précédent</button><button id="next">Suivant</button><button id="finish" style="display : none">Finir</button></p>
-			    </div>
-		    </div>
-	    </div>
-    </div>
-</div>
+<h1>Passage de certification</h1>
+<div id="nom_certification">
+<?php
+    echo "<h4 class='h5_modifie'>$this->nom_certification</h4>"
+?>
+</div> <!-- nom_certification -->
+
+<h4 id="countdown" ></h4>
+
+<div id="qcm">
+    <?php
+        foreach($this->question as $row){
+            echo $row;
+        }
+    ?>
+    <p id="last"></p>			    	
+	<br /><p id="bouton_certification"><button id="previous">Précédent</button><button id="next">Suivant</button><button id="finish" style="display : none">Finir</button></p>
+</div> <!-- qcm -->
+
 <div id="confirmer_fini" style="display : none">
 	Attention, en validant vous allez terminer la certification !<br />
 	Etes vous sur de vouloir valider ? 
-</div>
+</div> <!-- confirmer_fini -->
 <input type="hidden" id="temps_certification" value="<?php echo $this->temps_certification?>">
 <input type="hidden" id="id_certification" value="<?php echo $this->id_certification ?>"/>
  
@@ -69,8 +62,32 @@
             $("#finish").hide();
         });
         
-        function send_certification(){
-                    }
+        function sendCertification(){
+        	// On récupère les trois type de réponses possible, 1 réponses, multiples réponses, réponses ouvertes
+			var reponse = [];
+            $("input[type='radio']:checked").each(function(){
+                reponse.push($(this).attr('name')+","+$(this).val());
+            });
+            $("input[type='checkbox']:checked").each(function(){
+                reponse.push($(this).attr('name')+","+$(this).val());
+            });
+            $("textarea").each(function(){
+            	reponse.push($(this).attr('name')+','+$(this).val());
+            });
+            
+            //console.log(reponse);
+            
+            // On envoie le tout à la correction           
+            $.ajax({
+                type : 'post',
+                url : '/certifications/corrigecertification',
+                data : { 'certification' : reponse, 'id_certification' : $("#id_certification").val()},
+                success : function(){
+                    $("#confirmer_fini").dialog('close');
+                	location.href = "/certifications/resultat";
+                }
+            });
+        }
                
         $('#countdown').countdown({
         	date: $("#temps_certification").val(),
@@ -91,26 +108,7 @@
         			{
         				text : 'Valider',
         				click : function(){
-        					var reponse = [];
-				            $("input[type='radio']:checked").each(function(){
-				                reponse.push($(this).attr('name')+","+$(this).val());
-				            });
-				            $("input[type='checkbox']:checked").each(function(){
-				                reponse.push($(this).attr('name')+","+$(this).val());
-				            });
-				            
-				            console.log(reponse);
-				                       
-				            $.ajax({
-				                type : 'post',
-				                url : '/Certifications/corrigecertification',
-				                data : { 'certification' : reponse, 'id_certification' : $("#id_certification").val()},
-				                success : function(){
-				                    $("#confirmer_fini").dialog('close');
-				                	location.href = "/certifications/resultat";
-				                }
-				            });
-				            
+        					sendCertification();				            
         				}
         			},
         			{

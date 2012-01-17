@@ -166,8 +166,8 @@ class Application_Model_ReponsesMapper
               if($row->est_juste == 1)
                 $estJuste = "oui";
               $data['rows'][] = array(
-                  'id' => utf8_encode($row->id_reponse),
-                  'cell' => array($row->reponse, $estJuste)
+                  'id' => $row->id_reponse,
+                  'cell' => array(utf8_encode($row->reponse), $estJuste)
               );
           }
 

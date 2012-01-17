@@ -1,15 +1,13 @@
-<div id="content">
-	<div class="container">
-		<table id="tableau_faq"></table>
-	</div>
+<div class="container">
+	<table id="tableau_faq"></table>
 </div>
 <input type="hidden" id="ajouter_faq" value="<?php echo $this->ajouter_faq ?>" />
 <input type="hidden" id="modifier_faq" value="<?php echo $this->modifier_faq ?>" />
 <input type="hidden" id="supprimer_faq" value="<?php echo $this->supprimer_faq ?>" />
 <div id="add_dialog" style="display : none;" width="800px" height="270px">
-	<p style="float: left; margin-left: 1em;margin-top : 1em"><label style="vertical-align : top" for="question">Question : </label><textarea id="question" nom="question"> </textarea></p>
-	<p style="float: right;margin-top : 1em; margin-right : 1em"><label style="vertical-align : top" for="reponse">Reponse : </label><textarea id="reponse" nom="reponse"></textarea></p>
-	<p style="float: left;margin: 1em;"><label for="categorie">Catégorie : </label>
+	<p id="question_gestion"><label style="vertical-align : top" for="question">Question : </label><textarea id="question" nom="question"> </textarea></p>
+	<p id="reponse_gestion"><label style="vertical-align : top" for="reponse">Reponse : </label><textarea id="reponse" nom="reponse"></textarea></p>
+	<p id="categorie_gestion"><label for="categorie">Catégorie : </label>
 		<select id="categorie" name="categorie">
 			<option value="Formateur">Formateur</option>
 			<option value="Administrateur">Administrateur</option>
@@ -17,7 +15,7 @@
 			<option value="Non-connecté">Non-connecté</option>
 		</select>
 	</p>
-	<p style="float: left;margin: 1em;margin-top: 4em;margin-left: -13em;"><label for="active">Active : </label><input type="checkbox" id="active" nom="active" /></p>
+	<p id="active_gestion"><label for="active">Active : </label><input type="checkbox" id="active" nom="active" /></p>
 </div>
 <div id="delete_dialog" style="display : none">
 	<p>Etes vous sur de vouloir supprimer cette question de la FAQ ?</p>
@@ -62,6 +60,12 @@
         $(".ftitle").append('<span id="errors" style="color : red"></span>');
         
         function add_record(command, grid){
+        	// On reinitialise les champs
+			$("#question").val('');
+			$("#reponse").val('');
+			$("#categorie").val('');
+			$("#active").removeAttr("checked");
+        	
 			// On vérifie si l'utilisateur à le droit
             if($("#ajouter_faq").val() != 'true'){
                $("#errors").html('&nbsp;Vous n\'avez pas l\'autorisation d\'effectuer cette action !');

@@ -1,7 +1,5 @@
-<div id="content">
-    <table id="tableau_question">
-    </table>
-</div>
+<table id="tableau_question">
+</table>
 <div id="add_form" style="display : none">
 <?php
     echo $this->add_form;
@@ -35,12 +33,12 @@
                     {separator: true},
                     {name: 'Supprimer', bclass: 'delete', onpress : delete_record},
                     {separator : true},
-                    {name: 'Detail', bclass: 'detail', onpress: detail_record}
+                    {name: 'Détails', bclass: 'detail', onpress: detail_record}
             ],
             searchitems : [
                     {display: 'Question', name : 'question', isdefault: true}
             ],
-            sortname: "id_question_reponse",
+            sortname: "id_question",
             sortorder: "asc",
             usepager: true,
             title: "Liste des questions",
@@ -127,6 +125,7 @@
              
              $("#edit_form").dialog({
                  title : "Editer une question",
+                 width : 550,
                  buttons : [
                      {
                          text : "Valider",

@@ -46,14 +46,19 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     public function _initRoute(){
     	$FrontController = Zend_Controller_Front::getInstance(); 
     	$router = $FrontController->getRouter();
+    	
 		// retourne un routeur de réécriture par défaut
 		$router->addRoute('formation',new Zend_Controller_Router_Route('liste-des-formations-disponibles',array('controller' => 'formation','action' => 'listeformationdispo')));
 		$router->addRoute('inscription', new Zend_Controller_Router_Route('inscription-formateur', array('controller' => 'inscription', 'action' =>'index')));
 		$router->addRoute('formateuravalider', new Zend_Controller_Router_Route('formateurs-à-valider', array('controller' => 'utilisateurs', 'action' => 'formateuravalider')));
 		$router->addRoute('listeutilisateur', new Zend_Controller_Router_Route('liste-des-utilisateurs', array('controller' => 'utilisateurs', 'action' => 'listeutilisateurs')));
-		$router->addRoute('profil', new Zend_Controller_Router_Route('profil', array('controller' => 'utilisateurs', 'action' => 'index')));		
+		$router->addRoute('profil', new Zend_Controller_Router_Route('profil-utilisateur', array('controller' => 'utilisateurs', 'action' => 'index')));		
 		$router->addRoute('validerformateur', new Zend_Controller_Router_Route('valider-formateur', array('controller' => 'utilisateurs', 'action' => 'validerutilisateur')));		
-		$router->addRoute('infouser', new Zend_Controller_Router_Route('information-utilisateur', array('controller' => 'utilisateurs', 'action' => 'afficherinfo')));		
+		$router->addRoute('infouser', new Zend_Controller_Router_Route('information-utilisateur', array('controller' => 'utilisateurs', 'action' => 'afficherinfo')));
+		$router->addRoute('formationdispo', new Zend_Controller_Router_Route('formations-disponibles', array('controller' => 'formation', 'action' => 'listeformationdispo')));		
+		$router->addRoute('commanderformation', new Zend_Controller_Router_Route('commander-une-formation', array('controller' => 'formation', 'action' => 'commander')));
+		$router->addRoute('listecertification', new Zend_Controller_Router_Route('certification-disponible', array('controller' => 'certifications', 'action' => 'listecertification')));
+		$router->addRoute('passagecertification', new Zend_Controller_Router_Route('passer-une-certification', array('controller' => 'certifications', 'action' => 'passercertification')));
     }
     
     public function _initSidebar(){

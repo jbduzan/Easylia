@@ -57,7 +57,7 @@ class Application_Model_ReponsesCertification
     }
     
     public function getIdQuestion(){
-    	return $this->_id_question();
+    	return $this->_id_question;
     }
     
     public function setReponse($reponse){

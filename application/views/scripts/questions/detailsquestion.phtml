@@ -1,7 +1,5 @@
-<div id="content">
-    <table id="tableau_reponse">
-    </table>
-</div>
+<table id="tableau_reponse">
+</table>
 <div id="add_form" style="display : none">
     <?php
         echo $this->add_form;
@@ -121,6 +119,7 @@
              
              $("#edit_form").dialog({
                  title : "Editer une question",
+                 width : 550,
                  buttons : [
                      {
                          text : "Valider",

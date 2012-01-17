@@ -15,6 +15,7 @@ class CertificationsController extends Zend_Controller_Action
         $this->historique_mapper = new Application_Model_HistoriqueCertificationsMapper();
         $this->groupe_mapper = new Application_Model_GroupesMapper();            
         $this->repassage_mapper = new Application_Model_RepassageCertificationMapper();
+        $this->reponse_certification_mapper = new Application_Model_ReponsesCertificationMapper();
         $this->nom_groupe = $this->groupe_mapper->getGroupeNameWithId($this->utilisateur->id_groupe);
         
     }
@@ -238,7 +239,7 @@ class CertificationsController extends Zend_Controller_Action
         
         // On récupère les questions obligatoire si il y en as
         foreach($data as $row){
-        	if($row->getQuestionObligatoire() == "oui"){
+        	if($row->getQuestionObligatoire() == 1){
       			$nombre_question_obligatoire ++;
       			array_push($array_question_obligatoire, $row->getIdQuestion());
       			continue;
@@ -285,13 +286,16 @@ class CertificationsController extends Zend_Controller_Action
             	$question .= "<div class='reponse'><p><i>Veuillez inscrire votre réponse ci-dessous : </i></p><textarea rows='10' cols='80' name='".$row->getIdQuestion()."'></textarea>";
             }else{
             	// Sinon on affiche le QCM
-            	if($row->getNbrReponse() > 1){
+            	
+            	$nbr_reponse_juste = $this->reponse_mapper->getNombreReponseJuste($row->getIdQuestion());
+            	
+            	if($nbr_reponse_juste > 1){
 	                // Si il y a plusieurs réponses à la question on crée une checkbox
 	                foreach($reponses as $reponse){
 	                    $input_reponse = "<input type='checkbox' id='".$reponse->getIdReponse()."' value='".$reponse->getIdReponse()."' name='".$row->getidQuestion()."' /><label for='".$reponse->getIdReponse()."'>".$reponse->getReponse()."</label><br />";
 	                    $array_reponse[] = $input_reponse;
 	                }
-	            }else if($row->getNbrReponse() == 1){
+	            }else if($nbr_reponse_juste == 1){
 	                // Sinon des radio button
 	                foreach($reponses as $reponse){
 	                    $input_reponse = "<input type='radio' id='".$reponse->getIdReponse()."' value='".$reponse->getIdReponse()."' name='".$row->getidQuestion()."' /><label for='".$reponse->getIdReponse()."'>".$reponse->getReponse()."</label><br />";
@@ -336,6 +340,7 @@ class CertificationsController extends Zend_Controller_Action
             
             $resultat = array();
             $reponses = array();
+            
             if($request->getParam('certification') != ''){
                 foreach($request->getParam('certification') as $row){
                     // On récupère les réponses et les formate dans un format plus traitable
@@ -344,37 +349,65 @@ class CertificationsController extends Zend_Controller_Action
                 }
                 
                 foreach($reponses as $key=>$reponse){
-                    // Si plusieurs réponses pour la question
-                    $nbr_reponse_juste = $this->reponse_mapper->getNombreReponseJuste($key);
-                    if($nbr_reponse_juste > 1){
-                        $i = 0;
-                        foreach($reponse as $row){
-                            if($this->corrigeQuestion($row)){
-                               $i++;
-                            }
-                        }
-                        if($i == $nbr_reponse_juste){
-                            array_push($resultat, 'juste');
-                        }else{
-                            array_push($resultat, 'faux');
-                        }
-                    }else{
-                        // Si une seule réponse
-                        foreach($reponse as $row){
-                            if($this->corrigeQuestion($row))
-                                array_push($resultat, 'juste');
-                            else
-                                array_push($resultat, 'faux');
-                        }                  
-                    }
+                	// On vérifie si c'est une réponse ouverte
+                	$question = new Application_Model_Questions();
+                	$reponse_ouverte = $this->question_mapper->find($key, $question);
+                	
+                	$reponse_ouverte = $question->getReponseOuverte();
+                	
+                	if($reponse_ouverte == 1){
+                		// Si c'est une réponse ouverte 
+                		
+                		// On enregistre le résultats dans la bdd
+                		$reponse_ouverte = new Application_Model_ReponsesCertification();
+                		
+                		$reponse_ouverte->setIdQuestion($key)
+                						->setReponse($reponse[0])
+                						->setIdUtilisateur($this->utilisateur->id_utilisateur);
+                		                		
+                		$this->reponse_certification_mapper->save($reponse_ouverte);
+                		
+                		// On précise dans les réponses que c'est une réponses ouverte
+                		array_push($resultat, 'ouverte');
+                	}else{
+                		// Si ça n'est pas une réponse ouverte
+                		
+                		// Si plusieurs réponses pour la question
+	                    $nbr_reponse_juste = $this->reponse_mapper->getNombreReponseJuste($key);
+	                    if($nbr_reponse_juste > 1){
+	                        $i = 0;
+	                        foreach($reponse as $row){
+	                            if($this->corrigeQuestion($row)){
+	                               $i++;
+	                            }
+	                        }
+	                        if($i == $nbr_reponse_juste){
+	                            array_push($resultat, 'juste');
+	                        }else{
+	                            array_push($resultat, 'faux');
+	                        }
+	                    }else{
+	                        // Si une seule réponse
+	                        foreach($reponse as $row){
+	                            if($this->corrigeQuestion($row))
+	                                array_push($resultat, 'juste');
+	                            else
+	                                array_push($resultat, 'faux');
+	                        }                  
+	                    }
+                	}
                 }
-                
+                                
                 // On compte le nombre de bonne réponse
                 $nbr_bonne_reponse = count(array_keys($resultat,'juste'));
             
                 // Le nombre de question
-                $nbr_reponse_totale = count($this->question_certification_mapper->fetchAllWithId($request->getParam('id_certification')));
-            
+                
+                $certification = new Application_Model_ListeCertification();
+                $this->certification_mapper->find($request->getParam('id_certification'), $certification);
+                
+                $nbr_reponse_totale = $certification->getNombreQuestion() - count(array_keys($resultat, 'ouverte'));
+
                 // On calcule un pourcentage avec les deux nombres calculés avant
                 $pourcentage_reussite = $this->calculPourcentage($nbr_bonne_reponse, $nbr_reponse_totale);
                            
@@ -388,7 +421,7 @@ class CertificationsController extends Zend_Controller_Action
                 $id = $this->historique_mapper->save($historique);
                 
                 $this->utilisateur->last_id = $id;
-                                                
+                                                                
             }else{
                 $historique = new Application_Model_HistoriqueCertifications();
                 $historique->setDatePassage(date("d/m/Y"))
@@ -507,7 +540,7 @@ class CertificationsController extends Zend_Controller_Action
 			
 			$nbr_questions = count($questions);
 			
-			$liste_lien .= "<p><a href='passercertification/id/".$row->getIdCertification()."' title='Temps de passage : ".$row->getTempsCertification()."mn, nombre de questions : ".$nbr_questions."'>".$row->getNom()."</a></p>";
+			$liste_lien .= "<p><a href='/passer-une-certification?id=".$row->getIdCertification()."' title='Temps de passage : ".$row->getTempsCertification()."mn, nombre de questions : ".$nbr_questions."'>".$row->getNom()."</a></p>";
 		}
 		
 		$this->view->lien = $liste_lien;

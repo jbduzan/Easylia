@@ -66,15 +66,16 @@
             height: 200,
             singleSelect: true
         });
-        $("#utilisateurs .ftitle").append('<span id="info_user" style="color : red"></span>');
+        $("#utilisateurs .ftitle").append('<span id="info_user" style="color : green"></span>');
+        $("#utilisateurs .ftitle").append('<span id="error_user" style="color : red"></span>');
         
         function add_record_user(command, grid){
             // On vérifie si l'utilisateur à le droit
             if($("#ajouter_utilisateur").val() != 'true'){
-                 $("#info_user").html('&nbsp;Vous n\'avez pas l\'autorisation d\'effectuer cette action !');
-                 $("#info_user").show();
+                 $("#error_user").html('&nbsp;Vous n\'avez pas l\'autorisation d\'effectuer cette action !');
+                 $("#error_user").show();
                  setTimeout(function() {
-                     $( "#info_user" ).fadeOut("slow");
+                     $( "#error_user" ).fadeOut("slow");
                      }, 2000 );
                 return false;
             }
@@ -130,19 +131,19 @@
             var record_count = $('.trSelected',grid).length;
             if (0 == record_count)
             {
-                $("#info_user").html('&nbsp;Veuillez dabord sélectionner une ligne !');
-                $("#info_user").show();
+                $("#error_user").html('&nbsp;Veuillez dabord sélectionner une ligne !');
+                $("#error_user").show();
                 setTimeout(function() {
-                    $("#info_user").fadeOut("slow");
+                    $("#error_user").fadeOut("slow");
                 }, 2000 );
                 return;
              }
              if ($("#retirer_utilisateur").val() != "true")
              {
-                 $("#info_user").html('&nbsp;Vous n\'avez pas l\'autorisation d\'effectuer cette action !');
-                 $("#info_user").show();
+                 $("#error_user").html('&nbsp;Vous n\'avez pas l\'autorisation d\'effectuer cette action !');
+                 $("#error_user").show();
                  setTimeout(function() {
-                     $("#info_user").fadeOut("slow");
+                     $("#error_user").fadeOut("slow");
                  }, 2000 );
                  return;
               }
@@ -205,23 +206,24 @@
             height: 150,
             singleSelect: true
         });
-        $("#autorisations .ftitle").append('<span id="info_autorisation" style="color : red"></span>');
+        $("#autorisations .ftitle").append('<span id="info_autorisation" style="color : green"></span>');
+        $("#autorisations .ftitle").append('<span id="error_autorisation" style="color : red"></span>');
         
         function add_record_autorisation(command, grid){
             // On vérifie si l'utilisateur à le droit
             if($("#ajouter_autorisation").val() != 'true'){
-                 $("#info_autorisation").html('&nbsp;Vous n\'avez pas l\'autorisation d\'effectuer cette action !');
-                 $("#info_autorisation").show();
+                 $("#error_autorisation").html('&nbsp;Vous n\'avez pas l\'autorisation d\'effectuer cette action !');
+                 $("#error_autorisation").show();
                  setTimeout(function() {
-                     $( "#info_autorisation" ).fadeOut("slow");
+                     $( "#error_autorisation" ).fadeOut("slow");
                      }, 2000 );
                 return false;
             }
              if($("#id_groupe").val() == 1){
-                    $("#info_autorisation").html("&nbsp;Vous ne pouvez pas modifier les autorisations du groupe Administrateur !");
-                    $("#info_autorisation").show();
+                    $("#error_autorisation").html("&nbsp;Vous ne pouvez pas modifier les autorisations du groupe Administrateur !");
+                    $("#error_autorisation").show();
                     setTimeout(function() {
-                        $("#info_autorisation").fadeOut("slow");
+                        $("#error_autorisation").fadeOut("slow");
                     }, 2000 );
                     return;
                }
@@ -277,17 +279,17 @@
             var record_count = $('.trSelected',grid).length;
              if (0 == record_count)
              {
-                 $("#info_autorisation").html('&nbsp;Veuillez dabord sélectionner une ligne !');
-                 $("#info_autorisation").show();
+                 $("#error_autorisation").html('&nbsp;Veuillez dabord sélectionner une ligne !');
+                 $("#error_autorisation").show();
                  setTimeout(function() {
-                     $("#info_autorisation").fadeOut("slow");
+                     $("#error_autorisation").fadeOut("slow");
                  }, 2000 );
                  return;
               }
               if ($("#retirer_utilisateur").val() != "true")
               {
-                  $("#info_autorisation").html('&nbsp;Vous n\'avez pas l\'autorisation d\'effectuer cette action !');
-                  $("#info_autorisation").show();
+                  $("#error_autorisation").html('&nbsp;Vous n\'avez pas l\'autorisation d\'effectuer cette action !');
+                  $("#error_autorisation").show();
                   setTimeout(function() {
                       $("#info_autorisation").fadeOut("slow");
                   }, 2000 );

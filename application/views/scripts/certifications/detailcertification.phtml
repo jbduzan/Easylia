@@ -3,11 +3,6 @@
 <div id="delete_dialog" style="display:none">
     <p>Etes vous sur de vouloir supprimer cette question ?</p>
 </div>
-<div id="edit_form" style="display : none">
-    <?php
-        echo $this->edit_form;
-    ?>
-</div>
 <div id="lier_question" style="display : none" >
 	<p>
 		<label for="recherche_question">Rechercher par une question</label><br />
@@ -183,6 +178,12 @@
                     {separator: true},                    
                     {name: 'Lier', bclass: 'relier', onpress : link_question},
                     {separator: true},
+                    {name: 'Détails', bclass: 'detail', onpress : detail_record},
+/*
+                    {separator: true}, 
+                    {name: 'Editer', bclass: 'edit', onpress : edit_record},
+*/
+                    {separator: true},
                     {name: 'Supprimer', bclass: 'delete', onpress : delete_record},
             ],
             searchitems : [
@@ -283,6 +284,10 @@
         }
         
         function edit_record(command, grid){
+            // On masque les infos par sécurité
+            $('#info_enregistrer_lier').hide();
+            $('#error_enregistrer_lier').hide();
+        	
             if($("#editer_question").val() != "true"){
                 $("#error").html("Vous n'avez pas le droit d'effectuer cette action !");
                 $("#error").show();
@@ -302,7 +307,7 @@
                 }, 2000 );
                 return;
              }
-             
+                          
              var id;
              $('.trSelected',grid).each(function(){
                  id = this.id.substr(3);
@@ -430,8 +435,15 @@
 						}        			
         			}
         		]
-        	});	
-        	
+        	});		
+        }
+        
+        function detail_record(command, grid){
+        	var id;
+            $('.trSelected',grid).each(function(){
+                 id = this.id.substr(3);
+			});
+        	location.href = "/questions/detailsquestion?id="+id;
         }
     });
 </script>

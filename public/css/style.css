@@ -630,6 +630,28 @@ body {
 	margin-top: 2em;
 }
 
+#active_gestion{
+	float: left;
+	margin: 1em;
+	margin-right: -1em;
+}
+
+#categorie_gestion{
+	float: left;
+	margin: 1em;
+}
+
+#reponse_gestion{
+	float: right;
+	margin-top: 1em;
+	margin-right: 20.5em;
+}
+
+#question_gestion{
+	float: left;
+	margin-left: 1em;
+	margin-top: 1em
+}
 
 /* Flexigrid */
 
@@ -755,4 +777,111 @@ body {
 #nom_groupe > option{
 	text-align: center;
 }
+
+/* Commande de formation */
+#slider{
+	width : 25em;
+	margin-left: 35em;
+	margin-top : -2.5em;
+}
+
+.div_checkbox{
+	float: right;
+	margin-right: 20em;
+	margin-top: -0.3em;
+}
+
+#cgv{
+	margin-right: 1em;
+}
+
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active { border: 1px solid #79b7e7; background: #f5f8f9 url(/images/ui-bg_inset-hard_100_f5f8f9_1x100.png) 50% 50% repeat-x; font-weight: bold; color: green; }
+
+/* Certifications */
+
+#label_certification{
+	float : left;
+	margin-left : 1em;
+}
+
+#label_certification > label{
+	display: block;
+	margin-top: 1em;
+}
+
+#input_certification{
+	margin-right: 5em;
+	float: right;
+}
+
+#input_certification > input{
+	display: block;
+	margin-top: 1.2em;
+	width: 20em;
+}
+
+/*Affichage des heures disponible pour les formateurs*/
+#heure_left{
+	float : left;
+}
+
+.heure_left{
+	margin-right : 5em;
+}
+
+#heure_right{
+	float : right;
+	margin-right : 20em;
+}
+
+.heure_right{
+	margin-right : 5em;
+}
+
+/*Passage de certification*/
+.reponse{
+	/* background: url("/../images/reponses.png") no-repeat scroll left bottom transparent; */
+	padding-bottom: 1em;
+}
+
+.reponse > label{
+	margin-left: 1em;
+}
+
+.reponse > input, reponse > option{
+	margin-left: 1em;
+	margin-top: 0.1em;
+}
+
+.enonce{
+	color : black;
+	/* background: url("/../images/quest_q_top.png") no-repeat scroll left bottom transparent; */
+	font-size: 16px;
+}
+
+.enonce-numero{
+	color : black;
+	float : right;
+	font-weight: normal;
+	font-size: 12px;
+	margin-right: 1em;	
+	vertical-align: center;
+}
+
+.enonce-question{
+	margin-left: 1em;
+}
+
+#nom_certification{
+	/* border-bottom: #0f77a6 solid 1px; */
+	margin-bottom: 2em;
+}
+
+#bouton_certification{
+	margin-top: 3em;
+	margin-left: 0.4em;
+}
+
+
+
 

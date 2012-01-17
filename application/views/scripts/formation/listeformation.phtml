@@ -1,6 +1,4 @@
-<div id="content">
-	<table id="tableau_formation"></table>
-</div>
+<table id="tableau_formation"></table>
 <div id="delete_dialog" style="display : none">
 	Etes vous sur de vouloir supprimer cette formation ? 
 </div>
@@ -20,7 +18,7 @@
 <input type="hidden" id="ajouter_formation" value="<?php echo $this->ajouter_formation ?>" />
 <input type="hidden" id="modifier_formation" value="<?php echo $this->modifier_formation ?>" />
 <input type="hidden" id="supprimer_formation" value="<?php echo $this->supprimer_formation ?>" />
-<input type="hidden" id="type_certification" value="false"/>
+<input type="hidden" id="type_certification" />
 <?php
 	echo $this->input;
 ?>
@@ -83,8 +81,8 @@
         }
         
         function delete_record(command, grid){
-        	if(!$("#supprimer_formation").val() != true){
-        		$("#error").html('&nbsp;Pas encore implémenté !');
+        	if($("#supprimer_formation").val() != true){
+        		$("#error").html('&nbsp;Vous n\'avez pas les droits pour effectuer cette action !');
            		$("#error").show();
           		 	setTimeout(function() {
            			$("#error").fadeOut("slow");
@@ -144,7 +142,8 @@
         }
         
         function add_formateur(command, grid){
-        	// Permet à un formateur de s'ajouter sur une formation
+        	
+            // Permet à un formateur de s'ajouter sur une formation
         	var record_count = $('.trSelected',grid).length;
        	
             if (0 == record_count)
@@ -162,10 +161,29 @@
         	$('.trSelected', grid).each(function(){
     	 		id = this.id.substr(3);	
         	});
-			
-			// Vérifie si le formateur possède la certification adaptée
-			var test = checkCertification(id);
-			console.log(test);
+        	
+        	// Vérifie si le formateur possède la certification adaptée
+			$.ajax({
+        		type : "post",
+        		async : false,
+        		url : "checkcertification",
+        		data : {id_formation : id},
+        		success : function(data){
+    				$("#type_certification").val(data);
+    			}
+        	});
+					
+			if($("#type_certification").val() == 'false'){
+            	$("#error").html('&nbsp;Vous n\'avez pas passé la certification adaptée à cette certification');
+            	$("#error").show();
+            	setTimeout(function() {
+            		$("#error").fadeOut("slow");
+            	}, 2000 );
+            	return;
+            }
+        	
+
+		
 			// Récupère les informations sur la formations et les affiche
 			getFormationData(id);
 			
@@ -280,13 +298,17 @@
         		type : "post",
         		url : "getformationdata",
         		data : {id : id_formation},
+        		beforeSend : function(){
+        			console.log('toto');
+        		},
         		success : function(data){
 					$("#add_formateur_self").html(data);
         		}
         	});
         }
         
-        function checkCertification(id_formation){
+        /*
+function checkCertification(id_formation){
         	// Vérifie si le formateur à la certification correspondante à la formation
 			var result;
 	
@@ -295,11 +317,12 @@
         		url : "checkcertification",
         		data : {id_formation : id_formation},
         		success : function(data){
-					return "test";
+					$("#type_certification").val('toto');
 			    }
         	});
         	
         }
+*/
 	
 	});
 </script>

@@ -45,6 +45,13 @@ class QuestionsController extends Zend_Controller_Action
         $request = $this->getRequest();
         if($request->isPost()){
             $this->question_certification_mapper->deleteWithIdQuestion($request->getParam('id_question'));
+            
+            // Supprime les réponses associées
+            $reponse = $this->reponse_mapper->fetchAllWithId($request->getParam('id_question'));
+            
+            foreach($reponse as $row){
+            	$this->reponse_mapper->delete($row->getIdReponse());
+            }
         }    
     
     }

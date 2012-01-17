@@ -54,7 +54,7 @@
 		    <div class="block-top block-right block-bottom">
 			    <?php
 			    if($this->voir_question)
-			        echo "<a href=".$this->url(array('controller' => 'Questions', 'action' => 'index'), 'default', true).">Liste des questions</a><br />";
+			        echo "<a href=".$this->url(array('controller' => 'questions', 'action' => 'index'), 'default', true).">Liste des questions</a><br />";
 	
 				if($this->voir_formation)
 					echo "<a href=".$this->url(array('controller' => 'formation', 'action' => 'listeformation'), 'default', true).">Voir la liste des formation</a>";
@@ -83,7 +83,7 @@
     <div id="action_formateur">
         <div class="block-left-formateur block-top-formateur">
 	        <?php
-	    		echo "<br /><a href=".$this->url(array('controller' => 'certifications', 'action' => 'listecertification'), 'default', true)."><img src='/images/certificat-icone-4129-48.png' class='img-left' /> Passer une certification</a>";
+	    		echo "<br /><a href=certification-disponible><img src='/images/certificat-icone-4129-48.png' class='img-left' /> Passer une certification</a>";
 	        ?>
         </div>
         <div class="block-top-formateur block-right-formateur">

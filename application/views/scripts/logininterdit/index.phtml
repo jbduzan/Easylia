@@ -1,9 +1,5 @@
-<div id="content">
-	
-		<div class="container">
-			<table id="tableau_login"></table>
-		</div>
-	
+<div class="container">
+	<table id="tableau_login"></table>
 </div>
 <div id="delete_dialog" style="display : none">
 	<p>Etes vous sur de vouloir supprimer ce nom d'utilisateur de la liste des interdits ? </p>
@@ -46,6 +42,9 @@
         });
         
         function add_record(command, grid){
+        	// On vide le champs
+        	$('#login_interdit').val('');
+        
         	 // On vérifie si l'utilisateur à le droit
              if($("#ajouter_login").val() != 'true'){
                 $("#error").html('&nbsp;Vous n\'avez pas l\'autorisation d\'effectuer cette action !');

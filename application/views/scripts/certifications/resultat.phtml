@@ -1,19 +1,11 @@
-<div id="content">
-	<div id="indent-main">
-		<div id="container">
-			<div id="col-1">
-				<h2>Résultat</h2>
-				<?php
-					if($this->pourcentage >= 70)
-						echo "<p id='pourcentage'>Votre score est de <span style='color : green'>".$this->pourcentage."%</span></p>";
-					else
-						echo "<p id='pourcentage'>Votre score est de <span style='color : red'>".$this->pourcentage."%</span></p>";		
-				?>
-				<p><button id="retour">Retour à votre profil</button></p>
-			</div>
-		</div>
-	</div>
-</div>
+<h1>Résultat de votre certification</h1>
+<?php
+	if($this->pourcentage >= 70)
+		echo "<p id='pourcentage'>Votre score est de <span style='color : green'>".$this->pourcentage."%</span></p>";
+	else
+		echo "<p id='pourcentage'>Votre score est de <span style='color : red'>".$this->pourcentage."%</span></p>";		
+?>
+<p><button id="retour">Retour à votre profil</button></p>
 <script type="text/javascript">
 	$(document).ready(function(){
 		$("#retour").click(function(){

@@ -275,7 +275,7 @@ class FormationController extends Zend_Controller_Action
         $liste = "";
         
         foreach($result as $row){
-        	$liste .= "<br /><p><a href='commander/id/".$row->getIdFormationDispo()."'>".$row->getNom()."</a></p>";
+        	$liste .= "<br /><p><a href='commander-une-formation?id=".$row->getIdFormationDispo()."'>".$row->getNom()."</a></p>";
         }
         
         $this->view->liste = $liste;
@@ -391,26 +391,31 @@ class FormationController extends Zend_Controller_Action
 		// Vérifie si le formateur possède la certification pour accepter une formation
 		       
 		$this->getHelper('layout')->disableLayout();
-		       
+		      
+		// On récupère les certifications passées par le formateur
         $historique = $this->historique_mapper->findByIdUtilisateur($this->utilisateur->id_utilisateur);
         
         $id_certifications = array();
-        
+                
         foreach($historique as $row){
+        	// Si il a réussi la certification, on la récupère
         	if($row->getScore() >= 70)
         	array_push($id_certifications, $row->getIdCertification());
         }
         
+        // On récupère toutes les certifications
         $certifications = $this->certification_mapper->fetchAll();
         
         $type = array(); 
         
+        // On récupère le type de la certification
         foreach($certifications as $row){
         	if(in_array($row->getidCertification(), $id_certifications)){
         		array_push($type, $row->getType());
         	}
         }
         
+        // Et on vérifie que cela correspond à la certification demandée
         $formation = new Application_Model_Formations();
 		$this->formation_mapper->find($this->getRequest()->getParam('id_formation'), $formation);
 		

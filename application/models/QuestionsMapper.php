@@ -45,7 +45,7 @@ class Application_Model_QuestionsMapper
     }
 
     // Trouve un enregistrement en fonction de son id
-    public function find($id_question, Application_Model_QuestionsReponses $question){
+    public function find($id_question, Application_Model_Questions $question){
        $result = $this->getDbTable()->find($id_question);
 
         if(0 == count($result)){
@@ -53,7 +53,7 @@ class Application_Model_QuestionsMapper
            }
            $row = $result->current();
            $question->setidQuestion($row->id_question);
-           $question->utf8_encode(setQuestion($row->question));
+           $question->setQuestion(utf8_encode($row->question));
            $question->setNbrReponse($row->nbr_reponse);
            $question->setReponseOuverte($row->reponse_ouverte);
            
@@ -67,7 +67,7 @@ class Application_Model_QuestionsMapper
       foreach($resultSet as $row){
           $entry = new Application_Model_QuestionsReponses();
           $entry->setidQuestion($row->id_question);
-          $entry->utf8_encode(setQuestion($row->question));
+          $entry->setQuestion(utf8_encode($row->question));
           $entry->setNbrReponse($row->nbr_reponse);
           $entry->setReponseOuverte($row->reponse_ouverte);
           $entries[] = $entry;
@@ -103,11 +103,14 @@ class Application_Model_QuestionsMapper
           $data['total'] = $total;
           $data['rows'] = array();
                     
-          $select = $this->getDbTable()->select()->where("id_question IN (?)", $id_question)->limit($rp, $page_start)->order($sort_sql);
-         
+          $select = $this->getDbTable()->select()->limit($rp, $page_start)->order($sort_sql);
+		  
+		  if(count($id_question) > 0)
+		  	$select->where("id_question IN (?)", $id_question);
+		  
           if($search_sql != '')
               $select->where($search_sql);
-
+				
           $result = $this->getDbTable()->fetchAll($select);
           
           foreach($result as $row){
@@ -120,10 +123,14 @@ class Application_Model_QuestionsMapper
           		$reponse_ouverte = "oui";
           	else
           		$reponse_ouverte = "non";
+          		
+          	$reponse_mapper = new Application_Model_ReponsesMapper();
+          	$nbr_reponse = $reponse_mapper->fetchAllWithId($row->id_question);
+          	$nbr_reponse = count($nbr_reponse);
           		         
             $data['rows'][] = array(
                   'id' => $row->id_question,
-                  'cell' => array(utf8_encode($row->question), $row->nbr_reponse, $question_obligatoire, $reponse_ouverte)
+                  'cell' => array(utf8_encode($row->question), $nbr_reponse, $question_obligatoire, $reponse_ouverte)
               );
           }
 
@@ -224,8 +231,11 @@ class Application_Model_QuestionsMapper
 		
 		$id = substr($id, 0, -1);
       	
-      	$select = $this->getDbTable()->select('id_question', 'question')->distinct('id_question')->where($where)->where("id_question not in ($id)")->limit(10,0);
-          	                
+      	$select = $this->getDbTable()->select('id_question', 'question')->distinct('id_question')->where($where)->limit(10,0);
+      	
+      	if(count($id_exclure) > 0)
+      		$select->where("id_question not in ($id)");
+          
         $list = $this->getDbTable()->fetchAll($select);
         
         return $list; 

@@ -242,7 +242,7 @@ class Application_Model_UtilisateursMapper
             
             $data['rows'][] = array(
                 'id' => $row->id_utilisateur,
-                'cell' => array(utf8_encode($row->nom), utf8_encode($row->prenom)/* , utf8_encode($row->login) */, $groupe->nom, utf8_encode($row->adresse).' - '.utf8_encode($row->adresse2).'<br />'.$row->code_postal.' - '.utf8_encode($row->ville), $row->telephone, $row->mail, $row->date_naissance)
+                'cell' => array(utf8_encode($row->nom), utf8_encode($row->prenom)/* , utf8_encode($row->login) */, $groupe->nom, utf8_encode($row->adresse).' - '.utf8_encode($row->adresse2).'<br />'.$row->code_postal.' - '.utf8_encode($row->ville), $row->telephone, "<a href='mailto:$row->mail'>".$row->mail."</a>", $row->date_naissance)
             );
         }
         
@@ -338,20 +338,20 @@ class Application_Model_UtilisateursMapper
 	
 	        // On vérifie si l'utilisateur à uploadé les 4 documents
 	        if(file_exists($filepath."cv-".$row->id_utilisateur.".doc"))
-	        	$cv = "<img class='icone_ok' src='images/icone_ok_24.png' />";
+	        	$cv = "<img class='icone_ok' src='images/icone_ok_16.png' />";
 	        else
-	        	$cv = "<img class='icone_erreur' src='images/icone_erreur_24.png' />";
+	        	$cv = "<img class='icone_erreur' src='images/icone_erreur_16.png' />";
 	        		        	
 	        if(file_exists($filepath."motivation-".$row->id_utilisateur.".doc"))
-	        	$motivation = "<img class='icone_ok' src='images/icone_ok_24.png' />";
+	        	$motivation = "<img class='icone_ok' src='images/icone_ok_16.png' />";
 	        else
-	        	$motivation = "<img class='icone_erreur' src='images/icone_erreur_24.png' />";
+	        	$motivation = "<img class='icone_erreur' src='images/icone_erreur_16.png' />";
 
 	        	
 	        if(file_exists($filepath."rib-".$row->id_utilisateur.".png"))
-	        	$rib = "<img class='icone_ok' src='images/icone_ok_24.png' />";
+	        	$rib = "<img class='icone_ok' src='images/icone_ok_16.png' />";
 	        else
-	        	$rib = "<img class='icone_erreur' src='images/icone_erreur_24.png' />";
+	        	$rib = "<img class='icone_erreur' src='images/icone_erreur_16.png' />";
 
             
             $data['rows'][] = array(
