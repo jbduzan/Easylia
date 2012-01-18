@@ -16,6 +16,7 @@ class UtilisateursController extends Zend_Controller_Action
 		$this->document_mapper = new Application_Model_DocumentMapper();
 		$this->certification_mapper = new Application_Model_ListeCertificationMapper();
 		$this->formation_mapper = new Application_Model_FormationsMapper();
+		$this->question_mapper = new Application_Model_QuestionsMapper();
     }
     
     public function preDispatch(){
@@ -53,17 +54,8 @@ class UtilisateursController extends Zend_Controller_Action
 
 			// Si l'utilisateur est formateur non approuvé
             if($this->user->id_groupe == 3){
-            	// On appelle toutes les actions à effectuer
-            	$this->formateurNonValide();  
-            	      
-            	// On vérifie si l'utilisateur a été validé
-				$valide_formateur = $this->checkFormateurValide();
-			
-				if($valide_formateur == "valide")
-					$this->view->valide = "<p style='color: green'>Votre profil est valide</p>";
-				else if($valide_formateur == "invalide")
-					$this->view->valide = "<p style='color : orange'>Votre compte est en attente de validation par un administrateur</p>";
-    	            	
+            	// On redirige sur la page d'approuvation
+	           	$this->_redirector->goToSimple('parcoursformateur','utilisateurs');            	
             }else if($this->utilisateur->id_groupe = 4){
             	// Si l'utilisateur est :
             }
@@ -640,9 +632,9 @@ class UtilisateursController extends Zend_Controller_Action
 			}
 		}
 		
-		if(count($liste_document) >= 4)
+		if(count($liste_document) >= 3)
 			return true;
-		
+
 		return $liste_document;
     }
 
@@ -848,50 +840,35 @@ class UtilisateursController extends Zend_Controller_Action
 		
 		// Si il n'y as aucun documents
 		if(!$document){
-			$this->view->cv = "<div style='background-color : red; color : white;'>Vous n'avez pas encore uploade votre CV, vous pouvez le faire <a href='document/upload/type/cv'>ici</a></div>";   
-			$this->view->rib = "<div style='background-color : red; color : white;'>Vous n'avez pas encore uploade votre RIB, vous pouvez le faire <a href='document/upload/type/rib'>ici</a></div>"; 
-			$this->view->motivation =  "<div style='background-color : red; color : white;'>Vous n'avez pas encore uploade votre lettre de motivation, vous pouvez le faire via ce <a href='document/upload/type/motivation'>lien</a></div>";
-			$this->view->photo = "<div style='background-color : red; color : white;'>Vous n'avez pas encore uploade votre photo, vous pouvez le faire via ce <a href='document/upload/type/photo'>lien</a></div>";
+			$this->view->cv = false;   
+			$this->view->rib = false; 
+			$this->view->lettre =  false;
 		}else if($document == "true"){
-			// Si les 4 documents on été uploadé
-			// Mais si il n'ont pas été validé
-			$utilisateur = new Application_Model_Utilisateurs();
-			$this->userMapper->find($this->user->id_utilisateur, $utilisateur);
-			if($utilisateur->getDocumentEnvoye() != 1){
-				$this->view->valide_document = "<p>Vos documents sont uploadé, vous pouvez maintenant les <a href='/utilisateurs/voirdocument'>valider</a></p>";
-			}
-			    		
-    		// On teste si l'utilisateur a déjà passé la certification pédagogique
-			$certification_id = $this->certificationPedagogique();
-	
-			if($certification_id != "true"){
-    			$certification = new Application_Model_ListeCertification();
-    			$this->certification_mapper->find($certification_id, $certification);
-    			$this->view->lien_certification = "<div>Vous devez maintenant passer la <a id='lien_certification' title='temps de passage : ".$certification->getTempsCertification()." mn, nombre de question : ".$certification->getNombreQuestion()."' href='/certifications/passercertification/id/".$certification_id."'>	certification Pédagogique</a> !</div>";
-    		}else{
-    			$this->view->lien_certifications = "<div>Vous pouvez maintenant passer une certification <a href='certifications/listecertification'>technique</a></div>";
-    		}
-		}else if(count($document) > 0 && count($document) < 4){
+			// Si les 3 documents on été uploadé
+			$this->view->cv = true;   
+			$this->view->rib = true; 
+			$this->view->lettre = true;
+		}else if(count($document) > 0 && count($document) < 3){
 			// Si tous les documents non pas été uploadé
         	foreach($document as $row){
         		array_push($document_present, $row);
         	}	
         	
         	if(!in_array('cv', $document_present))
-        		$this->view->cv = "<div style='background-color : red; color : white;'>Vous n'avez pas encore uploade votre CV, vous pouvez le faire <a href='document/upload/type/cv'>ici</a></div>";   
+        		$this->view->cv = false;   
+        	else
+        		$this->view->cv = true;
         		     
         	if(!in_array('rib', $document_present))		     
-         		$this->view->rib = "<div style='background-color : red; color : white;'>Vous n'avez pas encore uploade votre RIB, vous pouvez le faire <a href='document/upload/type/rib'>ici</a></div>";   
-
-			if(!in_array('motivation', $document_present))
-        		$this->view->motivation =  "<div style='background-color : red; color : white;'>Vous n'avez pas encore uploade votre lettre de motivation, vous pouvez le faire via ce <a href='document/upload/type/motivation'>lien</a></div>";     
+         		$this->view->rib = false;   
+        	else
+        		$this->view->rib = true;
         		
-        	if(!in_array('photo', $document_present))	
-        		$this->view->photo = "<div style='background-color : red; color : white;'>Vous n'avez pas encore uploade votre photo, vous pouvez le faire via ce <a href='document/upload/type/photo'>lien</a></div>";        
-        	      	
-    	}
-    	
-    	
+			if(!in_array('motivation', $document_present))
+        		$this->view->lettre =  false;  
+        	else
+        		$this->view->lettre = true;         	
+    	}    	
     }
 
     public function checkFormateurValide()
@@ -957,4 +934,48 @@ class UtilisateursController extends Zend_Controller_Action
 		}
 	}
 
+	public function parcoursformateurAction(){
+		// On vérifie que l'utilisateur est bien connecte
+		if(!empty($this->user->is_logged) && $this->user->is_logged === true){
+			
+			// On appelle toutes les actions à effectuer
+	    	$this->formateurNonValide(); 
+	    	
+	    	// Les questions pour le test de motivation 
+	    	$this->view->test = $this->prepareMotivationTest();
+	    	      
+	    	/*
+// On vérifie si l'utilisateur a été validé
+			$valide_formateur = $this->checkFormateurValide();
+		
+			if($valide_formateur == "valide")
+				$this->view->valide = "<p style='color: green'>Votre profil est valide</p>";
+			else if($valide_formateur == "invalide")
+				$this->view->valide = "<p style='color : orange'>Votre compte est en attente de validation par un administrateur</p>";
+*/
+		}else{
+			$this->redirectToConnexion();
+		}
+	}
+	
+	protected function prepareMotivationTest(){
+		$result = $this->question_mapper->fetchAll($test_motivation = true);
+		
+		$i = 0;
+		$nombre_reponse = count($result);
+		$questions = array();
+
+		foreach($result as $row){    
+        	$i ++;
+            $question = "<div class='question' style='display : none' id='question".$row->getidQuestion()."'><p class='enonce'><span class='enonce-question'>".$row->getQuestion()." ?</span><span class='enonce-numero'>Question N° $i sur $nombre_reponse</span></p><div class='separateur'></div>";
+            
+            // Si c'est une question ouverte on affiche un textarea pour répondre
+            $question .= "<div class='reponse'><p><i>Veuillez inscrire votre réponse ci-dessous : </i></p><textarea rows='10' cols='80' name='".$row->getIdQuestion()."'></textarea>";
+            $question .= "</div></div>";
+            
+            array_push($questions, $question);
+        }
+		
+		return $questions;
+	}
 }

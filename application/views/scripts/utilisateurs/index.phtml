@@ -1,20 +1,6 @@
 <?php $this->user = new Zend_Session_Namespace('user');      ?>
 	        
-<?php echo "<h1>Bonjour ".$this->utilisateur."</h1>";?>
-<div class="container">
-	<?php
-		// Les différentes étapes à remplir par le formateur pour être approuvé
-	    echo $this->cv;
-	    echo $this->motivation;
-	    echo $this->photo;
-	    echo $this->rib;
-	    echo $this->lien_certification;
-		echo $this->valide_document;
-	    echo $this->valide;
-	?>
-</div> 
-<?php
-	echo $this->profil_inactif;
+<?php echo "<h1>Bonjour ".$this->utilisateur."</h1>";
     if($this->is_admin){
     ?>
 <div id="action_admin">
@@ -70,6 +56,11 @@
 				if($this->voir_login_interdit)
 					echo "<a href=".$this->url(array('controller' => 'logininterdit', 'action' => 'index'), 'default', true).">Voir la liste des logins interdit</a>";
 	           	?>	
+	       </div>
+	       <div class="block-right-bottom">
+				<?php
+					echo "<a href=".$this->url(array('controller' => 'questions', 'action' => 'listequestionmotivation'), 'default', true).">Liste des questions de motivation</a><br />";
+				?>	       
 	       </div>
 		</div> <!-- autre_action -->
 	</div> <!-- action_admin -->

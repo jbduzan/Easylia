@@ -22,113 +22,58 @@ class DocumentController extends Zend_Controller_Action
 
     public function uploadAction()
     {
-    
-    	$utilisateur = new Application_Model_Utilisateurs();
+    	$this->getHelper('layout')->disableLayout();
+    	$request = $this->getRequest();
     	
-    	$this->utilisateur_mapper->find($this->utilisateur->id_utilisateur, $utilisateur);
-    	
-    	if($utilisateur->getDocumentEnvoye()){
-    		$this->_redirector->goToSimple('index', 'utilisateurs');
-    	}
-    	
-        // Affiche un formulaire pour uploader le document
-        $form = new Application_Form_Uploaddocument();
-        
-        $array = array();
-        
-        if($this->getRequest()->getParam('type') == 'motivation'){
-			$this->view->type = 'lettre de motivation';
-			$file_extension = "motivation-".$this->utilisateur->id_utilisateur.".doc";
-		}
-
-		if($this->getRequest()->getParam('type') == 'photo'){
-			$this->view->type = 'photo';
-			$file_extension = "photo-".$this->utilisateur->id_utilisateur.".png";
-		}
+		$adapter = new Zend_File_Transfer_Adapter_Http();
 		
-		if($this->getRequest()->getParam('type') == 'cv'){
-			$this->view->type = 'cv';
-			$file_extension = "cv-".$this->utilisateur->id_utilisateur.".doc";
+		$path = "/home/easylia/developpement/public/documents/";
+						
+		// Si le fichier passe la validation
+		if(!$this->validateFile($adapter)){
+	    	// Sinon on affiche un message d'erreur
+		    $this->view->type = $request->getParam('type');
+			$this->view->result = 2;
 		}
-		
-		if($this->getRequest()->getParam('type') == 'rib'){
-			$this->view->type = 'rib';
-			$file_extension = "rib-".$this->utilisateur->id_utilisateur.".png";
+		else{	
+			// On récupère le nom temporaire
+			$temp_path = explode('/', $adapter->getFileName());
+			
+			// Et on le reinjecte avec l'id de l'utilisateur
+			$path = $path.$this->utilisateur->id_utilisateur.'-'.$request->getParam('type')."-".$temp_path[2];
+			
+			$adapter->addFilter('Rename', array('target' => $path, 'overwrite' => true));
+			if($adapter->receive()){
+				// Si on a bien reçu le fichier, on renseigne les infos dans la bdd
+				$document = new Application_Model_Document();
+	    			
+    			$document->setType($request->getParam('type'))
+    					 ->setChemin($adapter->getFileName())
+    					 ->setDateUpload(date("d/m/Y"))
+    					 ->setIdUtilisateur($this->utilisateur->id_utilisateur);
+    					 
+    			$this->document_mapper->save($document);
+    			
+    			$this->view->type = $request->getParam('type');
+				$this->view->result = true;
+    		}else{
+	    		// Sinon on affiche un message d'erreur
+			    $this->view->type = $request->getParam('type');
+				$this->view->result = 0;
+    		}
 		}
-
-		
-      
-        $form->populate($array);
-        
-        $this->view->form = $form;
-
-		// On récupère le document envoyé et on le sauvegarde
-		$request = $this->getRequest();
-        
-        if($request->isPost()){
-           	if($form->isValid($request->getPost())){
-        	
-        		$adapter = new Zend_File_Transfer_Adapter_Http();
-        		
-        		$path = "/home/easylia/public/documents/".$file_extension;
-        		       		
-        		$adapter->addFilter('Rename', array('target' => $path , 'overwrite' => true));
-        		
-        		if($this->validateFile($request->getParam('type'), $adapter)){
-        		
-	        		if($adapter->receive()) {
-	        			$document = new Application_Model_Document();
-	        			
-	        			$document->setType($request->getParam('type'))
-	        					 ->setChemin($adapter->getFileName())
-	        					 ->setDateUpload(date("d/m/Y"))
-	        					 ->setIdUtilisateur($this->utilisateur->id_utilisateur);
-	        					 
-	        			$this->document_mapper->save($document);
-	        			
-	        			$this->_redirector->goToSimple('index', 'utilisateurs');
-	        		}else{
-					    $messages = $adapter->getMessages();
-					    echo implode("\n", $messages);
-					}
-				}else{
-					echo $this->validateFile($form->getValue('type'), $adapter);
-				}
-				
-				
-        	
-			}	  
-        }
-
-        
-        
     }
     
-    public function validateFile($type, $file){
+    public function validateFile($file){
     	// Vérifie si un fichier est valide en fonction du fichier envoye
-    	
-    	if($type == "motivation" || $type == "cv"){
-    		// Si l'on veut la lettre de motivation ou le cv
-    		
-    		$file->addValidator('Extension', false, array('doc', 'docx', 'pdf'))
-    			 ->addValidator('Size', false, '500000');
-    			 
-    		if($file->isValid())
-    			return true;
-    		else
-    			return $error = "L'extension de votre fichier ou sa taille n'est pas valide";
-    			
-    	}else if($type == "photo" || $type == "rib"){
-    		// Si l'utilisateur veut uploader sa photo
-    		
-    		$file->addValidator('extension', false, array('jpg', 'jpeg', 'gif', 'bmp', 'png'))
-    			 ->addValidator('size', false, '50000');
-    			 
-    		if($file->isValid())
-    			return true;
-   			else
-    			return $error = "L'extension de votre fichier ou sa taille n'est pas valide";
-    	}
+		$file->addValidator('Extension', false, array('png', 'doc', 'docx', 'pdf'))
+			 ->addValidator('Size', false, '500000');
+			 
+		if($file->isValid())
+			return true;
+		else{
+			return false;
+		}
     }
 
 	public function checkAndValideDocument(){

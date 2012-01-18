@@ -6,6 +6,7 @@ class Application_Model_Questions
     protected $_question;
     protected $_nbr_reponse;
     protected $_reponse_ouverte;
+    protected $_motivation;
     
     // Constructeur
     
@@ -88,6 +89,15 @@ class Application_Model_Questions
     
     public function getReponseOuverte(){
     	return $this->_reponse_ouverte;
+    }
+    
+    public function setMotivation($motivation){
+    	$this->_motivation = $motivation;
+    	return $this;    
+    }
+    
+    public function getMotivation(){
+    	return $this->_motivation;
     }
 
 }

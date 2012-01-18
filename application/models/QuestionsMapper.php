@@ -32,7 +32,8 @@ class Application_Model_QuestionsMapper
            'id_question' => $question->getidQuestion(),
            'question' => utf8_decode($question->getQuestion()),
            'nbr_reponse' => $question->getNbrReponse(),
-           'reponse_ouverte' => $question->getReponseOuverte()
+           'reponse_ouverte' => $question->getReponseOuverte(),
+           'motivation' => $question->getMotivation()
        );
 
        if(null === ($id = $question->getidQuestion())){
@@ -56,20 +57,28 @@ class Application_Model_QuestionsMapper
            $question->setQuestion(utf8_encode($row->question));
            $question->setNbrReponse($row->nbr_reponse);
            $question->setReponseOuverte($row->reponse_ouverte);
+           $question->setMotivation($row->motivation);
            
     }
 
     // Retourne tous les enregistrement
-    public function fetchAll(){
-      $resultSet = $this->getDbTable()->fetchAll();
+    public function fetchAll($test_motivation = null){
+
+ 		$select = $this->getDbTable()->select();
+
+    	if($test_motivation)
+    		$select->where('motivation = 1');
+		    	
+      $resultSet = $this->getDbTable()->fetchAll($select);
       $entries = array();
 
       foreach($resultSet as $row){
-          $entry = new Application_Model_QuestionsReponses();
+          $entry = new Application_Model_Questions();
           $entry->setidQuestion($row->id_question);
           $entry->setQuestion(utf8_encode($row->question));
           $entry->setNbrReponse($row->nbr_reponse);
           $entry->setReponseOuverte($row->reponse_ouverte);
+          $entry->setMotivation($row->motivation);
           $entries[] = $entry;
       }
 
@@ -137,18 +146,20 @@ class Application_Model_QuestionsMapper
           return json_encode($data);        
       }
       
-      public function fetchAllForFlexigrid($page, $sort_name, $sort_order, $qtype, $query, $rp){
+      public function fetchAllForFlexigrid($page, $sort_name, $sort_order, $qtype, $query, $rp, $motivation = null){
 
             // Setup sort and search SQL
             $sort_sql = "$sort_name $sort_order";
             $search_sql = ($qtype != '' && $query != '') ? "$qtype LIKE '%$query%'" : '';
 
             // Get total count of records
-            $sql = "select * from Autorisations $search_sql";
-
+            $sql = "select * from Questions $search_sql";
+            
+            if($motivation != null)
+            	$sql .= "where motivation = 1";
+            
             $select = $this->getDbTable()->select($sql);
-            $result = $this->getDbTable()->fetchAll($select);
-            $total = count($result);
+            $total = count($select);
 
             // Setup paging
             $page_start = ($page-1)*$rp;
@@ -164,6 +175,9 @@ class Application_Model_QuestionsMapper
 
             if($search_sql != '')
                 $select->where($search_sql);
+                
+            if($motivation != null)
+            	$select->where('motivation = 1');
 
             $result = $this->getDbTable()->fetchAll($select);
 
@@ -174,7 +188,7 @@ class Application_Model_QuestionsMapper
  	          		        	            
                 $data['rows'][] = array(
                     'id' => $row->id_question,
-                    'cell' => array(utf8_encode($row->question), $nbr_reponse, $row->reponse_ouverte)
+                    'cell' => array(utf8_encode($row->question))
                 );
             }
 

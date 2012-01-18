@@ -40,17 +40,23 @@ class QuestionsController extends Zend_Controller_Action
 
     public function deleteAction()
     {
+    	$this->getHelper('layout')->disableLayout();
+    	
         // Supprime une question
-    
         $request = $this->getRequest();
         if($request->isPost()){
-            $this->question_certification_mapper->deleteWithIdQuestion($request->getParam('id_question'));
+        	 // Si c'est une question de motivation
+            if($request->getParam('motivation') ==1){
+            	$this->question_reponse_mapper->delete($request->getParam('id_question'));
+            }else{
+            	$this->question_certification_mapper->deleteWithIdQuestion($request->getParam('id_question'));
             
-            // Supprime les réponses associées
-            $reponse = $this->reponse_mapper->fetchAllWithId($request->getParam('id_question'));
-            
-            foreach($reponse as $row){
-            	$this->reponse_mapper->delete($row->getIdReponse());
+         		// Supprime les réponses associées
+	            $reponse = $this->reponse_mapper->fetchAllWithId($request->getParam('id_question'));
+	            
+	            foreach($reponse as $row){
+	            	$this->reponse_mapper->delete($row->getIdReponse());
+	            }            
             }
         }    
     
@@ -64,54 +70,64 @@ class QuestionsController extends Zend_Controller_Action
         
         $request = $this->getRequest();
         if($request->isPost()){
-        	// On ajoute dabord la question dans la base
-        	
-        	if($request->getParam('reponse_ouverte') == "checked")
-        		$reponse_ouverte = 1;
-        	else
-        		$reponse_ouverte = 0;
-        		
-            $question = new Application_Model_Questions();
-            $question->setQuestion($request->getParam('question'))
-            		 ->setNbrReponse(count($request->getParam('reponse')))
-            		 ->setReponseOuverte($reponse_ouverte);
-            
-            $id_question = $this->question_reponse_mapper->save($question);
-            
-            if($id_question == null)
-            	return;
-            
-            // Ensuite chaque réponse
-            foreach($request->getParam('reponse') as $row){
-           		$row = explode(',', $row); 	
-            	$reponse = new Application_Model_Reponses();
-            	
-            	if($row[1] == "checked")
-            		$checked = 1;
-            	else
-            		$checked = 0;
-            	
-            	$reponse->setReponse($row[0])
-            			->setIdQuestion($id_question)
-            			->setEstJuste($checked);
-            	
-            	$this->reponse_mapper->save($reponse);
-            }
-            
-            // Et on lie le tout à la certification
-            if($request->getParam('question_obligatoire') == "checked")
-            	$question_obligatoire = 1;
-            else
-            	$question_obligatoire = 0;
-                        	
-            $question_certification = new Application_Model_QuestionsCertifications();
-            $question_certification->setIdQuestion($id_question)
-            					   ->setIdCertification($request->getParam('id_certification'))
-            					   ->setQuestionObligatoire($question_obligatoire);
-            					   
-			$this->question_certification_mapper->save($question_certification);
-        }
         
+        	if($request->getParam('motivation') == 1){
+        		// Si c'est une question de motivation
+        		
+        		$question = new Application_Model_Questions();
+        		$question->setQuestion($request->getParam('question'))
+        				 ->setMotivation(1);
+        				 
+        		$this->question_reponse_mapper->save($question);
+        	}else{
+        		// On ajoute dabord la question dans la base
+        	
+	        	if($request->getParam('reponse_ouverte') == "checked")
+	        		$reponse_ouverte = 1;
+	        	else
+	        		$reponse_ouverte = 0;
+	        		
+	            $question = new Application_Model_Questions();
+	            $question->setQuestion($request->getParam('question'))
+	            		 ->setNbrReponse(count($request->getParam('reponse')))
+	            		 ->setReponseOuverte($reponse_ouverte);
+	            
+	            $id_question = $this->question_reponse_mapper->save($question);
+	            
+	            if($id_question == null)
+	            	return;
+	            
+	            // Ensuite chaque réponse
+	            foreach($request->getParam('reponse') as $row){
+	           		$row = explode(',', $row); 	
+	            	$reponse = new Application_Model_Reponses();
+	            	
+	            	if($row[1] == "checked")
+	            		$checked = 1;
+	            	else
+	            		$checked = 0;
+	            	
+	            	$reponse->setReponse($row[0])
+	            			->setIdQuestion($id_question)
+	            			->setEstJuste($checked);
+	            	
+	            	$this->reponse_mapper->save($reponse);
+	            }
+	            
+	            // Et on lie le tout à la certification
+	            if($request->getParam('question_obligatoire') == "checked")
+	            	$question_obligatoire = 1;
+	            else
+	            	$question_obligatoire = 0;
+	                        	
+	            $question_certification = new Application_Model_QuestionsCertifications();
+	            $question_certification->setIdQuestion($id_question)
+	            					   ->setIdCertification($request->getParam('id_certification'))
+	            					   ->setQuestionObligatoire($question_obligatoire);
+	            					   
+				$this->question_certification_mapper->save($question_certification);
+        	}
+        }        
     }
 
     public function editerAction()
@@ -119,12 +135,17 @@ class QuestionsController extends Zend_Controller_Action
         // Edite une question
         $request = $this->getRequest();
         if($request->isPost()){
-            $question = new Application_Model_QuestionsReponses();
+            $question = new Application_Model_Questions();
             
             $this->question_reponse_mapper->find($request->getParam('id_question'), $question);
             
-            $question->setQuestion($request->getParam('question'));
-            $question->setNbrReponse($request->getParam('nbr_reponse'));
+            if($request->getParam('motivation') == 1){
+            	// Si c'est une question de motivation
+            	$question->setQuestion($request->getParam('question'));
+            }else{
+            	$question->setQuestion($request->getParam('question'));
+	            $question->setNbrReponse($request->getParam('nbr_reponse'));
+            }
             
             $this->question_reponse_mapper->save($question);
         }
@@ -173,7 +194,7 @@ class QuestionsController extends Zend_Controller_Action
         $request = $this->getRequest();
         
          // Request parameters received via GET from flexigrid.
-        $sort_column = $this->_getParam('sortname','id_question_reponse'); 
+        $sort_column = $this->_getParam('sortname','id_question'); 
         $sort_order = $this->_getParam('sortorder','asc'); 
         $page = $this->_getParam('page',1);
         $limit = $this->_getParam('rp',17);
@@ -184,14 +205,38 @@ class QuestionsController extends Zend_Controller_Action
         $this->view->row = $this->question_reponse_mapper->fetchAllForFlexigrid($page, $sort_column, $sort_order, $search_column, $search_for, $limit);
     }
 
-    public function detailsquestionAction()
-    {
+    public function detailsquestionAction(){
         // Affiche la liste des réponse d'une questions
         $this->view->id_demande = $this->getRequest()->getParam('id');
         
         $this->view->add_form = new Application_Form_Addreponse();
         
         $this->view->edit_form = new Application_Form_Editreponse();
+    }
+    
+    public function listequestionmotivationAction(){
+    	// Affichage du tableaux liste des questions de motivation
+    }
+    
+    public function getquestionmotivationAction(){
+    	// Retourne la liste des questions de motivation pour flexigrid
+    	
+    	$this->getHelper('layout')->disableLayout();
+        
+        // Retourne les questions/reponses au format flexigrid
+        $request = $this->getRequest();
+        
+         // Request parameters received via GET from flexigrid.
+        $sort_column = $this->_getParam('sortname','id_question'); 
+        $sort_order = $this->_getParam('sortorder','asc'); 
+        $page = $this->_getParam('page',1);
+        $limit = $this->_getParam('rp',17);
+        $offset = (($page - 1) * $limit);
+        $search_column = $this->_getParam('qtype');
+        $search_for = $this->_getParam('query');
+                
+        $this->view->row = $this->question_reponse_mapper->fetchAllForFlexigrid($page, $sort_column, $sort_order, $search_column, $search_for, $limit, 1);
+
     }
     
 }

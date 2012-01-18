@@ -470,6 +470,12 @@ body {
 	width: 20em;
 }
 
+.block-right-bottom{
+	float: left;
+	margin-top : -3em;
+	width: 20em;
+}
+
 #autre_action{
 	padding-bottom: 1em;
 }
@@ -795,8 +801,6 @@ body {
 	margin-right: 1em;
 }
 
-.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active { border: 1px solid #79b7e7; background: #f5f8f9 url(/images/ui-bg_inset-hard_100_f5f8f9_1x100.png) 50% 50% repeat-x; font-weight: bold; color: green; }
-
 /* Certifications */
 
 #label_certification{
@@ -882,6 +886,21 @@ body {
 	margin-left: 0.4em;
 }
 
+/* Parcour formateur */
 
+#contenaire_onglets{
+	margin-left : -3.3em;
+	margin-top: 5em;
+	width: 97.9em;
+	min-height: 21em;
+	margin-bottom: -3em;
+	border : none;
+}
 
+/* Parcours formateur */
+.etape_valide{
+	background : #ACDD4A;
+	outline: none; 
+	margin-bottom: 0; padding-bottom: 1px;
+}
 
