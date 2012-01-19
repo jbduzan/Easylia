@@ -557,6 +557,22 @@ class CertificationsController extends Zend_Controller_Action
    		   		   		
     }
     
+    public function enregistrermotivationAction(){
+    	// Enregistre les réponses du test de motivation
+    	$this->getHelper('layout')->disableLayout();
+    	$request = $this->getRequest();
+    	
+    	foreach($request->getParam('certification') as $row){
+    		// On enregistre chaque réponse dans la base associé à la question posée
+			$reponses = explode(',', $row);
+			$reponse = new Application_Model_ReponsesCertification();
+			$reponse->setIdQuestion($reponses[0])
+					->setReponse($reponses[1])
+					->setIdUtilisateur($this->utilisateur->id_utilisateur);
+					
+			$this->reponse_certification_mapper->save($reponse);
+    	}		
+    }
 
 
 

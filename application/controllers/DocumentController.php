@@ -67,7 +67,7 @@ class DocumentController extends Zend_Controller_Action
     public function validateFile($file){
     	// Vérifie si un fichier est valide en fonction du fichier envoye
 		$file->addValidator('Extension', false, array('png', 'doc', 'docx', 'pdf'))
-			 ->addValidator('Size', false, '500000');
+			 ->addValidator('Size', false, '5000000');
 			 
 		if($file->isValid())
 			return true;

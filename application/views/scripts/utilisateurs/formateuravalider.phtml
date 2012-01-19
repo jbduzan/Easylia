@@ -12,7 +12,8 @@
                     {display: 'Prénom', name : 'prenom', width : 100, sortable : true, align: 'left'},
           			{display: 'CV', name : 'cv', width : 100, sortable : false, align: 'left'},
           			{display: 'Motivation', name : 'motivation', width : 100, sortable : false, align: 'left'},
-          			{display: 'RIB', name : 'rib', width : 100, sortable : false, align: 'left'} 
+          			{display: 'RIB', name : 'rib', width : 100, sortable : false, align: 'left'},
+          			{display: 'Test de motivation passé', name : 'test_motivation', width : 200, sortable : false, align: 'left'}, 
                       ],
             buttons : [
                     {name: 'Valider', bclass: 'valider', onpress : valid_record},
@@ -38,7 +39,6 @@
         
         function valid_record(command, grid){
         	$('.trSelected',grid).each(function(){
-                 
                  console.log($('td[abbr=cv] > div',this).html());
              });
         }

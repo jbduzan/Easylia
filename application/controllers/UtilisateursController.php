@@ -20,6 +20,7 @@ class UtilisateursController extends Zend_Controller_Action
     }
     
     public function preDispatch(){
+      	$this->view->render('utilisateurs/menu-connecte.phtml');
     	$this->view->render('utilisateurs/sidebar.phtml');
     }
 
@@ -43,35 +44,17 @@ class UtilisateursController extends Zend_Controller_Action
            	}
            	
            	$this->view->nombre_formation = $nombre_formation;
-                        
-            // Vérifie si le profil de l'utilisateur est activé
-            if($utilisateur->getProfilActif() != 1){
-            	$this->view->profil_inactif = "<p style='color : orange'>Votre profil n'as pas encore été activé. <br /> Vérifiez votre adresse mail, ou votre dossier 'courrier indésirable' si vous n'avez pas reçu de mail.</p>";
-            	return;
-            }
             
             $this->view->utilisateur = $utilisateur->getPrenom()." ".$utilisateur->getNom();
 
 			// Si l'utilisateur est formateur non approuvé
             if($this->user->id_groupe == 3){
             	// On redirige sur la page d'approuvation
-	           	$this->_redirector->goToSimple('parcoursformateur','utilisateurs');            	
+	           	$this->_redirector->goToSimple('index','renseigner-son-profil');            	
             }else if($this->utilisateur->id_groupe = 4){
             	// Si l'utilisateur est :
             }
             
-        	// Si il y a une photo on l'affiche sur le profil
-    		
-    		$document = new Application_Model_Document();
-    		$this->document_mapper->findWithIdAndType($this->user->id_utilisateur, 'photo', $document);
-    		
-    		if(count($document) > 0){    		
-	    		$path = explode("/", $document->getChemin());
-	    		
-	    		$number = count($path) - 1;
-	    		
-	    		$this->view->photo_path = $path[$number];
-            }
             // On récupère les permissions de l'utilisateur
            	$permissions = $this->setPermissions();
            	         
@@ -749,10 +732,9 @@ class UtilisateursController extends Zend_Controller_Action
             $id_groupe = $request->getParam('id_groupe');
         }
         
-        // Récupération de la liste des utilisateurs
-        $mapper = new Application_Model_UtilisateursMapper();
-        
-        $this->view->rows = $mapper->fetchAllForFlexigridWithDocuments($page, $sort_column, $sort_order, $search_column, $search_for, $limit, $id_groupe);
+        // Récupération de la liste des utilisateurs       
+                
+        $this->view->rows = $this->userMapper->fetchAllForFlexigridWithDocuments($page, $sort_column, $sort_order, $search_column, $search_for, $limit, $id_groupe);
     }
 
     public function validerutilisateurAction()
@@ -832,6 +814,10 @@ class UtilisateursController extends Zend_Controller_Action
     {
     	// Action à effectuer lorsque un formateur pas encore validé se loggue
 		
+		// On récupère les infos de l'utilisateur
+		$utilisateur = new Application_Model_Utilisateurs();
+		$this->userMapper->find($this->user->id_utilisateur, $utilisateur);
+		
 		// On regarde les documents que il a déjà uploadé
     	$document = $this->checkDocumentExist();
 
@@ -848,6 +834,13 @@ class UtilisateursController extends Zend_Controller_Action
 			$this->view->cv = true;   
 			$this->view->rib = true; 
 			$this->view->lettre = true;
+			
+			// Et si le test de motivation à été passé
+			if($utilisateur->getTestMotivation() == 1){
+				$this->view->waiting = true;
+				$this->view->test_motivation = true;
+				return;
+			}
 		}else if(count($document) > 0 && count($document) < 3){
 			// Si tous les documents non pas été uploadé
         	foreach($document as $row){
@@ -868,7 +861,13 @@ class UtilisateursController extends Zend_Controller_Action
         		$this->view->lettre =  false;  
         	else
         		$this->view->lettre = true;         	
-    	}    	
+    	}
+    	
+    	// On vérifie le test de motivation
+    	if($utilisateur->getTestMotivation() == 1)
+    		$this->view->test_motivation = true;
+    	else
+    		$this->view->test_motivation = false;    	
     }
 
     public function checkFormateurValide()
@@ -938,21 +937,19 @@ class UtilisateursController extends Zend_Controller_Action
 		// On vérifie que l'utilisateur est bien connecte
 		if(!empty($this->user->is_logged) && $this->user->is_logged === true){
 			
+			// On vérifie que l'utilisateur n'as pas déjà remplis ça
+			$utilisateur = new Application_Model_Utilisateurs();
+			$this->userMapper->find($this->user->id_utilisateur, $utilisateur);
+			
+			if($utilisateur->getProfilActif() == 1)
+				$this->_redirector->goToSimple('index', 'profil-utilisateur');
+			
 			// On appelle toutes les actions à effectuer
 	    	$this->formateurNonValide(); 
 	    	
 	    	// Les questions pour le test de motivation 
 	    	$this->view->test = $this->prepareMotivationTest();
 	    	      
-	    	/*
-// On vérifie si l'utilisateur a été validé
-			$valide_formateur = $this->checkFormateurValide();
-		
-			if($valide_formateur == "valide")
-				$this->view->valide = "<p style='color: green'>Votre profil est valide</p>";
-			else if($valide_formateur == "invalide")
-				$this->view->valide = "<p style='color : orange'>Votre compte est en attente de validation par un administrateur</p>";
-*/
 		}else{
 			$this->redirectToConnexion();
 		}
@@ -963,7 +960,7 @@ class UtilisateursController extends Zend_Controller_Action
 		
 		$i = 0;
 		$nombre_reponse = count($result);
-		$questions = array();
+		$questions_motivation = array();
 
 		foreach($result as $row){    
         	$i ++;
@@ -973,9 +970,9 @@ class UtilisateursController extends Zend_Controller_Action
             $question .= "<div class='reponse'><p><i>Veuillez inscrire votre réponse ci-dessous : </i></p><textarea rows='10' cols='80' name='".$row->getIdQuestion()."'></textarea>";
             $question .= "</div></div>";
             
-            array_push($questions, $question);
+            array_push($questions_motivation, $question);
         }
 		
-		return $questions;
+		return $questions_motivation;
 	}
 }

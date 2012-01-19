@@ -57,13 +57,15 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$router->addRoute('infouser', new Zend_Controller_Router_Route('information-utilisateur', array('controller' => 'utilisateurs', 'action' => 'afficherinfo')));
 		$router->addRoute('formationdispo', new Zend_Controller_Router_Route('formations-disponibles', array('controller' => 'formation', 'action' => 'listeformationdispo')));		
 		$router->addRoute('commanderformation', new Zend_Controller_Router_Route('commander-une-formation', array('controller' => 'formation', 'action' => 'commander')));
-		$router->addRoute('listecertification', new Zend_Controller_Router_Route('certification-disponible', array('controller' => 'certifications', 'action' => 'listecertification')));
+		$router->addRoute('listecertification', new Zend_Controller_Router_Route('certifications-disponible', array('controller' => 'certifications', 'action' => 'listecertification')));
 		$router->addRoute('passagecertification', new Zend_Controller_Router_Route('passer-une-certification', array('controller' => 'certifications', 'action' => 'passercertification')));
+		$router->addRoute('parcourformateur', new Zend_Controller_Router_Route('renseigner-son-profil', array('controller' => 'utilisateurs', 'action' => 'parcoursformateur')));
     }
     
     public function _initSidebar(){
     	$this->bootstrap('view');
     	$view = $this->getResource('view');
+    	$view->placeholder('menu-connecte');
     	$view->placeholder('sidebar');
     }
     

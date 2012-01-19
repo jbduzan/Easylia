@@ -25,7 +25,7 @@ class FormationController extends Zend_Controller_Action
     {
         // Liste des formations et possibilité de les commander
         
-        $this->_redirector->goToSimple('listeformationdispo', 'formation');
+    		$this->_redirector->goToSimple('index', 'formations-disponible');
     }
 
     public function commanderAction()
@@ -33,7 +33,7 @@ class FormationController extends Zend_Controller_Action
     	$request = $this->getRequest();
     	
     	if($request->getParam("id") == "")
-    		$this->_redirector->goToSimple('listeformationdispo', 'formation');
+    		$this->_redirector->goToSimple('index', 'formations-disponibles');
     
         // On commande une formation
         $formation_dispo = new Application_Model_FormationsDispo();

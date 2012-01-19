@@ -61,7 +61,8 @@ class Application_Model_UtilisateursMapper
             'document_envoye' => utf8_decode($utilisateur->getDocumentEnvoye()),
             'document_valide' => utf8_decode($utilisateur->getDocumentValide()),
             'cle_activation' => utf8_decode($utilisateur->getCleActivation()),
-            'profil_actif' => utf8_decode($utilisateur->getProfilActif())
+            'profil_actif' => utf8_decode($utilisateur->getProfilActif()),
+            'test_motivation' =>$utilisateur->getTestMotivation()
         );
         
         $id = "";
@@ -114,6 +115,7 @@ class Application_Model_UtilisateursMapper
         $utilisateur->setDocumentValide(utf8_encode($row->document_valide));
         $utilisateur->setCleActivation(utf8_encode($row->cle_activation));
         $utilisateur->setProfilActif(utf8_encode($row->profil_actif));
+        $utilisateur->setTestMotivation($row->test_motivation);
         
     }
     
@@ -153,6 +155,7 @@ class Application_Model_UtilisateursMapper
         $utilisateur->setDocumentValide($row->document_valide);
         $utilisateur->setCleActivation($row->cle_activation);
         $utilisateur->setProfilActif($row->profil_actif);
+        $utilisateur->setTestMotivation($row->test_motivation);
         
     }
     
@@ -189,6 +192,7 @@ class Application_Model_UtilisateursMapper
             $entry->setDocumentValide($row->document_valide);
             $entry->setCleActivation($row->cle_activation);
        		$entry->setProfilActif($row->profil_actif);
+       		$entry->setTestMotivation($row->test_motivation);
             $entries[] = $entry;
         }
         return $entries;
@@ -322,44 +326,63 @@ class Application_Model_UtilisateursMapper
 
         if($search_sql != '')
             $select->where($search_sql);
-            
-        $select->where("id_groupe = 3");
-        
+           
+        // On restreint aux formateurs non approuvés
+        $select->where('id_groupe = 3');
+                    
         $result = $this->getDbTable()->fetchAll($select);
    
-        foreach($result as $row){
-            // Le nom du groupe
-            $groupeMapper = new Application_Model_GroupesMapper();
-            $groupe = new Application_Model_Groupes();
-            $groupeMapper->find($row->id_groupe, $groupe);
-                   
+        foreach($result as $row){                  
 			// On vérifie la présence des documents
-			$filepath = "/home/easylia/public/documents/";
-	
-	        // On vérifie si l'utilisateur à uploadé les 4 documents
-	        if(file_exists($filepath."cv-".$row->id_utilisateur.".doc"))
-	        	$cv = "<img class='icone_ok' src='images/icone_ok_16.png' />";
+			$document_mapper = new Application_Model_DocumentMapper();
+			
+			$documents = $document_mapper->fetchAll($id_utilisateur = $row->id_utilisateur);
+			
+			$liste_document = array();
+			
+			 if($row->test_motivation == 1)
+	        	$test_motivation = "<img class='icone_ok' src='images/icone_ok_16.png' />";
+	        else
+	        	$test_motivation = "<img class='icone_erreur' src='images/icone_erreur_16.png' />";
+			
+			// Si on en a aucun on met tous en erreur
+			if(count($documents) == 0){
+				$cv = "<img class='icone_erreur' src='images/icone_erreur_16.png' />";
+				$rib = "<img class='icone_erreur' src='images/icone_erreur_16.png' />";
+				$motivation = "<img class='icone_erreur' src='images/icone_erreur_16.png' />";
+			
+				$data['rows'][] = array(
+                	'id' => $row->id_utilisateur,
+                	'cell' => array(utf8_encode($row->nom), utf8_encode($row->prenom),$cv, $motivation, $rib, $test_motivation)
+           		 );
+           		 continue;
+			}
+				
+			// Sinon on détails un par un		
+			foreach($documents as $rows){
+				array_push($liste_document, $rows->getType());
+			}
+			
+			if(in_array('cv', $liste_document))
+				$cv = "<img class='icone_ok' src='images/icone_ok_16.png' />";
 	        else
 	        	$cv = "<img class='icone_erreur' src='images/icone_erreur_16.png' />";
-	        		        	
-	        if(file_exists($filepath."motivation-".$row->id_utilisateur.".doc"))
-	        	$motivation = "<img class='icone_ok' src='images/icone_ok_16.png' />";
-	        else
-	        	$motivation = "<img class='icone_erreur' src='images/icone_erreur_16.png' />";
-
-	        	
-	        if(file_exists($filepath."rib-".$row->id_utilisateur.".png"))
-	        	$rib = "<img class='icone_ok' src='images/icone_ok_16.png' />";
+	
+	        if(in_array('rib', $liste_document))
+				$rib = "<img class='icone_ok' src='images/icone_ok_16.png' />";
 	        else
 	        	$rib = "<img class='icone_erreur' src='images/icone_erreur_16.png' />";
-
-            
+	        		        	
+	        if(in_array('motivation', $liste_document))
+				$motivation = "<img class='icone_ok' src='images/icone_ok_16.png' />";
+	        else
+	        	$motivation = "<img class='icone_erreur' src='images/icone_erreur_16.png' />";
+	        	           
             $data['rows'][] = array(
                 'id' => $row->id_utilisateur,
-                'cell' => array(utf8_encode($row->nom), utf8_encode($row->prenom),$cv, $motivation, $rib)
+                'cell' => array(utf8_encode($row->nom), utf8_encode($row->prenom),$cv, $motivation, $rib, $test_motivation)
             );
         }
-        
         return json_encode($data);        
     }
 

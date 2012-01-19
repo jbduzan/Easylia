@@ -893,7 +893,6 @@ body {
 	margin-top: 5em;
 	width: 97.9em;
 	min-height: 21em;
-	margin-bottom: -3em;
 	border : none;
 }
 
@@ -901,6 +900,16 @@ body {
 .etape_valide{
 	background : #ACDD4A;
 	outline: none; 
-	margin-bottom: 0; padding-bottom: 1px;
 }
 
+/* Menu connecte */
+
+#menu_connecte{
+	width: 60em;
+	margin-bottom: 5em;
+}
+
+#menu_onglet{
+	border : none;
+}
+	

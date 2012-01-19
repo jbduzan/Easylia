@@ -65,8 +65,13 @@ class Application_Model_DocumentMapper
     			 ->setIdFacture($row->id_facture);
     }
     
-    public function fetchALl(){
-    	$result = $this->getDbTable()->fetchAll();
+    public function fetchAll($id_utilisateur = null){
+    	$select = $this->getDbTable()->select();
+    	
+    	if($id_utilisateur != "")
+    		$select->where('id_utilisateur = ?', $id_utilisateur);
+    	
+    	$result = $this->getDbTable()->fetchAll($select);
     	
     	if(count($result) == 0)
     		return;

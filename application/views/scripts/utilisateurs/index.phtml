@@ -1,6 +1,7 @@
 <?php $this->user = new Zend_Session_Namespace('user');      ?>
 	        
 <?php echo "<h1>Bonjour ".$this->utilisateur."</h1>";
+	echo $this->placeholder('menu-connecte');
     if($this->is_admin){
     ?>
 <div id="action_admin">

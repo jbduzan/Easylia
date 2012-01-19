@@ -39,6 +39,7 @@ class Application_Model_Utilisateurs
     protected $_document_valide;
     protected $_cle_activation;
     protected $_profil_actif;
+    protected $_test_motivation;
     
     // Constructeur
     
@@ -408,6 +409,15 @@ class Application_Model_Utilisateurs
 	public function getProfilActif(){
 		return $this->_profil_actif;
 	}
-
+	
+	public function setTestMotivation($test_motivation){
+		$this->_test_motivation = $test_motivation;
+		return $this;
+	}
+	
+	public function getTestMotivation(){
+		return $this->_test_motivation;
+	}
+	
 }
 
