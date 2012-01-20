@@ -21,6 +21,11 @@ class FormationController extends Zend_Controller_Action
         	$this->_redirector->goToSimple('index', 'utilisateurs');
     }
 
+    public function preDispatch(){
+      	$this->view->render('utilisateurs/menu-connecte.phtml');
+    	$this->view->render('utilisateurs/sidebar.phtml');
+    }
+
     public function indexAction()
     {
         // Liste des formations et possibilité de les commander

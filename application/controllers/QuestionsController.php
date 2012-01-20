@@ -12,8 +12,15 @@ class QuestionsController extends Zend_Controller_Action
         $this->question_reponse_mapper = new Application_Model_QuestionsMapper();
         $this->question_certification_mapper = new Application_Model_QuestionsCertificationsMapper();
         $this->reponse_mapper = new Application_Model_ReponsesMapper();
+        $this->reponse_certification_mapper = new Application_Model_ReponsesCertificationMapper();
         $this->groupeMapper = new Application_Model_GroupesMapper();            
+        $this->utilisateur_mapper = new Application_Model_UtilisateursMapper();
         $this->nom_groupe = $this->groupeMapper->getGroupeNameWithId($this->user->id_groupe);
+    }
+
+    public function preDispatch(){
+      	$this->view->render('utilisateurs/menu-connecte.phtml');
+    	$this->view->render('utilisateurs/sidebar.phtml');
     }
 
     public function indexAction()
@@ -237,6 +244,37 @@ class QuestionsController extends Zend_Controller_Action
                 
         $this->view->row = $this->question_reponse_mapper->fetchAllForFlexigrid($page, $sort_column, $sort_order, $search_column, $search_for, $limit, 1);
 
+    }
+    
+    public function reponsetestmotivationAction(){
+    	// Affiche les réponses du test de motivation pour un formateur
+    	$request = $this->getRequest();
+    	
+    	if($request->getParam('id') == "")
+    		$this->_redirector->goToSimple('index', 'formateurs-à-valider');
+    		
+    	// On récupère toutes les réponses de l'utilisateur
+		$result = $this->reponse_certification_mapper->fetchAll($id_utilisateur = $request->getParam('id'));
+		
+		$reponse = "<dl id='reponses'>";
+		
+		// Que on associe avec les questions 
+		foreach($result as $row){
+			$question = new Application_Model_Questions();
+			$this->question_reponse_mapper->find($row->getIdQuestion(), $question);
+			$reponse .= "<dt class='question_motivation'>".$question->getQuestion()."</dt>";
+			$reponse .= "<dd class='reponse_motivation'>".$row->getReponse()."</dt>";			
+		}
+		
+		$reponse .= "</dl>";
+		
+		$this->view->reponse = $reponse;
+		
+		// On récupère le nom de l'utilisateur
+		$utilisateur = new Application_Model_Utilisateurs();
+		$this->utilisateur_mapper->find($request->getParam('id'), $utilisateur);
+		
+		$this->view->utilisateur = $utilisateur->getNom()." ".$utilisateur->getPrenom();
     }
     
 }

@@ -15,6 +15,11 @@ class LogininterditController extends Zend_Controller_Action
         $this->groupeMapper = new Application_Model_GroupesMapper();
 		$this->nom_groupe = $this->groupeMapper->getGroupeNameWithId($this->user->id_groupe); 
     }
+
+    public function preDispatch(){
+      	$this->view->render('utilisateurs/menu-connecte.phtml');
+    	$this->view->render('utilisateurs/sidebar.phtml');
+    }
     
     public function indexAction(){
     	// On vérifie si l'utilisateur est loggué

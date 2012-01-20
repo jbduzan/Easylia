@@ -15,6 +15,11 @@ class FaqController extends Zend_Controller_Action
 		$this->nom_groupe = $this->groupeMapper->getGroupeNameWithId($this->user->id_groupe);
 		$this->faq_mapper = new Application_Model_FaqMapper();
     }
+
+    public function preDispatch(){
+      	$this->view->render('utilisateurs/menu-connecte.phtml');
+    	$this->view->render('utilisateurs/sidebar.phtml');
+    }
     
     public function indexAction(){
     	// Récupère la liste des question actives de la faq et les affiches

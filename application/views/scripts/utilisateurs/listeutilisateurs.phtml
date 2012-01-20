@@ -6,7 +6,7 @@
 	<div id="label_edit_user">
 		<label for="nom" class="optional">Nom :</label>
 		<label for="prenom" class="optional">Prénom :</label>
-		<label for="login" class="optional">Nom d'utilisateur :</label>
+<!-- 		<label for="login" class="optional">Nom d'utilisateur :</label> -->
 		<label for="nom_groupe" class="optional">Groupe :</label>
 		<label for="adresse" class="optional">Adresse :</label>
 		<label for="adresse2edit" class="optional">Complément d'adresse :</label>
@@ -19,7 +19,7 @@
 	<div id="input_edit_user">
 		<input type="text" name="nom" id="nom"  />
 		<input type="text" name="prenom" id="prenom"  />
-		<input type="text" name="login" id="login"  />
+<!-- 		<input type="text" name="login" id="login"  /> -->
 		<select name="nom_groupe" id="nom_groupe"></select>
 		<input type="text" name="adresse" id="adresse"  />
 		<input type="text" name="adresse2edit" id="adresse2edit"  />
@@ -207,7 +207,7 @@
                  
                  $("#nom").val($('td[abbr="nom"] >div', this).html());
                  $("#prenom").val($('td[abbr="prenom"] >div', this).html());
-                 $("#login").val($('td[abbr="login"] >div', this).html());
+/*                  $("#login").val($('td[abbr="login"] >div', this).html()); */
                  $("#adresse").val(adresse1[0]);
                  $("#adresse2edit").val(complement);
                  $("#code_postal").val(adresse2[1]);
@@ -238,7 +238,7 @@
                                         'id_utilisateur' : id,
                                         'nom' : $("#nom").val(),
                                         'prenom' : $("#prenom").val(),
-                                        'login' : $("#login").val(),
+/*                                         'login' : $("#login").val(), */
                                         'adresse' : $("#adresse").val(),
                                         'adresse2' : $("#adresse2edit").val(),
                                         'code_postal' : $("#code_postal").val(),

@@ -20,6 +20,11 @@ class CertificationsController extends Zend_Controller_Action
         
     }
 
+    public function preDispatch(){
+      	$this->view->render('utilisateurs/menu-connecte.phtml');
+    	$this->view->render('utilisateurs/sidebar.phtml');
+    }
+
     public function indexAction()
     {
         // Vérification des permissions

@@ -10,6 +10,11 @@ class GroupeController extends Zend_Controller_Action
         $this->user = new Zend_Session_Namespace('user');
         $this->groupeMapper = new Application_Model_GroupesMapper();
     }
+    
+    public function preDispatch(){
+      	$this->view->render('utilisateurs/menu-connecte.phtml');
+    	$this->view->render('utilisateurs/sidebar.phtml');
+    }
 
     public function indexAction()
     {

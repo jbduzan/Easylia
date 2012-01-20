@@ -62,13 +62,16 @@ class Application_Model_QuestionsMapper
     }
 
     // Retourne tous les enregistrement
-    public function fetchAll($test_motivation = null){
+    public function fetchAll($test_motivation = null, $id_utilisateur = null){
 
  		$select = $this->getDbTable()->select();
 
     	if($test_motivation)
     		$select->where('motivation = 1');
 		    	
+		if($id_utilisateur)
+			$select->where('id_utilisateur = ?', $id_utilisateur);
+		 
       $resultSet = $this->getDbTable()->fetchAll($select);
       $entries = array();
 

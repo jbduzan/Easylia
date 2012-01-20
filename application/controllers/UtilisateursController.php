@@ -172,7 +172,7 @@ class UtilisateursController extends Zend_Controller_Action
                                     
                 return $this->_redirector->goToSimple($this->user->requested_action,$this->user->requested_controller);
             }else{
-                $this->view->error =  "<p id='error_connexion' style='color:red;margin-top : 5em;margin-left:2em;'>Le nom d'utilisateur ou le mot de passe ne correspondent pas à ceux enregistrés</p>";
+                echo "<p id='error_connexion' style='color:red;margin-top : 5em;margin-left:2em;'>Le nom d'utilisateur ou le mot de passe ne correspondent pas à ceux enregistrés</p>";
             }
         }
     }
@@ -889,23 +889,19 @@ class UtilisateursController extends Zend_Controller_Action
     {
 		// Valide l'utilisateur via un post ajax
 		$this->getHelper('layout')->disableLayout();
-		$request = $this->getRequest();				
+		$request = $this->getRequest();		
+				
 		if($request->getParam('valider_utilisateur')){
 			$utilisateur = new Application_Model_Utilisateurs();
 			 
 			$this->userMapper->find($request->getParam('id_utilisateur'), $utilisateur);
 			
 			$utilisateur->setDocumentValide(1);
+			$utilisateur->setDocumentEnvoye(1);
 			$utilisateur->setIdGroupe(2);
 			
 			$this->userMapper->save($utilisateur);
-			
-			echo "true";
-			return;
 		}
-		else 
-			return false;
-
     }
 	
 	public function activationAction(){

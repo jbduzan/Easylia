@@ -60,6 +60,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$router->addRoute('listecertification', new Zend_Controller_Router_Route('certifications-disponible', array('controller' => 'certifications', 'action' => 'listecertification')));
 		$router->addRoute('passagecertification', new Zend_Controller_Router_Route('passer-une-certification', array('controller' => 'certifications', 'action' => 'passercertification')));
 		$router->addRoute('parcourformateur', new Zend_Controller_Router_Route('renseigner-son-profil', array('controller' => 'utilisateurs', 'action' => 'parcoursformateur')));
+		$router->addRoute('reponsetestmotivation', new Zend_Controller_Router_Route('réponses-test-formateur', array('controller' => 'questions', 'action' => 'reponsetestmotivation')));
+		//$router->addRoute('deconnexion', new Zend_Controller_Router_Route('deconnexion', array('controller' => 'utilisateurs', 'action' => 'deconnexion')));
     }
     
     public function _initSidebar(){
