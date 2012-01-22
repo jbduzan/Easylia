@@ -1,30 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<root>
-      <nav>
-            <accueil>
-                  <label>Accueil</label>
-                  <controller>index</controller>
-                  <action>index</action>
-                  <class>menu-item</class>
-                  <resource>nav-public-home</resource>
-            </accueil>
-            <utilisateurs>
-                  <label>Profil</label>
-                  <controller>utilisateurs</controller>
-                  <action>index</action>
-                  <class>menu-item</class>
-                  <resource>nav-public-about</resource>
-                	<utilisateurs_profil>
-	                  <label>profil 2</label>
-	                  <controller>utilisateurs</controller>
-	                  <action>afficherinfo</action>
-	                  <class>menu-item</class>
-	                  <resource>nav-private-publication</resource>
-
-
-                 
-
-                 </utilisateurs_profil>
-            </utilisateurs>
-      </nav>
-</root>
+<configdata>
+	<nav>
+		<home>
+			<label>profil</label>
+			<route>profil</route>
+			<pages>
+			<listing>
+				<label>infouser </label>
+				<route>infouser</route>
+			</listing>
+			</pages>
+		</home>
+	</nav>
+</configdata>

@@ -1,12 +1,11 @@
-<?php $this->user = new Zend_Session_Namespace('user');      ?>
-	        
-<?php
+<?php $this->user = new Zend_Session_Namespace('user');  	        
     if($this->is_admin){
     	echo $this->placeholder('menu-connecte');
     ?>
 <div id="action_admin">
 <!-- 	<h4>Actions administrateur</h4> -->
 		<div id="action_utilisateur">
+<?php		echo $this->navigation()->breadcrumbs()->setSeparator(" -> ")."toto";?>
 		    <?php
 		    if($this->voir_user){
 				echo "<p><img id='img_utilisateur' class='img-title' src='/images/forum-groupe-utilisateurs-icone-4597-48.png' /><h5 style='display : inline;margin-left : 3em'>Actions sur les utilisateurs</h5></p>";

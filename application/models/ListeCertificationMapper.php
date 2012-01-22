@@ -33,7 +33,9 @@ class Application_Model_ListeCertificationMapper
            'nom' => $liste->getNom(),
            'type' => $liste->getType(),
            'nombre_question' => $liste->getNombreQuestion(),
-           'temps_certification' => $liste->getTempsCertification()
+           'temps_certification' => $liste->getTempsCertification(),
+           'score_minimum' => $liste->getScoreMinimum(),
+           'duree_validite' => $liste->getDureeValidite()
        );
 
        if(null === ($id = $liste->getIdCertification())){
@@ -57,6 +59,8 @@ class Application_Model_ListeCertificationMapper
            $liste->setType($row->type);
            $liste->setNombreQuestion($row->nombre_question);
            $liste->setTempsCertification($row->temps_certification);
+           $liste->setScoreMinimum($row->score_minimum);
+           $liste->setDureeValidite($row->duree_validte);
     }
 
     // Retourne tous les enregistrement
@@ -71,6 +75,8 @@ class Application_Model_ListeCertificationMapper
           $entry->setType($row->type);
           $entry->setNombreQuestion($row->nombre_question);
           $entry->setTempsCertification($row->temps_certification);
+          $entry->setScoreMinimum($row->score_minimum)
+          		->setDureeValidite($row->duree_validite);
           $entries[] = $entry;
       }
 
@@ -110,7 +116,7 @@ class Application_Model_ListeCertificationMapper
         foreach($result as $row){           
             $data['rows'][] = array(
                 'id' => $row->id_certification,
-                'cell' => array($row->nom, $row->type, $row->nombre_question, $row->temps_certification)
+                'cell' => array($row->nom, $row->type, $row->nombre_question, $row->temps_certification, $row->score_minimum, $row->duree_validite)
             );
         }
         

@@ -16,6 +16,7 @@ class CertificationsController extends Zend_Controller_Action
         $this->groupe_mapper = new Application_Model_GroupesMapper();            
         $this->repassage_mapper = new Application_Model_RepassageCertificationMapper();
         $this->reponse_certification_mapper = new Application_Model_ReponsesCertificationMapper();
+        $this->utilisateur_mapper = new Application_Model_UtilisateursMapper();
         $this->nom_groupe = $this->groupe_mapper->getGroupeNameWithId($this->utilisateur->id_groupe);
         
     }
@@ -82,6 +83,8 @@ class CertificationsController extends Zend_Controller_Action
             $certification->setType($request->getParam('type'));
             $certification->setNombreQuestion($request->getParam('nombre_question'));
             $certification->setTempsCertification($request->getParam('temps_certification'));
+            $certifiation->setScoreMinimum($request->getParam('score_minimum'))
+            			 ->setDureeValidite($request->getParam('duree_validite'));
             
             $this->certification_mapper->save($certification);
         }
@@ -112,6 +115,8 @@ class CertificationsController extends Zend_Controller_Action
             $certification->setType($request->getParam('type'));
             $certification->setNombreQuestion($request->getParam('nombre_question'));
             $certification->setTempsCertification($request->getParam('temps_certification'));
+			$certifiation->setScoreMinimum($request->getParam('score_minimum'))
+            			 ->setDureeValidite($request->getParam('duree_validite'));
             
             $this->certification_mapper->save($certification);
         }
@@ -576,6 +581,14 @@ class CertificationsController extends Zend_Controller_Action
 					->setIdUtilisateur($this->utilisateur->id_utilisateur);
 					
 			$this->reponse_certification_mapper->save($reponse);
+			
+			// Et on valide le test pour l'utilisateur
+			$utilisateur = new Application_Model_Utilisateurs();
+			$this->utilisateur_mapper->find($this->utilisateur->id_utilisateur, $utilisateur);
+			
+			$utilisateur->setTestMotivation(1);
+			
+			$this->utilisateur_mapper->save($utilisateur);
     	}		
     }
 

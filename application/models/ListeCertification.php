@@ -7,6 +7,8 @@ class Application_Model_ListeCertification
     protected $_type;
     protected $_nombre_question;
     protected $_temps_certification;
+    protected $_score_minimum;
+    protected $_duree_validite;
     
     // Constructeur
     
@@ -100,6 +102,23 @@ class Application_Model_ListeCertification
         return $this->_temps_certification;
     }
     
+    public function setScoreMinimum($score_minimum){
+    	$this->_score_minimum = $score_minimum;
+    	return $this;
+    }
+    
+    public function getScoreMinimum(){
+    	return $this->_score_minimum;
+    }
+    
+    public function setDureeValidite($duree_validite){
+    	$this->_duree_validite = $duree_validite;
+    	return $this;
+    }
+    
+    public function getDureeValidite(){
+    	return $this->_duree_validite;
+    }
 
 }
 

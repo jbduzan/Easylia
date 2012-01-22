@@ -17,6 +17,7 @@ class UtilisateursController extends Zend_Controller_Action
 		$this->certification_mapper = new Application_Model_ListeCertificationMapper();
 		$this->formation_mapper = new Application_Model_FormationsMapper();
 		$this->question_mapper = new Application_Model_QuestionsMapper();
+		$this->historique_mapper = new Application_Model_HistoriqueCertificationsMapper();
     }
     
     public function preDispatch(){
@@ -33,6 +34,14 @@ class UtilisateursController extends Zend_Controller_Action
             
             $mapper->find($this->user->id_utilisateur, $utilisateur);
             
+            // Si l'utilisateur est formateur non approuvé
+            if($this->user->id_groupe == 3){
+            	// On redirige sur la page d'approuvation
+	           	$this->_redirector->goToSimple('index','renseigner-son-profil');            	
+            }else if($this->utilisateur->id_groupe = 4){
+            	// Si l'utilisateur est :
+            }
+            
             // Compte le nombre de formation en attente de formateur
             $result = $this->formation_mapper->fetchAll();
             
@@ -46,14 +55,6 @@ class UtilisateursController extends Zend_Controller_Action
            	$this->view->nombre_formation = $nombre_formation;
             
             $this->view->utilisateur = $utilisateur->getPrenom()." ".$utilisateur->getNom();
-
-			// Si l'utilisateur est formateur non approuvé
-            if($this->user->id_groupe == 3){
-            	// On redirige sur la page d'approuvation
-	           	$this->_redirector->goToSimple('index','renseigner-son-profil');            	
-            }else if($this->utilisateur->id_groupe = 4){
-            	// Si l'utilisateur est :
-            }
             
             // On récupère les permissions de l'utilisateur
            	$permissions = $this->setPermissions();
@@ -937,6 +938,10 @@ class UtilisateursController extends Zend_Controller_Action
 			$utilisateur = new Application_Model_Utilisateurs();
 			$this->userMapper->find($this->user->id_utilisateur, $utilisateur);
 			
+			// On vérifie si il a déjà passé la certification pédagogique
+			if(!$this->checkCertificationPedagogique($utilisateur->getIdUtilisateur()))
+				$this->_redirector->goToSimple('index', 'passer-une-certification');
+			
 			if($utilisateur->getProfilActif() == 1)
 				$this->_redirector->goToSimple('index', 'profil-utilisateur');
 			
@@ -970,5 +975,33 @@ class UtilisateursController extends Zend_Controller_Action
         }
 		
 		return $questions_motivation;
+	}
+	
+	protected function checkCertificationPedagogique($id_utilisateur){
+		// Vérifie si l'utilisateur à déjà passé et obtenue la certification pédagogique	
+		
+		// On récupère l'id de la certification pédagogique et son score minimum
+		$result = $this->certification_mapper->fetchAll();
+		
+		$id_certification = "";
+		$score_minimum;
+		
+		foreach($result as $row){
+			if($row->getType() == "Certification Pedagogique"){
+				$id_certification = $row->getIdCertification();
+				$score_minimum = $row->getScoreMinimum();
+				break;
+			}
+		}
+		
+		// On récupère dabord toutes les certifications passé de l'utilisateur
+		$historique = new Application_Model_HistoriqueCertifications();
+		$this->historique_mapper->findByIdUtilisateurAndCertification($id_utilisateur, $id_certification, $historique);
+		
+		// Si l'utilisateur a passé la certification et que il a passé le score mini on valide
+		if($historique->getScore() >= $score_minimum)
+			return true;
+		else 
+			return false;	
 	}
 }

@@ -72,23 +72,13 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     }
     
     protected function _initNavigation() {
-    
-    $this->bootstrap('view');
-        $view = $this->getResource('view');
-
-		//parsage du fichier xml en lui indiquant la section à utiliser, ici "nav"
+		$this->bootstrap('layout');
+		$layout = $this->getResource('layout');
+		$view = $layout->getView();
 		$config = new Zend_Config_Xml(APPLICATION_PATH . '/configs/navigation.xml', 'nav');
-		
-		//initialisation de Zend_Navigation
-		$navigation = new Zend_Navigation($config);
-		
-		//initialisation de l'aide vue navigation()
-		$view->navigation($navigation);
-		
-		//initialisation du breadcrumbs
-		$view->navigation()->breadcrumbs()
-		->setMinDepth(0)->setSeparator(' >> ');
-      }
+		$container = new Zend_Navigation($config);
+		$view->navigation($container);
+	}
 
 }
 

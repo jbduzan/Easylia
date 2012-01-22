@@ -9,12 +9,16 @@
 		<label for="type" class="optional">Type :</label>
 		<label for="nombre_question" class="optional">Nombre de question :</label>
 		<label for="temps_certification" class="optional">Temps certification (mn) :</label>
+		<label for="score_minimum" class="optional">Score minimum (%) :</label>
+		<label for="duree_validite" class="optional">Durée de validité (années) :</label>	
 	</div> <!-- label_certification -->
 	<div id="input_certification">
 		<input type="text" name="nom" id="nom" value="" />
 		<input type="text" name="type" id="type" value="" />
 		<input type="text" name="nombre_question" id="nombre_question" value="" />
 		<input type="text" name="temps_certification" id="temps_certification" value="" />
+		<input type="text" name="score_minimum" id="score_minimum" value="" />
+		<input type="text" name="duree_validite" id="duree_validite" value="" />
 	</div> <!-- input_certification -->
 </div>
 <div id="delete_dialog" style="display : none">
@@ -38,7 +42,9 @@
                     {display: 'Nom', name : 'nom', width : 150, sortable : true, align: 'left'},
                     {display: 'Type', name : 'type', width : 150, sortable : true, align: 'left'},
                     {display: 'Nombre de question', name : 'nombre_question', width : 150, sortable : true, align: 'left'},
-                    {display: 'Temps de passage', name : 'temps_certification', width : 150, sortable : true, align: 'left'}
+                    {display: 'Temps de passage', name : 'temps_certification', width : 150, sortable : true, align: 'left'},
+                    {display: 'Score minimum', name : 'score_minimum', width : 100, sortable : true, align: 'left'},
+                    {display: 'Durée de validité (années)', name : 'duree_validite', width : 150, sortable : true, align: 'left'}
             ],
            buttons : [
                     {name: 'Ajouter', bclass: 'add', onpress : add_record},
@@ -81,7 +87,8 @@
             $("#type").val('');
             $("#nombre_question").val('');
             $("#temps_certification").val('');
-
+            $('#score_minimum').val('');
+			$('#duree_validite').val('');
             
             $("#add_form").dialog({
                 title : "Ajouter une certification",
@@ -93,7 +100,7 @@
                             $.ajax({
                                 type : 'post',
                                 url : 'certifications/addcertification',
-                                data : { "nom" : $("#nom").val(), 'type' : $("#type").val(), "nombre_question" : $("#nombre_question").val(), "temps_certification" : $("#temps_certification").val()},
+                                data : { "nom" : $("#nom").val(), 'type' : $("#type").val(), "nombre_question" : $("#nombre_question").val(), "temps_certification" : $("#temps_certification").val(), 'score_minimum' : $('#score_minimum').val(), 'duree_validite' : $('#duree_validite').val()},
                                 success : function(){
                                     $("#tableau_certifications").flexReload();
                                     $("#add_form").dialog('close');
@@ -146,6 +153,8 @@
                 $("#type").val($('td[abbr="type"] >div', this).html());
                 $("#nombre_question").val($('td[abbr="nombre_question"] >div', this).html());
                 $("#temps_certification").val($('td[abbr="temps_certification"] >div', this).html());
+                $("#score_minimum").val($('td[abbr="score_minimum"] >div', this).html());
+                $("#duree_validite").val($('td[abbr="duree_validite"] >div', this).html());
             });
             
             $("#add_form").dialog({
@@ -158,7 +167,7 @@
                             $.ajax({
                                 type : 'post',
                                 url : 'certifications/editcertification',
-                                data : {'id_certification' : id, 'nom' : $("#nom_edit").val(), 'type' : $("#type_edit").val(), "nombre_question" : $("#nombre_question_edit").val(), "temps_certification" : $("#temps_certification_edit").val()},
+                                data : {'id_certification' : id, 'nom' : $("#nom_edit").val(), 'type' : $("#type_edit").val(), "nombre_question" : $("#nombre_question_edit").val(), "temps_certification" : $("#temps_certification_edit").val(), 'score_minimum' : $('#score_minimum').val(), 'duree_validite' : $('#duree_validite').val()},
                                 success : function(){
                                     $("#tableau_certifications").flexReload();
                                     $("#edit_form").dialog('close');
