@@ -385,6 +385,12 @@ class FormationController extends Zend_Controller_Action
     	$date = explode('/', $date_formated[1]);
     	$heure = substr($date_formated[2], '0', '-1');
 		
+		// On récupère le code postal et la ville du client
+		$utilisateur = new Application_Model_Utilisateurs();
+		$this->utilisateur_mapper->find($formation->getIdClient(), $utilisateur);
+		
+		$this->view->code_postal = $utilisateur->getCodePostal();
+		$this->view->ville = $utilisateur->getVille();		
 		$this->view->date_formation = $date;
 		
 		$this->view->heure_formation = $formation->getHeureDebut();

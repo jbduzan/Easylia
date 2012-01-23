@@ -62,7 +62,10 @@ class Application_Model_UtilisateursMapper
             'document_valide' => utf8_decode($utilisateur->getDocumentValide()),
             'cle_activation' => utf8_decode($utilisateur->getCleActivation()),
             'profil_actif' => utf8_decode($utilisateur->getProfilActif()),
-            'test_motivation' =>$utilisateur->getTestMotivation()
+            'test_motivation' =>$utilisateur->getTestMotivation(),
+            'adresse_skype' => $utilisateur->getAdresseSkype(),
+            'date_entretien_skype' => $utilisateur->getDateEntretienSkype(),
+            'disponibilite_entretien' => $utilisateur->getDisponibiliteEntretien()
         );
         
         $id = "";
@@ -116,7 +119,9 @@ class Application_Model_UtilisateursMapper
         $utilisateur->setCleActivation(utf8_encode($row->cle_activation));
         $utilisateur->setProfilActif(utf8_encode($row->profil_actif));
         $utilisateur->setTestMotivation($row->test_motivation);
-        
+        $utilisateur->setAdresseSkype(utf8_encode($row->adresse_skype));
+        $utilisateur->setDateEntretienSkype($row->date_entretien_skype);
+        $utilisateur->setDisponibiliteEntretien($row->disponibilite_entretien);
     }
     
     // Cherche dans la bdd un utilisateur par rapport à son login
@@ -156,7 +161,9 @@ class Application_Model_UtilisateursMapper
         $utilisateur->setCleActivation($row->cle_activation);
         $utilisateur->setProfilActif($row->profil_actif);
         $utilisateur->setTestMotivation($row->test_motivation);
-        
+        $utilisateur->setAdresseSkype($row->adresse_skype);
+        $utilisateur->setDateEntretienSkype($row->date_entretien_skype);
+        $utilisateur->setDisponibiliteEntretien($row->disponibilite_entretien);        
     }
     
     // Ressort tout les utilisateurs
@@ -193,6 +200,9 @@ class Application_Model_UtilisateursMapper
             $entry->setCleActivation($row->cle_activation);
        		$entry->setProfilActif($row->profil_actif);
        		$entry->setTestMotivation($row->test_motivation);
+       		$entry->setAdresseSkype($row->adresse_skype);
+       		$entry->setDateEntretienSkype($row->date_entretien_skype);
+       		$entry->setDisponibiliteEntretien($row->disponibilite_entretien);
             $entries[] = $entry;
         }
         return $entries;
@@ -350,10 +360,15 @@ class Application_Model_UtilisateursMapper
 				$cv = "<img class='icone_erreur' src='images/icone_erreur_16.png' />";
 				$rib = "<img class='icone_erreur' src='images/icone_erreur_16.png' />";
 				$motivation = "<img class='icone_erreur' src='images/icone_erreur_16.png' />";
+				if($row->note != "")
+	     	  		$entretien = "<img class='icone_ok' src='images/icone_ok_16.png' />";
+	        	else
+	        		$entretien = "<img class='icone_erreur' src='images/icone_erreur_16.png' />";
+
 			
 				$data['rows'][] = array(
                 	'id' => $row->id_utilisateur,
-                	'cell' => array(utf8_encode($row->nom), utf8_encode($row->prenom),$cv, $motivation, $rib, $test_motivation)
+                	'cell' => array(utf8_encode($row->nom), utf8_encode($row->prenom),$cv, $motivation, $rib, $test_motivation, $entretien)
            		 );
            		 continue;
 			}
@@ -377,10 +392,16 @@ class Application_Model_UtilisateursMapper
 				$motivation = "<img class='icone_ok' src='images/icone_ok_16.png' />";
 	        else
 	        	$motivation = "<img class='icone_erreur' src='images/icone_erreur_16.png' />";
-	        	           
+	       	
+	       	if($row->date_entretien_skype != "")
+	     	  	$entretien = "<img class='icone_ok' src='images/icone_ok_16.png' />";
+	        else
+	        	$entretien = "<img class='icone_erreur' src='images/icone_erreur_16.png' />";
+	       	
+	       	
             $data['rows'][] = array(
                 'id' => $row->id_utilisateur,
-                'cell' => array(utf8_encode($row->nom), utf8_encode($row->prenom),$cv, $motivation, $rib, $test_motivation)
+                'cell' => array(utf8_encode($row->nom), utf8_encode($row->prenom),$cv, $motivation, $rib, $test_motivation, $entretien)
             );
         }
         return json_encode($data);        

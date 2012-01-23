@@ -2,11 +2,12 @@
 	echo $this->placeholder('menu-connecte');
 ?>
 <table id="tableau_formateur">
-
 </table>
-<div id="valid_dialog">
+<div id="valid_dialog" style="display : none">
 	<p>Etes vous sur de vouloir valider ce formateur ? </p>
-</div>
+</div> <!-- valid_dialog -->
+<div id="entretien_dialog" style="display : none">
+</div> <!-- entretien_dialog -->
 <script type="text/javascript">
 	$(document).ready(function(){
 		$("#tableau_formateur").flexigrid({
@@ -18,12 +19,15 @@
           			{display: 'CV', name : 'cv', width : 100, sortable : false, align: 'left'},
           			{display: 'Motivation', name : 'motivation', width : 100, sortable : false, align: 'left'},
           			{display: 'RIB', name : 'rib', width : 100, sortable : false, align: 'left'},
-          			{display: 'Test de motivation passé', name : 'test_motivation', width : 200, sortable : false, align: 'left'}, 
+          			{display: 'Test de motivation passé', name : 'test_motivation', width : 200, sortable : false, align: 'left'},
+          			{display: 'Entretien Skype passé', name : 'entretien_skype', width : 200, sortable : false, align: 'left'}, 
                       ],
             buttons : [
                     {name: 'Valider', bclass: 'valider', onpress : valid_record},
                     {separator: true},  
 					{name: 'Voir les réponses du test', bclass: 'detail', onpress : detail_record},
+					{separator: true},
+					{name: 'Entretien Skype', bclass: 'entretien', onpress: entretien_formateur}
             ],
             searchitems : [
                     {display: 'Nom', name : 'nom'},
@@ -130,7 +134,7 @@
             var test;
             var id;
             $('.trSelected',grid).each(function(){
-                 test = $(this).children(':nth-child(6)').children().html();
+                test = $(this).children(':nth-child(6)').children().html();
 				id = this.id.substr(3);
              });
             
@@ -144,6 +148,77 @@
              }
              			
 			location.href="/réponses-test-formateur?id="+id;
+        }
+        
+        function entretien_formateur(command, grid){
+        	// On vérifie que l'utilisateur a séléctionné une ligne     
+        	var record_count = $('.trSelected',grid).length;
+            if (0 == record_count)
+            {
+                $("#error").html('&nbsp;Veuillez dabord sélectionner une ligne !');
+                $("#error").show();
+                setTimeout(function() {
+                    $("#error").fadeOut("slow");
+                }, 2000 );
+                return;
+            }
+            
+            // On vide le dialog par sécurite
+            $('#entretien_dialog').html('');
+            
+            var id;
+            $('.trSelected',grid).each(function(){
+				id = this.id.substr(3);
+             });            
+           	// On récupère les infos sur l'entretien
+            $.ajax({
+            	type: 'post',
+            	url : '/utilisateurs/getentretiendata',
+            	data :{'id' : id},
+            	success : function(data){
+            		$('#entretien_dialog').html(data);
+            		$('#entretien_dialog').dialog({
+            			title : 'Entretien de motivation Skype',
+            			width: 680,
+            			height: 470,
+            			buttons : [
+            				{
+            					text : 'Valider',
+            					click : function(){
+            						var temp_date = new Date();
+            						var mois = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+            						date = temp_date.getDate()+"/"+mois[temp_date.getMonth()]+"/"+temp_date.getFullYear();
+            						
+            						// Si la date existe déjà, on ne la change pas.
+            						if($('#date_entretien').html() != "")
+            							date = $('#date_entretien').html();
+            						
+            						$.ajax({
+            							type : 'post',
+            							url : '/utilisateurs/edituser',
+            							data : {'id_utilisateur' : id, 'DateEntretienSkype' : date, 'Note' : $('#note_skype').val() }
+            						});
+            						$("#entretien_dialog").dialog('close');
+            						$('#tableau_formateur').flexReload();
+            						$("#info").html('&nbsp;Les notes on été enregistrées');
+					                $("#info").show();
+					                setTimeout(function() {
+					                    $("#info").fadeOut("slow");
+					                }, 2000 );
+					                return;
+            					}
+            				},
+            				{
+            					text : 'Annuler',
+            					click : function(){
+            						$(this).dialog('close');
+            					}
+            				}
+            			]
+            		});            		
+            	}
+            });
+
         }
 	});
 </script>

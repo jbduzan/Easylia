@@ -60,7 +60,7 @@ class Application_Model_ListeCertificationMapper
            $liste->setNombreQuestion($row->nombre_question);
            $liste->setTempsCertification($row->temps_certification);
            $liste->setScoreMinimum($row->score_minimum);
-           $liste->setDureeValidite($row->duree_validte);
+           $liste->setDureeValidite($row->duree_validite);
     }
 
     // Retourne tous les enregistrement

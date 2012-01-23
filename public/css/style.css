@@ -429,7 +429,7 @@ body {
 .flexigrid div.fbutton .add_user { background : url('../images/ajouter-modifier-icone-9159-16.png') no-repeat center left;}
 .flexigrid div.fbutton .detail { background : url('../images/loupe.png') no-repeat center left;}
 .flexigrid div.fbutton .valider { background : url('../images/icone_ok_16.png') no-repeat center left;}
-
+.flexigrid div.fbutton .entretien { background : url('../images/bulle-chat-parole-parler-icone-4615-16.png') no-repeat center left;}
 
 /* Sidebar */
 
@@ -695,7 +695,7 @@ body {
 .ui-widget{
 	font-family: Arial, Helvetica, sans-serif; 
 	color:#7a7a7a;
-	font-size: 0.85em;
+	font-size: 0.90em;
 }
 
 .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
@@ -896,9 +896,8 @@ body {
 	border : none;
 }
 
-/* Parcours formateur */
 .etape_valide{
-	background : #ACDD4A;
+	background : #98FB98;
 	outline: none; 
 }
 
@@ -991,4 +990,21 @@ body {
 	background-color: #F5F5F5;
 	padding : 1em;
 }
-	
+
+
+.div_checkbox_parcour{
+	float: right;
+	margin-right: 35em;
+	margin-top: -0.3em;
+}
+
+#select_jour_parcour{
+	font-size: 1.1em;
+}
+
+/* Affichage entretien skype admin */
+#dispo_left{
+	float : left;
+	margin-right: 5em;
+}
+

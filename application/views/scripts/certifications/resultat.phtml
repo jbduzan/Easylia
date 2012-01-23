@@ -1,6 +1,6 @@
 <h1>Résultat de votre certification</h1>
 <?php
-	if($this->pourcentage >= 70)
+	if($this->pourcentage >= $this->score_minimum)
 		echo "<p id='pourcentage'>Votre score est de <span style='color : green'>".$this->pourcentage."%</span></p>";
 	else
 		echo "<p id='pourcentage'>Votre score est de <span style='color : red'>".$this->pourcentage."%</span></p>";		

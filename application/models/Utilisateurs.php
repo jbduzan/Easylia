@@ -40,6 +40,9 @@ class Application_Model_Utilisateurs
     protected $_cle_activation;
     protected $_profil_actif;
     protected $_test_motivation;
+    protected $_adresse_skype;
+    protected $_date_entretien_skype;
+    protected $_disponibilite_entretien;
     
     // Constructeur
     
@@ -59,7 +62,7 @@ class Application_Model_Utilisateurs
         if(('mapper' == $name) || !method_exists($this, $method)){
             throw new Exception('Invalid Utilisateurs property');
         }
-        return $this->$method();
+        return $this->$method($value);
         
     }
 
@@ -419,5 +422,31 @@ class Application_Model_Utilisateurs
 		return $this->_test_motivation;
 	}
 	
-}
+	public function setAdresseSkype($adresse_skype){
+		$this->_adresse_skype = (string) $adresse_skype;
+		return $this;
+	}
+	
+	public function getAdresseSkype(){
+		return $this->_adresse_skype;
+	}
+	
+	public function setDateEntretienSkype($date_entretien){
+		$this->_date_entretien_skype = $date_entretien;
+		return $this;
+	}
+	
+	public function getDateEntretienSkype(){
+		return $this->_date_entretien_skype;
+	}
+	
+	public function setDisponibiliteEntretien($disponibilite_entretien){
+		$this->_disponibilite_entretien = $disponibilite_entretien;
+		return $this;
+	}
+	
+	public function getDisponibiliteEntretien(){
+		return $this->_disponibilite_entretien;
+	}
+}	
 

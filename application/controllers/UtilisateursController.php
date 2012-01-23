@@ -503,8 +503,40 @@ class UtilisateursController extends Zend_Controller_Action
             $mapper = new Application_Model_UtilisateursMapper();
             
             $mapper->delete($id_utilisateur);
-        }
-        
+        }   
+    }
+    
+    public function edituserAction(){
+    	// Edite l'utilisateur en fonction des paramètres envoyés
+    	$this->getHelper('layout')->disableLayout();
+		$request = $this->getRequest();
+		
+		$utilisateur = new Application_Model_Utilisateurs();
+		$this->userMapper->find($request->getParam('id_utilisateur'), $utilisateur);
+		
+		$proprietes = array_slice($request->getParams(), 3);
+		
+		// On les injecte à l'utilisateur
+		foreach($proprietes as $key=>$value){
+			// On saute l'id 
+			if($key == "id_utilisateur")
+				continue;
+
+			// Si la value est un array
+			if(is_array($value)){
+				$temp = "";
+				foreach($value as $row){
+					$temp .= $row.",";
+				}
+				$temp = substr($temp, '0', '-1');
+				$utilisateur->__set($key,$temp);
+				continue;
+			}
+			$utilisateur->__set($key,$value);
+		}
+		
+		// Une fois que on a fait toute les modifications, on sauvegarde
+		$this->userMapper->save($utilisateur);
     }
 
     public function getlistenomformateAction()
@@ -819,6 +851,17 @@ class UtilisateursController extends Zend_Controller_Action
 		$utilisateur = new Application_Model_Utilisateurs();
 		$this->userMapper->find($this->user->id_utilisateur, $utilisateur);
 		
+    	// On récupère l'adresse skype de l'utilisateur
+  		$this->view->adresse_skype = $utilisateur->getAdresseSkype();
+  		
+  		// On regarde si l'entretien skype est passé
+  		if($utilisateur->getDateEntretienSkype() != "")
+  			$this->view->entretien_skype = true;
+
+		// On regarde si l'utilisateur à déjà renseigné ses disponibilité
+    	if($utilisateur->getDisponibiliteEntretien() != "")
+    		$this->view->disponibilite = true; 
+		
 		// On regarde les documents que il a déjà uploadé
     	$document = $this->checkDocumentExist();
 
@@ -828,19 +871,21 @@ class UtilisateursController extends Zend_Controller_Action
 		// Si il n'y as aucun documents
 		if(!$document){
 			$this->view->cv = false;   
-			$this->view->rib = false; 
+			//$this->view->rib = false; 
 			$this->view->lettre =  false;
 		}else if($document == "true"){
 			// Si les 3 documents on été uploadé
 			$this->view->cv = true;   
-			$this->view->rib = true; 
+			//$this->view->rib = true; 
 			$this->view->lettre = true;
 			
 			// Et si le test de motivation à été passé
 			if($utilisateur->getTestMotivation() == 1){
-				$this->view->waiting = true;
 				$this->view->test_motivation = true;
-				return;
+				if($utilisateur->getNote() != ""){
+					$this->view->waiting = true;
+					return;
+				}
 			}
 		}else if(count($document) > 0 && count($document) < 3){
 			// Si tous les documents non pas été uploadé
@@ -853,10 +898,12 @@ class UtilisateursController extends Zend_Controller_Action
         	else
         		$this->view->cv = true;
         		     
-        	if(!in_array('rib', $document_present))		     
+        	/*
+if(!in_array('rib', $document_present))		     
          		$this->view->rib = false;   
         	else
         		$this->view->rib = true;
+*/
         		
 			if(!in_array('motivation', $document_present))
         		$this->view->lettre =  false;  
@@ -868,7 +915,7 @@ class UtilisateursController extends Zend_Controller_Action
     	if($utilisateur->getTestMotivation() == 1)
     		$this->view->test_motivation = true;
     	else
-    		$this->view->test_motivation = false;    	
+    		$this->view->test_motivation = false;   	
     }
 
     public function checkFormateurValide()
@@ -939,8 +986,10 @@ class UtilisateursController extends Zend_Controller_Action
 			$this->userMapper->find($this->user->id_utilisateur, $utilisateur);
 			
 			// On vérifie si il a déjà passé la certification pédagogique
-			if(!$this->checkCertificationPedagogique($utilisateur->getIdUtilisateur()))
-				$this->_redirector->goToSimple('index', 'passer-une-certification');
+			$id_certification = $this->checkCertificationPedagogique($utilisateur->getIdUtilisateur());
+			
+			if(is_int($id_certification))
+				$this->view->certification_pedagogique = $id_certification;				
 			
 			if($utilisateur->getProfilActif() == 1)
 				$this->_redirector->goToSimple('index', 'profil-utilisateur');
@@ -950,6 +999,7 @@ class UtilisateursController extends Zend_Controller_Action
 	    	
 	    	// Les questions pour le test de motivation 
 	    	$this->view->test = $this->prepareMotivationTest();
+	    	$this->view->id_utilisateur = $this->user->id_utilisateur;
 	    	      
 		}else{
 			$this->redirectToConnexion();
@@ -995,13 +1045,66 @@ class UtilisateursController extends Zend_Controller_Action
 		}
 		
 		// On récupère dabord toutes les certifications passé de l'utilisateur
-		$historique = new Application_Model_HistoriqueCertifications();
-		$this->historique_mapper->findByIdUtilisateurAndCertification($id_utilisateur, $id_certification, $historique);
+		$result = $this->historique_mapper->fetchAll();
+
+		// Si l'utilisateur a passé la certification et que il a passé le score mini on valide		
+		foreach($result as $row){
+			if($row->getIdUtilisateur() == $id_utilisateur){
+				if($row->getScore() >= $score_minimum){
+					return true;
+				}
+			}
+		}
 		
-		// Si l'utilisateur a passé la certification et que il a passé le score mini on valide
-		if($historique->getScore() >= $score_minimum)
-			return true;
-		else 
-			return false;	
+		// Sinon on renvoie l'id de la certification pour la faire passer
+		return intval($id_certification);
+	}
+	
+	public function getentretiendataAction(){
+		$this->_helper->viewRenderer->setNoRender(true);
+		$this->getHelper('layout')->disableLayout();
+		
+		$request = $this->getRequest();
+		
+		// On récupère les infos sur l'utilisateur
+		$utilisateur = new Application_Model_Utilisateurs();
+		$this->userMapper->find($request->getParam('id'), $utilisateur);
+
+		$result = "<h5 class='h5_modifie'>Notes sur l'entretien</h5><textarea id='note_skype' rows='15' cols='128'>";
+		
+		// On on remplis les notes si elles ont déjà été renseignées
+		if($utilisateur->getNote() != ''){
+			$result .= $utilisateur->getNote();
+		}
+			
+		$result .= "</textarea>";		
+		// On affiche les informations
+		echo "<p>Adresse skype du formateur : ".$utilisateur->getAdresseSkype()."</p>";
+		echo "<p>Date de l'entretien : <span id='date_entretien'>".$utilisateur->getDateEntretienSkype()."</span></p>";
+		echo $result;
+		echo "<br />";
+		echo "<br />";
+		
+		// On récupère les disponibilitée de l'utilisateur si il n'as pas encore passé l'entretien
+		if($utilisateur->getDateEntretienSkype() == ""){
+			$disponibilite_left = "";
+			$disponibilite_right = "";
+			$temp = $utilisateur->getDisponibiliteEntretien();
+			$temp = explode(',', $temp);
+			$i = 0;
+			
+			foreach($temp as $row){
+				$i++;
+				if($i <= round((count($temp) / 2)))
+					$disponibilite_left .= "<p class='dispo_left'>- ".$row."<p>";
+				else
+					$disponibilite_right .= "<p class='dispo_right'>- ".$row."<p>";
+			}
+
+			echo "<h5 class='h5_modifie'>Disponibilitées du formateur</h5>";
+			echo "<div id='dispo_left'>".$disponibilite_left."</div>";
+			echo "<div id='dispo_right'>".$disponibilite_right."</div>";
+
+		}
 	}
 }

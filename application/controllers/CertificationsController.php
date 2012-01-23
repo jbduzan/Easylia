@@ -420,10 +420,13 @@ class CertificationsController extends Zend_Controller_Action
 
                 // On calcule un pourcentage avec les deux nombres calculés avant
                 $pourcentage_reussite = $this->calculPourcentage($nbr_bonne_reponse, $nbr_reponse_totale);
+                
+                // On crée la date de validité en fonction de la durée de validité de la certification
+                $date_validite = date('d/m/Y',(($certification->getDureeValidite() * 31536000) + time()));
                            
                 $historique = new Application_Model_HistoriqueCertifications();
                 $historique->setDatePassage(date("d/m/Y"))
-                           ->setDateValidite("12/10/2012")
+                           ->setDateValidite($date_validite)
                            ->setScore($pourcentage_reussite)
                            ->setIdUtilisateur($this->utilisateur->id_utilisateur)
                            ->setIdCertification($request->getParam('id_certification'));
@@ -563,6 +566,11 @@ class CertificationsController extends Zend_Controller_Action
    		
    		$this->historique_mapper->find($this->utilisateur->last_id, $historique);
    		
+   		// Récupère le score de validation de la certification
+   		$certification = new Application_Model_ListeCertification();
+   		$this->certification_mapper->find($historique->getIdCertification(), $certification);
+   		
+   		$this->view->score_minimum = $certification->getScoreMinimum();   		
    		$this->view->pourcentage = $historique->getScore();
    		   		   		
     }
