@@ -5,8 +5,13 @@
 </table>
 <div id="valid_dialog" style="display : none">
 	<p>Etes vous sur de vouloir valider ce formateur ? </p>
+	<span id="loading_valid"></span>	
 </div> <!-- valid_dialog -->
 <div id="entretien_dialog" style="display : none">
+</div> <!-- entretien_dialog -->
+<div id="refuser_dialog" style="display : none">
+	<p>Etes vous sur de vouloir refuser ce formateur ? </p>
+	<span id="loading_refus"></span>
 </div> <!-- entretien_dialog -->
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -16,15 +21,18 @@
             colModel : [
                     {display: 'Nom', name : 'nom', width : 100, sortable : true, align: 'left'},
                     {display: 'Prénom', name : 'prenom', width : 100, sortable : true, align: 'left'},
-          			{display: 'CV', name : 'cv', width : 100, sortable : false, align: 'left'},
-          			{display: 'Motivation', name : 'motivation', width : 100, sortable : false, align: 'left'},
-          			{display: 'RIB', name : 'rib', width : 100, sortable : false, align: 'left'},
-          			{display: 'Test de motivation passé', name : 'test_motivation', width : 200, sortable : false, align: 'left'},
+                    {display: 'Certification pédagogique', name : 'certification', width : 120, sortable : false, align: 'left'},
+          			{display: 'CV', name : 'cv', width : 60, sortable : false, align: 'left'},
+          			{display: 'Motivation', name : 'motivation', width : 80, sortable : false, align: 'left'},
+          			{display: 'RIB', name : 'rib', width : 60, sortable : false, align: 'left'},
+          			{display: 'Test de motivation passé', name : 'test_motivation', width : 150, sortable : false, align: 'left'},
           			{display: 'Entretien Skype passé', name : 'entretien_skype', width : 200, sortable : false, align: 'left'}, 
                       ],
             buttons : [
                     {name: 'Valider', bclass: 'valider', onpress : valid_record},
                     {separator: true},  
+                    {name: 'Refuser', bclass: 'refuser', onpress : refuser_record},
+                    {separator: true},
 					{name: 'Voir les réponses du test', bclass: 'detail', onpress : detail_record},
 					{separator: true},
 					{name: 'Entretien Skype', bclass: 'entretien', onpress: entretien_formateur}
@@ -46,6 +54,10 @@
         });
         $(".ftitle").append('<span id="info" style="color : green"></span>');
         $(".ftitle").append('<span id="error" style="color : red"></span>');
+        
+        $("#submit_entretien").click(function(){
+        	console.log('click');
+        	        });
         
         function valid_record(command, grid){
         	// On vérifie que l'utilisateur a séléctionné une ligne     
@@ -89,6 +101,7 @@
             		{
             			text : "Valider",
             			click : function(){
+            				$("#loading_valid").html("<img src='/images/loading.gif' /> En cours...");
             				$.ajax({
             					type : 'post',
             					url : '/utilisateurs/valideuserajax',
@@ -101,6 +114,7 @@
 					                setTimeout(function() {
 					                    $("#info").fadeOut("slow");
 					                }, 2000 );
+					                $("#loading_valid").html('');
 					                return;
             					}
             				});           			
@@ -170,6 +184,7 @@
             $('.trSelected',grid).each(function(){
 				id = this.id.substr(3);
              });            
+             
            	// On récupère les infos sur l'entretien
             $.ajax({
             	type: 'post',
@@ -183,42 +198,89 @@
             			height: 470,
             			buttons : [
             				{
-            					text : 'Valider',
+            					text : "Enregistrer les notes et marquer l'entretien comme terminé",
             					click : function(){
             						var temp_date = new Date();
-            						var mois = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
-            						date = temp_date.getDate()+"/"+mois[temp_date.getMonth()]+"/"+temp_date.getFullYear();
-            						
-            						// Si la date existe déjà, on ne la change pas.
-            						if($('#date_entretien').html() != "")
-            							date = $('#date_entretien').html();
-            						
-            						$.ajax({
-            							type : 'post',
-            							url : '/utilisateurs/edituser',
-            							data : {'id_utilisateur' : id, 'DateEntretienSkype' : date, 'Note' : $('#note_skype').val() }
-            						});
-            						$("#entretien_dialog").dialog('close');
-            						$('#tableau_formateur').flexReload();
-            						$("#info").html('&nbsp;Les notes on été enregistrées');
-					                $("#info").show();
-					                setTimeout(function() {
-					                    $("#info").fadeOut("slow");
-					                }, 2000 );
-					                return;
+									var mois = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+									date = temp_date.getDate()+"/"+mois[temp_date.getMonth()]+"/"+temp_date.getFullYear();
+									
+									// Si la date existe déjà, on ne la change pas.
+									if($('#date_entretien').html() != "")
+										date = $('#date_entretien').html();
+									
+									$.ajax({
+										type : 'post',
+										url : '/utilisateurs/edituser',
+										data : {'id_utilisateur' : id, 'DateEntretienSkype' : date, 'Note' : $('#note_skype').val() }
+									});
+									$("#entretien_dialog").dialog('close');
+									$('#tableau_formateur').flexReload();						
             					}
             				},
             				{
-            					text : 'Annuler',
+            					text : 'Fermer',
             					click : function(){
             						$(this).dialog('close');
+									$('#tableau_formateur').flexReload();
             					}
             				}
             			]
             		});            		
             	}
             });
+        }
+        
+        function refuser_record(command, grid){
+            // On vérifie que l'utilisateur a séléctionné une ligne     
+        	var record_count = $('.trSelected',grid).length;
+            if (0 == record_count)
+            {
+                $("#error").html('&nbsp;Veuillez dabord sélectionner une ligne !');
+                $("#error").show();
+                setTimeout(function() {
+                    $("#error").fadeOut("slow");
+                }, 2000 );
+                return;
+            }
 
+            var id;
+            $('.trSelected',grid).each(function(){
+				id = this.id.substr(3);
+            });   
+             
+        	$('#refuser_dialog').dialog({
+        		title : "Refuser un formateur",
+        		buttons : [
+        			{
+        				text : 'Valider',
+        				click : function(){
+							$("#loading_refus").html("<img src='/images/loading.gif' /> En cours...");
+        					$.ajax({
+        						type : 'post',
+        						url : '/utilisateurs/refuserformateur',
+        						data : {'id_utilisateur' : id},
+        						success : function(){
+        							$('#refuser_dialog').dialog('close');
+		            				$('#tableau_formateur').flexReload();
+		            				$("#info").html('&nbsp;Ce formateur a été refusé');
+					                $("#info").show();
+					                setTimeout(function() {
+					                    $("#info").fadeOut("slow");
+					                }, 2000 );
+					                $("#loading_refus").html('');
+					                return;
+        						}
+        					});
+        				}
+        			},
+        			{
+        				text : "Annuler",
+        				click : function(){
+        					$(this).dialog('close');
+        				}
+        			}
+        		]
+        	});
         }
 	});
 </script>

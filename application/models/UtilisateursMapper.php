@@ -355,12 +355,46 @@ class Application_Model_UtilisateursMapper
 	        else
 	        	$test_motivation = "<img class='icone_erreur' src='images/icone_erreur_16.png' />";
 			
+			// On vérifie si l'utilisateur à passé la certification pédagogique
+			
+			// On récupère l'id de la certification pédagogique et son score minimum
+			$certification_mapper = new Application_Model_ListeCertificationMapper();
+			$result = $certification_mapper->fetchAll();
+			
+			$result_certification = "";
+			$score_minimum;
+			
+			foreach($result as $row2){
+				if($row2->getType() == "Certification Pedagogique"){
+					$score_minimum = $row2->getScoreMinimum();
+					break;
+				}
+			}
+			
+			// On récupère dabord toutes les certifications passé de l'utilisateur
+			$historique_mapper = new Application_Model_HistoriqueCertificationsMapper();
+			$result = $historique_mapper->fetchAll();
+	
+			// Si l'utilisateur a passé la certification et que il a passé le score mini on valide		
+			foreach($result as $row3){
+				if($row3->getIdUtilisateur() == $id_utilisateur){
+					if($row3->getScore() >= $score_minimum){
+						$result_certification = true;
+					}
+				}
+			}
+			
+			if($result_certification)
+				$certification = "<img class='icone_ok' src='images/icone_ok_16.png' />";
+		   	else
+	        	$certification = "<img class='icone_erreur' src='images/icone_erreur_16.png' />";
+	        	
 			// Si on en a aucun on met tous en erreur
 			if(count($documents) == 0){
 				$cv = "<img class='icone_erreur' src='images/icone_erreur_16.png' />";
 				$rib = "<img class='icone_erreur' src='images/icone_erreur_16.png' />";
 				$motivation = "<img class='icone_erreur' src='images/icone_erreur_16.png' />";
-				if($row->note != "")
+				if($row->date_entretien_skype != "")
 	     	  		$entretien = "<img class='icone_ok' src='images/icone_ok_16.png' />";
 	        	else
 	        		$entretien = "<img class='icone_erreur' src='images/icone_erreur_16.png' />";
@@ -368,7 +402,7 @@ class Application_Model_UtilisateursMapper
 			
 				$data['rows'][] = array(
                 	'id' => $row->id_utilisateur,
-                	'cell' => array(utf8_encode($row->nom), utf8_encode($row->prenom),$cv, $motivation, $rib, $test_motivation, $entretien)
+                	'cell' => array(utf8_encode($row->nom), utf8_encode($row->prenom),$certification, $cv, $motivation, $rib, $test_motivation, $entretien)
            		 );
            		 continue;
 			}
@@ -401,7 +435,7 @@ class Application_Model_UtilisateursMapper
 	       	
             $data['rows'][] = array(
                 'id' => $row->id_utilisateur,
-                'cell' => array(utf8_encode($row->nom), utf8_encode($row->prenom),$cv, $motivation, $rib, $test_motivation, $entretien)
+                'cell' => array(utf8_encode($row->nom), utf8_encode($row->prenom),$certification, $cv, $motivation, $rib, $test_motivation, $entretien)
             );
         }
         return json_encode($data);        

@@ -949,6 +949,15 @@ if(!in_array('rib', $document_present))
 			$utilisateur->setIdGroupe(2);
 			
 			$this->userMapper->save($utilisateur);
+			
+			// On envoie un mail au formateur pour lui signifier son acceptation
+			$mail = new Zend_Mail();
+			$mail->setFrom('no-reply@easylia.com', 'Easylia');
+			$mail->addTo($utilisateur->getMail());
+			$mail->setSubject(utf8_decode("Réponse à votre entretien"));
+			$mail->setBodyHtml(utf8_decode("<div><img src='http://dev.easylia.com/images/logo.jpg'/><br /><br/><br/></div><div><p>Ceci est un mail automatique, merci de ne pas y r&eacute;pondre</p><p>Après avoir examiné votre candidature, il a été décidé de l'accepter. <br /> Merci de votre participation</p></div>"));
+			$mail->send();
+
 		}
     }
 	
@@ -1079,10 +1088,12 @@ if(!in_array('rib', $document_present))
 			
 		$result .= "</textarea>";		
 		// On affiche les informations
-		echo "<p>Adresse skype du formateur : ".$utilisateur->getAdresseSkype()."</p>";
+		echo "<p>Nom d'utilisateur Skype du formateur : <a href='skype:".$utilisateur->getAdresseSkype()."?call'>".$utilisateur->getAdresseSkype()."</a></p>";
 		echo "<p>Date de l'entretien : <span id='date_entretien'>".$utilisateur->getDateEntretienSkype()."</span></p>";
 		echo $result;
 		echo "<br />";
+		echo "<br />";
+		echo "<span id='info_entretien' style='display : none'></span>";
 		echo "<br />";
 		
 		// On récupère les disponibilitée de l'utilisateur si il n'as pas encore passé l'entretien
@@ -1104,7 +1115,28 @@ if(!in_array('rib', $document_present))
 			echo "<h5 class='h5_modifie'>Disponibilitées du formateur</h5>";
 			echo "<div id='dispo_left'>".$disponibilite_left."</div>";
 			echo "<div id='dispo_right'>".$disponibilite_right."</div>";
-
 		}
+	}
+	
+	public function refuserformateurAction(){
+		$this->_helper->viewRenderer->setNoRender(true);
+		$this->getHelper('layout')->disableLayout();
+		
+		$request = $this->getRequest();
+		
+		$utilisateur = new Application_Model_Utilisateurs();
+		$this->userMapper->find($request->getParam('id_utilisateur'), $utilisateur);
+		
+		// On bascule le formateur dans le groupe des formateurs refusés
+		$utilisateur->setIdGroupe(4);
+		$this->userMapper->save($utilisateur);
+		
+		// On envoie un mail au formateur pour lui signifier son refus
+		$mail = new Zend_Mail();
+		$mail->setFrom('no-reply@easylia.com', 'Easylia');
+		$mail->addTo($utilisateur->getMail());
+		$mail->setSubject(utf8_decode("Réponse à votre entretien"));
+		$mail->setBodyHtml(utf8_decode("<div><img src='http://dev.easylia.com/images/logo.jpg'/><br /><br/><br/></div><div><p>Ceci est un mail automatique, merci de ne pas y r&eacute;pondre</p><p>Après avoir examiné votre candidature, il a été décidé de ne pas l'accepter. <br /> Merci de votre participation</p></div>"));
+		$mail->send();
 	}
 }

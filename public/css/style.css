@@ -430,6 +430,7 @@ body {
 .flexigrid div.fbutton .detail { background : url('../images/loupe.png') no-repeat center left;}
 .flexigrid div.fbutton .valider { background : url('../images/icone_ok_16.png') no-repeat center left;}
 .flexigrid div.fbutton .entretien { background : url('../images/bulle-chat-parole-parler-icone-4615-16.png') no-repeat center left;}
+.flexigrid div.fbutton .refuser { background : url('../images/icone_erreur_16.png') no-repeat center left;}
 
 /* Sidebar */
 
@@ -889,9 +890,9 @@ body {
 /* Parcour formateur */
 
 #contenaire_onglets{
-	margin-left : -3.3em;
+	margin-left : -0.5em;
 	margin-top: 5em;
-	width: 97.9em;
+	width: 87.9em;
 	min-height: 21em;
 	border : none;
 }
@@ -899,6 +900,16 @@ body {
 .etape_valide{
 	background : #98FB98;
 	outline: none; 
+}
+
+.etape{
+	display: inline-block;
+}
+
+#etapes{
+	margin-left: 25em;
+	margin-bottom: 2em;
+	margin-top: 2em;
 }
 
 /* Menu connecte */
