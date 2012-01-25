@@ -1,0 +1,18 @@
+<?php
+$list = array();
+
+if(count($this->list) == 0){
+	$liste['id_question'] = "0";
+	$liste['question'] = "Aucune question ne correspond";
+	$list[] = $liste;
+}else{
+	foreach($this->list as $row){
+	    $liste['id_question'] = $row['id_question'];
+	    $liste['question'] = $row['question'];
+	    
+	    $list[] = $liste;
+	}
+}	
+
+
+echo json_encode($list);?>

@@ -1,0 +1,23 @@
+<h1>Réponses au test de motivation</h1>
+<h5 class="h5_modifie"><?php echo $this->utilisateur ?></h5>
+<?php
+	echo $this->reponse;
+?>
+<script type="text/javascript">
+	$(document).ready(function(){
+			
+		// On cache toutes les réponses
+		$(".reponse_motivation").hide();
+		
+		// Lorsque on clique sur une question
+		$(".question_motivation").click(function(){
+			// On cache la réponses déjà affichée
+			$(".reponse_motivation").slideUp();
+			
+			if($(this).next().is(":visible") == false)
+				// On affiche la réponse associée
+				$(this).next().slideDown();
+		});
+		
+	});
+</script>

@@ -1,0 +1,65 @@
+<?php $this->placeholder('menu-connecte')->captureStart();
+echo $this->navigation()->breadcrumbs()->setSeparator(" -> "); ?>
+<div id="menu-connecte">
+	    <li><a href="/profil-utilisateur">Profil</a></li>
+	    <li><a>Actions utilisateurs</a>
+	        <ul>            
+	            <li><a href="/liste-des-utilisateurs">Liste des utilisateurs</a></li>
+	            <li><a href="/liste-des-utilisateurs?id=1">Liste des administrateurs</a></li>
+	            <li><a href="/liste-des-utilisateurs?id=2">Liste des formateurs</a></li>
+	            <li><a href="/formateurs-à-valider">Formateurs à valider</a></li>	            
+	        </ul>
+	    </li>
+	    <li><a>Autres actions</a>
+	        <ul>
+				<li><a href="/groupe">Liste des groupes</a></li>
+	            <li><a href="/questions">Liste des questions</a></li>
+	            <li><a href="/certifications">Liste des certifications</a></li>
+	            <li><a href="/formation/listeformation">Liste des formations</a></li>
+	            <li><a href="/questions/listequestionmotivation">Liste des questions de motivation</a></li>
+	            <li><a href="/logininterdit">Liste des logins interdit</a></li>
+	            <li><a href="/faq/gestion">Gérer la FAQ</a></li>
+	        </ul>
+	    </li>
+	    <li><a id="deconnexion_menu">Deconnexion</a></li>
+</div> <!-- menu-connecte -->
+<script type="text/javascript">
+	$(document).ready(function(){
+	
+		// functions pour le menu déroulants
+		
+		var timeout    = 500;
+		var closetimer = 0;
+		var ddmenuitem = 0;
+		
+		function MenuDeroulant_open(){
+			MenuDeroulant_canceltimer();
+			MenuDeroulant_close();
+			ddmenuitem = $(this).find('ul').css('visibility', 'visible');
+		}
+
+		function MenuDeroulant_close(){
+			if(ddmenuitem) ddmenuitem.css('visibility', 'hidden');
+		}
+
+		function MenuDeroulant_timer(){
+			closetimer = window.setTimeout(MenuDeroulant_close, timeout);
+		}
+
+		function MenuDeroulant_canceltimer(){
+			if(closetimer){
+				window.clearTimeout(closetimer);
+				closetimer = null;
+			}
+		}
+		
+		$('#menu-connecte > li').bind('mouseover', MenuDeroulant_open)
+	
+  		$('#menu-connecte > li').bind('mouseout',  MenuDeroulant_timer)});
+  		
+  		$('#deconnexion_menu').click(function(){
+  			location.href = '/utilisateurs/deconnexion';
+  		});
+</script>
+
+<?php $this->placeholder('menu-connecte')->captureEnd() ?>
