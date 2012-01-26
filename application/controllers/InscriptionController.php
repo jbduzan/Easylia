@@ -18,8 +18,7 @@ class InscriptionController extends Zend_Controller_Action
     }
     	
 	public function indexAction(){
-		$this->getHelper('layout')->disableLayout();
-		        // Inscription des formateurs
+		// Inscription des formateurs
         
         $request = $this->getRequest();
         
@@ -38,7 +37,7 @@ class InscriptionController extends Zend_Controller_Action
                 
                 // On l'insère dans le groupe des formateurs non approuvé
                 $client->setIdGroupe(3);
-                
+                                
                 // Clé d'activation du compte à envoyer par mail;
                 $cle_activation = substr(sha1(microtime(NULL)*100000),0,30);
                 
@@ -50,8 +49,9 @@ class InscriptionController extends Zend_Controller_Action
                 $mail->setFrom('no-reply@easylia.com', 'Easylia');
                 $mail->addTo($client->getMail());
                 $mail->setSubject("Votre inscription sur Easylia");
-                $mail->setBodyHtml("<div><img src='http://dev.easylia.com/images/logo.jpg'/><br /><br/><br/></div><div><p>Ceci est un mail automatique, merci de ne pas y r&eacute;pondre</p><p>Merci de vous &ecirc;tre enregistr&eacute; sur Easylia.<br /><br />Votre nom d'utilisateur est : '".utf8_decode($client->getLogin())."', et votre mot de passe : '".utf8_decode($request->getPost('password'))."'.</p></div>");
+                $mail->setBodyHtml("<div><img src='http://dev.easylia.com/images/logo.jpg'/></div><div><p>Merci de vous etre enregistre sur Easylia.<br />Votre nom d'utilisateur est : '".$client->getLogin()."', et votre mot de passe : '".$request->getPost('password')."'.</p><p>Vous devez maintenant activer votre compte avant de vous connecter. Vous pouvez le faire en cliquant sur ce <a href='/activation-compte?id=".$this->id_utilisateur."&key=".$this->cle_activation."'>lien</a>.</p></div>");
                 $mail->send();
+
                                                              
                 return $this->_redirector->goToSimple('confirmation', 'inscription');
             }
@@ -59,7 +59,6 @@ class InscriptionController extends Zend_Controller_Action
 	}
 	
 	public function confirmationAction(){
-		$this->getHelper('layout')->disableLayout();
 	}
 
 }

@@ -1,4 +1,4 @@
-<?php  /* echo $this->navigation()->breadcrumbs() *///fil d'ariane?>
+<p><?php echo $this->navigation()->breadcrumbs()->setSeparator(' > '); ?></p>
 <div id="titre_modifier">
 	<h5>Modification des informations personnelles</h5>
 </div>
@@ -35,7 +35,7 @@
 	<span class="errors_modifier" id="info_telephone">&nbsp;</span>
 	<span class="errors_modifier" id="info_email">&nbsp;</span>
 </div> <!-- span-right -->
-<input type="submit" name="submit" id="submit_modifier" value="Valider"><input type="submit" name="annuler" id="annuler" value="Annuler">	
+<input type="submit" name="submit" id="submit_modifier" value="Valider"><input type="submit" name="annuler" onclick="javascript:history.back()" value="Annuler">	
         <?php
     }   
 ?>	

@@ -70,7 +70,7 @@ class Application_Model_FormationsMapper
             		  ->setIdFormationDispo($row->id_formation_dispo);
     }
     
-    public function fetchALl(){
+    public function fetchAll($date_jour = null){
     	$result = $this->getDbTable()->fetchAll();
     	
     	if(count($result) == 0)
@@ -79,6 +79,28 @@ class Application_Model_FormationsMapper
     	$entries = array();
     		
     	foreach($result as $row){
+    		$test_date = "";	
+    
+    		if($date_jour){
+	    		// Si la formation à dépassé la date du jour on passe à la suivante
+				$heure_formation = explode(',', $row->heure_debut);
+				
+				foreach($heure_formation as $row2){
+					$split = explode('/',$row2);
+					$split1 = explode(' ', $split[0]);
+					$split2 = explode(' ', $split[1]);
+					$split3 = explode(' ', $split[2]);
+	
+					if(mktime('0', '0', '0', $split2[0], $split1[1], intval($split3[0])) < mktime('0', '0', '0'))
+						$test_date = 'false';
+					else 
+						$test_date = 'true';
+				}
+    		}
+    		
+			if($test_date == 'false')
+				continue;
+    	
     		$entry = new Application_Model_Formations();
             $entry->setIdFormation($row->id_formation)
             	  ->setNombreHeure($row->nombre_heure)
@@ -139,6 +161,26 @@ class Application_Model_FormationsMapper
         $result = $this->getDbTable()->fetchAll($select);
    
         foreach($result as $row){
+            // Si la formation à dépassé la date du jour on passe à la suivante
+			$heure_formation = explode(',', $row->heure_debut);
+			
+			$test_date = "";
+			
+			foreach($heure_formation as $row2){
+				$split = explode('/',$row2);
+				$split1 = explode(' ', $split[0]);
+				$split2 = explode(' ', $split[1]);
+				$split3 = explode(' ', $split[2]);
+
+				if(mktime('0', '0', '0', $split2[0], $split1[1], intval($split3[0])) < mktime('0', '0', '0'))
+					$test_date = 'false';
+				else 
+					$test_date = 'true';
+			}
+			
+			if($test_date == 'false')
+				continue;
+			            
             // Le nom du client et du formateur
             $utilisateur_mapper = new Application_Model_UtilisateursMapper();
 			$client = new Application_Model_Utilisateurs();

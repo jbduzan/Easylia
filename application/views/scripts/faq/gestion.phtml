@@ -10,13 +10,11 @@
 <div id="add_dialog" style="display : none;" width="800px" height="270px">
 	<p id="question_gestion"><label style="vertical-align : top" for="question">Question : </label><textarea id="question" nom="question"> </textarea></p>
 	<p id="reponse_gestion"><label style="vertical-align : top" for="reponse">Reponse : </label><textarea id="reponse" nom="reponse"></textarea></p>
-	<p id="categorie_gestion"><label for="categorie">Catégorie : </label>
-		<select id="categorie" name="categorie">
-			<option value="Formateur">Formateur</option>
-			<option value="Administrateur">Administrateur</option>
-			<option value="Client">Client</option>
-			<option value="Non-connecté">Non-connecté</option>
-		</select>
+	<p id="categorie_gestion"><label for="categorie">Catégorie : </label><br /><br />
+		<input type="checkbox" id="formateur" name="checkbox_categorie" class="checkbox_categorie" value="Formateur" /><label for="formateur">Formateur</label><br />
+		<input type="checkbox" id="administrateur" name="checkbox_categorie" class="checkbox_categorie" value="Administrateur" /><label for="administrateur">Administrateur</label><br />
+		<input type="checkbox" id="client" name="checkbox_categorie" class="checkbox_categorie" value="Client" /><label for="formateur">Client</label><br />
+		<input type="checkbox" id="non-connecte" name="checkbox_categorie" class="checkbox_categorie" value="Non-connecté" /><label for="non-connecte">Non-connecté</label><br />
 	</p>
 	<p id="active_gestion"><label for="active">Active : </label><input type="checkbox" id="active" nom="active" /></p>
 </div>
@@ -27,7 +25,7 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		$("#tableau_faq").flexigrid({
-            url : 'getlistequestion',
+            url : '/faq/getlistequestion',
             dataType: 'json',
             colModel : [
                     {display: 'Question', name : 'question', width : 433, sortable : true, align: 'left'},
@@ -79,17 +77,31 @@
                return false;
             }
             
+            // On vide les champs
+            $('#question').val('');
+            $('#reponse').val('');
+            $(".checkbox_categorie[type=checkbox]").each(function(){
+            	$(this).removeAttr('checked');
+            });
+            $("#active").removeAttr('checked');
+            
             $("#add_dialog").dialog({
-            	width : 850,
-            	height : 375,
+            	width : 815,
+            	height : 480,
             	title : "Ajouter une question",
             	buttons : [
             		{	text : "Valider",
             			click : function(){
+            			
+            				var categorie = [];
+            				$(".checkbox_categorie[type=checkbox]:checked").each(function(){
+           						categorie.push($(this).val());
+            				});
+            				
             				$.ajax({
             				type : 'post',
             				url : 'add',
-            				data : {'question' : $("#question").val(),'reponse' : $("#reponse").val(),'active' : $("#active").attr("checked"), 'categorie' : $("#categorie").val()},
+            				data : {'question' : $("#question").val(),'reponse' : $("#reponse").val(),'active' : $("#active").attr("checked"), 'categorie' : categorie},
              				success : function(){
              					$("#tableau_faq").flexReload();
              					$("#add_dialog").dialog('close');
@@ -134,6 +146,14 @@
                 return;
             }
             
+            //On vide les champs
+            $('#question').val('');
+            $('#reponse').val('');
+            $(".checkbox_categorie[type=checkbox]").each(function(){
+            	$(this).removeAttr('checked');
+            });
+            $("#active").removeAttr('checked');
+            
             var id;
             $('.trSelected',grid).each(function(){
                  id = this.id.substr(3);
@@ -144,24 +164,37 @@
                  else
                  	active = false;
 				
+                 var categorie_temp = $('td[abbr="categorie"] >div', this).html();
+                 var categorie = categorie_temp.split(',');
+                 $(".checkbox_categorie[type=checkbox]").each(function(){
+                 	var test = $.inArray($(this).val(), categorie)
+                 	if(test != -1)
+                 		$(this).attr('checked', true);
+                 });
+				
                  $("#question").val($('td[abbr="question"] >div', this).html());
-                 $("#reponse").val($('td[abbr="reponse"] >div', this).html());
-                 $("#categorie").val($('td[abbr="categorie"] >div', this).html());
+                 $("#reponse").val($('td[abbr="reponse"] >div', this).html());                 
                  $("#active").attr("checked", active);
              });
              
              $("#add_dialog").dialog({
-            	width : 850,
-            	height : 375,
+            	width : 815,
+            	height : 480,
              	title : "Modifier une question",
              	buttons : [
              		{
              			text : "Valider",
              			click : function(){
+            			
+            				var categorie = [];
+            				$(".checkbox_categorie[type=checkbox]:checked").each(function(){
+           						categorie.push($(this).val());
+            				});
+            				
              				$.ajax({
              					type : "post",
              					url : "edit",
-             					data : {"id" : id, "question" : $("#question").val(), "reponse" : $("#reponse").val(), "active" : $("#active").attr("checked"), 'categorie' : $("#categorie").val()},
+             					data : {"id" : id, "question" : $("#question").val(), "reponse" : $("#reponse").val(), "active" : $("#active").attr("checked"), 'categorie' : categorie},
              					success : function(){
              						$("#tableau_faq").flexReload();
              						$("#add_dialog").dialog('close');

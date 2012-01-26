@@ -529,6 +529,10 @@ class CertificationsController extends Zend_Controller_Action
     {
 		// Liste toute les certifications sous forme de lien pour le formateur
 		
+		if($this->utilisateur->is_logged != true){
+			$this->_redirector->goToUrl('/connexion');
+		}
+		
 		// On fait dabord la liste des certifications que le formateur a deja afin de ne pas les afficher
 		
 		$result = $this->historique_mapper->findByIdUtilisateur($this->utilisateur->id_utilisateur); 

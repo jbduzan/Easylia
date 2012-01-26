@@ -1,143 +1,87 @@
 
 <?php echo $this->doctype();
 $user = new Zend_Session_Namespace('user');?>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-    <title>Easylia</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta http-equiv="Content-Style-Type" content="text/css" />
-    <link href="<?php APPLICATION_PATH?>/css/temp.css" rel="stylesheet" type="text/css" />
-    <link href="<?php APPLICATION_PATH?>/css/layout.css" rel="stylesheet" type="text/css" />
-    <link href="<?php APPLICATION_PATH?>/css/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css" />
-    <link href="<?php APPLICATION_PATH?>/css/flexigrid.css" rel="stylesheet" type="text/css" />
-    <link href="<?php APPLICATION_PATH?>/css/flexigrid.pack.css" rel="stylesheet" type="text/css" />
-    <script src="<?php APPLICATION_PATH?>/js/jquery.1.6.2.min.js" type="text/javascript"></script>
-    <script src="<?php APPLICATION_PATH?>/js/cufon-yui.js" type="text/javascript"></script>
-    <script src="<?php APPLICATION_PATH?>/js/cufon-replace.js" type="text/javascript"></script>
-    <script src="<?php APPLICATION_PATH?>/js/jquery-browser.js" type="text/javascript"></script>
-    <script src="<?php APPLICATION_PATH?>/js/Humnst777_BT_700.font.js" type="text/javascript"></script>
-    <script src="<?php APPLICATION_PATH?>/js/Myriad_Pro_400.font.js" type="text/javascript"></script>
-    <script src="<?php APPLICATION_PATH?>/js/flexigrid.js" type="text/javascript"></script>
-    <script src="<?php APPLICATION_PATH?>/js/flexigrid.pack.js" type="text/javascript"></script>
-    <script src="<?php APPLICATION_PATH?>/js/wtootltip.js" type="text/javascript"></script>
-    <script type="text/javascript" src="<?php APPLICATION_PATH?>/js/jquery.slideshow.js"></script>  
-    <script type="text/javascript" src="<?php APPLICATION_PATH?>/js/script.js"></script>     
-	<script type="text/javascript" src="<?php APPLICATION_PATH?>/js/jquery-ui-1.8.16.custom.min.js"></script>
-	<script type="text/javascript" src="<?php APPLICATION_PATH?>/js/jquery.jcountdown1.3.2.js"></script>	
-	<script type="text/javascript" src="<?php APPLICATION_PATH?>/js/timepicker.js"></script>	
-</head>
-
-<body id="page1">
-<div class="right_bgd"></div>
-<div class="tail-top">
-    <div class="main">
-        <div id="header">
-
-            <form action="" id="form1">
-                <div class="indent">
-                    
-                  </div>
-            </form>
-                <div class="indent1">
-                	<div class="container">
-                    </div>
-                    <a href="http://formateurs.easylia.com/inscription"><img alt="" src="<?php APPLICATION_PATH?>/images/logo.jpg" class="logo" id="logo_temp" /></a><br />
-                </div>
-            </div>
-
-<div id="content">
-	<h1>Formulaire de pré-inscription au poste de formateur</h1>
-	<div class="indent-main">
-		<div class="container">
-			<div class="form-center">
-				<p id="info_inscription"><i>Tous les champs marqués d'une * sont obligatoires.</i></p>
-				<form id="inscription_form" enctype="application/x-www-form-urlencoded" method="post" action="/inscription/">
-				<dl class="zend_form">
-					<div id="form-content">
-						<div id="inscription_civilite">
-							<h4>Informations personnelles</h4>
-						</div>
-						<dt id="inscription_type-label"><label for="inscription_type" class="optional"><span class="red">*</span> Civilité :</label></dt>
-						<dd id="inscription_type-element">
-							<select name="inscription_type" id="inscription_type">
-							    <option value="mr" >M.</option>
-							    <option value="mlle">Mlle</option>
-							    <option value="mme" >Mme</option>
-							</select></dd>
-						<dt id="nom-label"><label for="nom" class="optional"><span class="red">*</span> Nom :</label></dt>
-						<dd id="nom-element">
-							<input type="text" name="nom" id="nom" value="" /></dd>
-						<dt id="prenom-label"><label for="prenom" class="optional"><span class="red">*</span> Prenom :</label></dt>
-						<dd id="prenom-element">
-							<input type="text" name="prenom" id="prenom" value="" /></dd>
-						<!--<dt id="siret-label"><label for="siret" class="optional">Siret :</label></dt>
-						<dd id="siret-element">
-							<input type="text" name="siret" id="siret" value="" /></dd>-->
-						<dt id="adresse-label"><label for="adresse" class="optional"><span class="red">*</span> Adresse :</label></dt>
-						<dd id="adresse-element">
-							<input type="text" name="adresse" id="adresse" value="" /></dd>
-						<dt id="adresse2-label"><label for="adresse2" class="optional">Complément d'adresse :</label></dt>
-						<dd id="adresse2-element">
-							<input type="text" name="adresse2" id="adresse2" value="" /></dd>
-						<dt id="codePostal-label"><label for="codePostal" class="optional"><span class="red">*</span> Code postal :</label></dt>
-						<dd id="codePostal-element">
-							<input type="text" name="codePostal" id="codePostal" value="" /></dd>
-						<dt id="ville-label"><label for="ville" class="optional"><span class="red">*</span> Ville <i style="font-size : 10.3px;">(Se remplit automatiquement en fonction du code postal)</i> :</label></dt>
-						<dd id="ville-element">
-							<input type="text" name="ville" id="ville" value="" /></dd>
-						<dt id="telephone-label"><label for="telephone" class="optional"><span class="red">*</span> Téléphone :</label></dt>
-						<dd id="telephone-element">
-							<input type="text" name="telephone" id="telephone" value="" /></dd>
-						<dt id="dateNaissance-label"><label for="dateNaissance" class="optional"><span class="red">*</span> Date de naissance :</label></dt>
-						<dd id="dateNaissance-element">
-							<input type="text" name="dateNaissance" id="dateNaissance" value="" /></dd>
-						<dt id="departementNaissance-label"><label for="departementNaissance" class="optional"><span class="red">*</span> Département de naissance :</label></dt>
-						<dd id="departementNaissance-element">
-							<input type="text" name="departementNaissance" id="departementNaissance" value="" /></dd>
-						<dt id="paysNaissance-label"><label for="paysNaissance" class="optional"><span class="red">*</span> Pays de naissance :</label></dt>
-						<dd id="paysNaissance-element">
-							<input type="text" name="paysNaissance" id="paysNaissance" value="France" /></dd>
-	
-						<div id="inscription_login">
-							<h4>Informations de connexion</h4>
-						</div>
-						<dt id="login-label"><label for="login" class="optional"><span class="red">*</span> Nom d'utilisateur :</label></dt>
-						<dd id="login-element">
-							<input type="text" name="login" id="login" value="" /></dd>
-						<dt id="password-label"><label for="password" class="optional"><span class="red">*</span> Mot de passe<i> (8 caratères, 1 majuscule, 1 chiffre)</i> :</label></dt>
-						<dd id="password-element">
-							<input type="password" name="password" id="password" value="" /></dd>
-						<dt id="password_conf-label"><label for="password_conf" class="optional"><span class="red">*</span> Confirmez le mot de passe :</label></dt>
-						<dd id="password_conf-element">
-							<input type="password" name="password_conf" id="password_conf" value="" /></dd>
-						<dt id="mail-label"><label for="mail" class="optional"><span class="red">*</span> Adresse E-mail :</label></dt>
-						<dd id="mail-element">
-							<input type="text" name="mail" id="mail" value="" /></dd>
-						<dt id="submit-label">&#160;</dt><dd id="submit-element">
-							<input type="submit" name="submit" id="submit_inscription" value="Valider" /></dd>
-						<dt id="csrf-label">&#160;</dt>
-						<dd id="csrf-element">
-							<input type="hidden" name="csrf" value="aba16d4f1bf0547303d91b4a02ceb80a" id="csrf" />
-						</dd>
-					</div>
-				</dl>
-				</form>	
-				<div id="information_inscriptions">
-					<p>
-						Les informations que vous nous communiquez ne sont jamais confiées à des tiers. En application de la loi n° 2004-801 du 6 août 2004 relative à la protection des personnes physiques à l'égard des traitements de données à caractère personnel, modifiant la loi n° 78-17 du 6 janvier 1978, vous disposez par ailleurs d'un droit d'accès, de rectification, de modification et de suppression concernant les données qui vous concernent. Vous pouvez exercer ce droit en envoyant un e-mail à contact@easylia.com.
-					</p>
-				</div>
+<h1>Formulaire d'inscription au poste de formateur</h1>
+<div class="form-center">
+	<p id="info_inscription"><i>Tous les champs marqués d'une * sont obligatoires.</i></p>
+	<form id="inscription_form" enctype="application/x-www-form-urlencoded" method="post" action="/inscription/">
+	<dl class="zend_form">
+		<div id="form-content">
+			<div id="inscription_civilite">
+				<h4>Informations personnelles</h4>
 			</div>
-		</div>
+			<dt id="inscription_type-label"><label for="inscription_type" class="optional"><span class="red">*</span> Civilité :</label></dt>
+			<dd id="inscription_type-element">
+				<select name="inscription_type" id="inscription_type">
+				    <option value="mr" >M.</option>
+				    <option value="mlle">Mlle</option>
+				    <option value="mme" >Mme</option>
+				</select></dd>
+			<dt id="nom-label"><label for="nom" class="optional"><span class="red">*</span> Nom :</label></dt>
+			<dd id="nom-element">
+				<input type="text" name="nom" id="nom" value="" /></dd>
+			<dt id="prenom-label"><label for="prenom" class="optional"><span class="red">*</span> Prenom :</label></dt>
+			<dd id="prenom-element">
+				<input type="text" name="prenom" id="prenom" value="" /></dd>
+			<!--<dt id="siret-label"><label for="siret" class="optional">Siret :</label></dt>
+			<dd id="siret-element">
+				<input type="text" name="siret" id="siret" value="" /></dd>-->
+			<dt id="adresse-label"><label for="adresse" class="optional"><span class="red">*</span> Adresse :</label></dt>
+			<dd id="adresse-element">
+				<input type="text" name="adresse" id="adresse" value="" /></dd>
+			<dt id="adresse2-label"><label for="adresse2" class="optional">Complément d'adresse :</label></dt>
+			<dd id="adresse2-element">
+				<input type="text" name="adresse2" id="adresse2" value="" /></dd>
+			<dt id="codePostal-label"><label for="codePostal" class="optional"><span class="red">*</span> Code postal :</label></dt>
+			<dd id="codePostal-element">
+				<input type="text" name="codePostal" id="codePostal" value="" /></dd>
+			<dt id="ville-label"><label for="ville" class="optional"><span class="red">*</span> Ville <i style="font-size : 10.3px;">(Se remplit automatiquement en fonction du code postal)</i> :</label></dt>
+			<dd id="ville-element">
+				<input type="text" name="ville" id="ville" value="" /></dd>
+			<dt id="telephone-label"><label for="telephone" class="optional"><span class="red">*</span> Téléphone :</label></dt>
+			<dd id="telephone-element">
+				<input type="text" name="telephone" id="telephone" value="" /></dd>
+			<dt id="dateNaissance-label"><label for="dateNaissance" class="optional"><span class="red">*</span> Date de naissance :</label></dt>
+			<dd id="dateNaissance-element">
+				<input type="text" name="dateNaissance" id="dateNaissance" value="" /></dd>
+			<dt id="departementNaissance-label"><label for="departementNaissance" class="optional"><span class="red">*</span> Département de naissance :</label></dt>
+			<dd id="departementNaissance-element">
+				<input type="text" name="departementNaissance" id="departementNaissance" value="" /></dd>
+			<dt id="paysNaissance-label"><label for="paysNaissance" class="optional"><span class="red">*</span> Pays de naissance :</label></dt>
+			<dd id="paysNaissance-element">
+				<input type="text" name="paysNaissance" id="paysNaissance" value="France" /></dd>
+
+			<div id="inscription_login">
+				<h4>Informations de connexion</h4>
+			</div>
+			<dt id="login-label"><label for="login" class="optional"><span class="red">*</span> Nom d'utilisateur :</label></dt>
+			<dd id="login-element">
+				<input type="text" name="login" id="login" value="" /></dd>
+			<dt id="password-label"><label for="password" class="optional"><span class="red">*</span> Mot de passe<i> (8 caratères, 1 majuscule, 1 chiffre)</i> :</label></dt>
+			<dd id="password-element">
+				<input type="password" name="password" id="password" value="" /></dd>
+			<dt id="password_conf-label"><label for="password_conf" class="optional"><span class="red">*</span> Confirmez le mot de passe :</label></dt>
+			<dd id="password_conf-element">
+				<input type="password" name="password_conf" id="password_conf" value="" /></dd>
+			<dt id="mail-label"><label for="mail" class="optional"><span class="red">*</span> Adresse E-mail :</label></dt>
+			<dd id="mail-element">
+				<input type="text" name="mail" id="mail" value="" /></dd>
+			<dt id="submit-label">&#160;</dt><dd id="submit-element">
+				<input type="submit" name="submit" id="submit_inscription" value="Valider" /></dd>
+			<dt id="csrf-label">&#160;</dt>
+			<dd id="csrf-element">
+				<input type="hidden" name="csrf" value="aba16d4f1bf0547303d91b4a02ceb80a" id="csrf" />
+			</dd>
+		</div> <!-- form-content -->
+	</dl>
+	</form>	
+	<br />
+	<div id="information_inscriptions">
+		<p>
+			Les informations que vous nous communiquez ne sont jamais confiées à des tiers. En application de la loi n° 2004-801 du 6 août 2004 relative à la protection des personnes physiques à l'égard des traitements de données à caractère personnel, modifiant la loi n° 78-17 du 6 janvier 1978, vous disposez par ailleurs d'un droit d'accès, de rectification, de modification et de suppression concernant les données qui vous concernent. Vous pouvez exercer ce droit en envoyant un e-mail à contact@easylia.com.
+		</p>
 	</div>
-</div>
-
-
- <div id="footer">
-    	</div>
-
-
-</body>
+</div> <!-- form-center -->
 <script type="text/javascript">
 
     $(document).ready(function(){
@@ -473,7 +417,7 @@ $user = new Zend_Session_Namespace('user');?>
         $("#departementNaissance").blur(function(){
             var regExp = new RegExp(/[0-9]{2}/);
             if(!regExp.test($("#departementNaissance").val()) || $("#departementNaissance").val().length > 2){
-            	$("#info_departementNaissance").html("<img src='<?php APPLICATION_PATH?>/images/icone_erreur.png' height='20px' width='20px' alt='erreur' />&nbsp; Votre département doit être de la forme suivante : 33 ");
+            	$("#info_departementNaissance").html("<img src='<?php APPLICATION_PATH?>/images/icone_erreur.png' height='20px' width='20px' alt='erreur' />&nbsp; Votre département doit être de la forme suivante : XX ");
             }else{
                 $("#info_departementNaissance").html("<img src='<?php APPLICATION_PATH?>/images/icone_ok.png' height='20px' width='20px' alt='valide' />");
                 okForSubmit ++;

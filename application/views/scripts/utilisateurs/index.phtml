@@ -1,11 +1,10 @@
 <?php $this->user = new Zend_Session_Namespace('user');  	        
+echo $this->placeholder('menu-connecte');
     if($this->is_admin){
-    	echo $this->placeholder('menu-connecte');
     ?>
 <div id="action_admin">
 <!-- 	<h4>Actions administrateur</h4> -->
 		<div id="action_utilisateur">
-<?php		echo $this->navigation()->breadcrumbs()->setSeparator(" -> ")."toto";?>
 		    <?php
 		    if($this->voir_user){
 				echo "<p><img id='img_utilisateur' class='img-title' src='/images/forum-groupe-utilisateurs-icone-4597-48.png' /><h5 style='display : inline;margin-left : 3em'>Actions sur les utilisateurs</h5></p>";
@@ -80,14 +79,14 @@
         <div class="block-top-formateur block-right-formateur">
     	<?php
     		if($this->voir_formation_dispo){
-				echo "<br /><a href='formation/listeformation?sansFormateur=true'><img src='/images/livres-agenda-education-bibliotheque-icone-5155-48.png' class='img-left' /> Formations disponibles (".$this->nombre_formation.")</a>";
+				echo "<br /><a href='formations-disponible?sansFormateur=true'><img src='/images/livres-agenda-education-bibliotheque-icone-5155-48.png' class='img-left' /> Formations disponibles (".$this->nombre_formation.")</a>";
 			}
 		?>
         </div>
         <div class="block-left-bottom-formateur">
 	        <?php
 				if($this->creer_facture)
-					echo "<br /><a href=".$this->url(array('controller' => 'formation', 'action' => 'viewformation'), 'default', true)."><img src='/images/evolution-calendrier-icone-6518-48.png' class='img-left' /> Mes formations planifiées</a>";	                                    
+					echo "<br /><a href='mes-formations'><img src='/images/evolution-calendrier-icone-6518-48.png' class='img-left' /> Mes formations planifiées</a>";	                                    
 	        ?>
         </div>
     </div> <!-- action_formateur -->

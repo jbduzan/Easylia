@@ -36,7 +36,7 @@
 		$("#heure_disponible").buttonset();
 	
         $("#tableau_formation").flexigrid({
-            url : 'getlisteformation?sansFormateur='+sans_formateur,
+            url : '/formation/getlisteformation?sansFormateur='+sans_formateur,
             dataType: 'json',
             colModel : [
                     {display: 'Nom', name : 'type', width : 250, sortable : true, align: 'center'},

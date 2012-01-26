@@ -40,7 +40,8 @@ class FaqController extends Zend_Controller_Action
     		$categorie = "Non-connecté";
     	
     	foreach($result as $row){
-    		if($row->getCategorie() == $categorie){
+    		$categories = explode(',', $row->getCategorie());
+    		if(in_array($categorie, $categories) || $row->getCategorie() == "Non-connecté"){
 	    		$i++;
 	    		$faq .= "<dt class='question-faq'>".$i.". ".ucfirst($row->getQuestion())." ?</dt>";
 	    		$faq .= "<dd class='reponse-faq'>".ucfirst($row->getReponse())."</dd>";
@@ -98,9 +99,17 @@ class FaqController extends Zend_Controller_Action
     	else
     		$active = 0;
     	
+    	$categorie = "";
+    	
+    	foreach($request->getParam('categorie') as $row){
+    		$categorie .= $row.',';
+    	}
+    	
+    	$categorie = substr($categorie, '0', '-1');
+    	
     	$faq->setQuestion($request->getParam('question'))
     		->setReponse($request->getParam('reponse'))
-    		->setCategorie($request->getParam('categorie'))
+    		->setCategorie($categorie)
     		->setActive($active);
     	
     	$this->faq_mapper->save($faq);
@@ -117,10 +126,18 @@ class FaqController extends Zend_Controller_Action
     		$active = 1;
     	else
     		$active = 0;
+    		
+    	$categorie = "";
+    	
+    	foreach($request->getParam('categorie') as $row){
+    		$categorie .= $row.',';
+    	}
+    	
+    	$categorie = substr($categorie, '0', '-1');
     	
     	$faq->setQuestion($request->getParam('question'))
     		->setReponse($request->getParam('reponse'))
-    		->setCategorie($request->getParam('categorie'))
+    		->setCategorie($categorie)
     		->setActive($active);
     		
     	$this->faq_mapper->save($faq);

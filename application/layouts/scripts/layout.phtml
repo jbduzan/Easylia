@@ -9,6 +9,8 @@ $user = new Zend_Session_Namespace('user');?>
 	    <meta http-equiv="Content-Style-Type" content="text/css" />
 	    <link href="<?php APPLICATION_PATH?>/css/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css" />
 	    <link href="<?php APPLICATION_PATH?>/css/style.css" rel="stylesheet" type="text/css" />
+<!-- 	    <link href="<?php APPLICATION_PATH?>/css/gabarit.css" rel="stylesheet" type="text/css" /> -->
+	    <link href="<?php APPLICATION_PATH?>/css/zend.css" rel="stylesheet" type="text/css" />
 	    <link href="<?php APPLICATION_PATH?>/css/flexigrid.css" rel="stylesheet" type="text/css" />
 	    <link href="<?php APPLICATION_PATH?>/css/fullcalendar.css" rel="stylesheet" type="text/css" />
 	    <link rel="icon" type="image/png" href="<?php APPLICATION_PATH ?>/images/favicon.ico" />
@@ -22,6 +24,10 @@ $user = new Zend_Session_Namespace('user');?>
 		<script type="text/javascript" src="<?php APPLICATION_PATH?>/js/timepicker.js"></script>	
 		<script type="text/javascript" src="<?php APPLICATION_PATH?>/js/fullcalendar.js"></script>  
 		<script type="text/javascript" src="http://download.skype.com/share/skypebuttons/js/skypeCheck.js"></script>
+	<!--
+	<script src="<?php APPLICATION_PATH?>/js/cufon-yui.js" type="text/javascript"></script> 
+		<script src="<?php APPLICATION_PATH?>/js/cufon-replace.js" type="text/javascript"></script> 
+-->
 	</head>
 	
 	<body class="page_sommaire">
@@ -78,7 +84,30 @@ $user = new Zend_Session_Namespace('user');?>
 			<div id="footer">
 				<div id="footer_content">
 					<div id="footer_content_left">
-						<p><span class="h3" style="margin-rigth: 0.5em;">Easylia</span> &copy; 2012</p>
+						<p><span class="h3" style="margin-rigth: 0.5em;">Easylia</span> &copy; 2012 | <a href="./Mentions-legales">Mentions légales</a></p>
+						<ul class="menu-liste menu-items">
+							<li class="menu-entree item first">
+								<a href="http://spip.easylia.com/">Accueil</a>
+							</li>
+							<li class="menu-entree item">
+								<a href="Installation">Installation</a>
+							</li>
+							<li class="menu-entree item">
+								<a href="Formation">Formation</a>
+							</li>
+							<li class="menu-entree item">
+								<a href="Assistance-optimisation">Assistance &amp; optimisation</a>
+							</li>
+							<li class="menu-entree item">
+								<a href="Tarifs">Tarif</a>
+							</li>
+							<li class="menu-entree item">
+								<a href="contact">Contact</a>
+							</li>
+							<li class="menu-entree item item_formateur">
+								<a href="Devenir-formateur">Devenir formateur</a>
+							</li>
+						</ul>
 					</div>
 					<div id="footer_content_right">
 						<h1 style="margin-bottom: 0;">0810 123 456</h1>

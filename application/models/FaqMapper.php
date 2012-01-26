@@ -29,10 +29,10 @@ class Application_Model_FaqMapper
     public function save(Application_Model_Faq $faq){
     	$data = array(
     		"id_faq" => $faq->getIdFaq(),
-    		"question" => $faq->getQuestion(),
-    		"reponse" => $faq->getReponse(),
+    		"question" => utf8_decode($faq->getQuestion()),
+    		"reponse" => utf8_decode($faq->getReponse()),
     		"active" => $faq->getActive(),
-    		"categorie" => $faq->getCategorie()
+    		"categorie" => utf8_decode($faq->getCategorie())
     	);
     	
     	if(null === ($id = $faq->getIdFaq())){
@@ -53,10 +53,10 @@ class Application_Model_FaqMapper
 		$row = $result->current();
 		
 		$faq->setIdFaq($row->id_faq)
-				->setQuestion($row->question)
-				->setReponse($row->reponse)
+				->setQuestion(utf8_encode($row->question))
+				->setReponse(utf8_encode($row->reponse))
 				->setActive($row->active)
-				->setCategorie($row->categorie);
+				->setCategorie(utf8_encode($row->categorie));
 	}
 	
 	public function fetchAll(){
@@ -68,10 +68,10 @@ class Application_Model_FaqMapper
 			$faq = new Application_Model_Faq();
 			
 			$facture->setidFaq($row->id_faq)
-					->setQuestion($row->question)
-					->setReponse($row->reponse)
+					->setQuestion(utf8_encode($row->question))
+					->setReponse(utf8_encode($row->reponse))
 					->setActive($row->active)
-					->setCategorie($row->categorie);
+					->setCategorie(utf8_encode($row->categorie));
 					
 			array_push($entries, $faq);
 		}
@@ -89,10 +89,10 @@ class Application_Model_FaqMapper
 			$faq = new Application_Model_Faq();
 			
 			$faq->setidFaq($row->id_faq)
-					->setQuestion($row->question)
-					->setReponse($row->reponse)
+					->setQuestion(utf8_encode($row->question))
+					->setReponse(utf8_encode($row->reponse))
 					->setActive($row->active)
-					->setCategorie($row->categorie);
+					->setCategorie(utf8_encode($row->categorie));
 					
 			array_push($entries, $faq);
 		}
@@ -141,7 +141,7 @@ class Application_Model_FaqMapper
         	
             $data['rows'][] = array(
                 'id' => $row->id_faq,
-                'cell' => array($row->question, $row->reponse, $active, $row->categorie)
+                'cell' => array(utf8_encode($row->question), utf8_encode($row->reponse), $active, utf8_encode($row->categorie))
             );
         }
         

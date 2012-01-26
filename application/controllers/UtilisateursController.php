@@ -43,7 +43,7 @@ class UtilisateursController extends Zend_Controller_Action
             }
             
             // Compte le nombre de formation en attente de formateur
-            $result = $this->formation_mapper->fetchAll();
+            $result = $this->formation_mapper->fetchAll($date_jour = true);
             
            	$nombre_formation = 0;
            	
@@ -171,7 +171,8 @@ class UtilisateursController extends Zend_Controller_Action
                 $this->user->id_groupe = $client->getIdGroupe();
                 $this->user->is_logged = true;
                                     
-                return $this->_redirector->goToSimple($this->user->requested_action,$this->user->requested_controller);
+                //return $this->_redirector->goToSimple($this->user->requested_action,$this->user->requested_controller);
+                return $this->_redirector->goToUrl('/profil-utilisateur');
             }else{
                 echo "<p id='error_connexion' style='color:red;margin-top : 5em;margin-left:2em;'>Le nom d'utilisateur ou le mot de passe ne correspondent pas à ceux enregistrés</p>";
             }
@@ -185,7 +186,9 @@ class UtilisateursController extends Zend_Controller_Action
         
         // Connexion par la requetes ajax depuis n'importe quelle page
         $request = $this->getRequest();
-                        
+		$this->getResponse()->setHeader("Access-Control-Allow-Origin", "http://spip.easylia.com", true);
+		
+		
         if($request->getPost('loginFromIndex') == true){
             
             if($request->getPost('remember') == true){
@@ -214,6 +217,8 @@ class UtilisateursController extends Zend_Controller_Action
             if($request->getParam('remember') == "on"){
                 $this->user->setExpirationSeconds('7200');
             }
+            
+            $this->view->test = json_encode('toto');
         }else{
             $erreur = "Le nom d'utilisateur ou le mot de passe ne correspondent pas à ceux enregistrés";
             return $erreur;
@@ -989,19 +994,20 @@ if(!in_array('rib', $document_present))
 	public function parcoursformateurAction(){
 		// On vérifie que l'utilisateur est bien connecte
 		if(!empty($this->user->is_logged) && $this->user->is_logged === true){
-			
+					
 			// On vérifie que l'utilisateur n'as pas déjà remplis ça
 			$utilisateur = new Application_Model_Utilisateurs();
 			$this->userMapper->find($this->user->id_utilisateur, $utilisateur);
+		
+			// On vérifie si l'utilisateur a activé son compte
+			if($utilisateur->getProfilActif() != 1)
+				$this->_redirector->goToUrl('/compte-inactif');
 			
 			// On vérifie si il a déjà passé la certification pédagogique
 			$id_certification = $this->checkCertificationPedagogique($utilisateur->getIdUtilisateur());
 			
 			if(is_int($id_certification))
 				$this->view->certification_pedagogique = $id_certification;				
-			
-			if($utilisateur->getProfilActif() == 1)
-				$this->_redirector->goToSimple('index', 'profil-utilisateur');
 			
 			// On appelle toutes les actions à effectuer
 	    	$this->formateurNonValide(); 
@@ -1139,4 +1145,22 @@ if(!in_array('rib', $document_present))
 		$mail->setBodyHtml(utf8_decode("<div><img src='http://dev.easylia.com/images/logo.jpg'/><br /><br/><br/></div><div><p>Ceci est un mail automatique, merci de ne pas y r&eacute;pondre</p><p>Après avoir examiné votre candidature, il a été décidé de ne pas l'accepter. <br /> Merci de votre participation</p></div>"));
 		$mail->send();
 	}
-}
+	
+	public function nonactiveAction(){
+		// Si l'utilisateur n'as pas activé son compte.
+		// On récupère la clé d'activation de l'utilisateur et on lui propose dans le lien		
+		
+		if($this->user->is_logged != true)
+			$this->_redirector->goToUrl('/connexion');
+		
+		$utilisateur = new Application_Model_Utilisateurs();
+		$this->userMapper->find($this->user->id_utilisateur, $utilisateur);
+		
+		$this->view->cle_activation = $utilisateur->getCleActivation();
+		$this->view->id_utilisateur = $utilisateur->getIdUtilisateur();
+	}
+	
+	public function connexionfromspipAction(){
+/* 		$this->getHelper('layout')->disableLayout(); */
+	}
+}	

@@ -75,7 +75,7 @@ class FormationController extends Zend_Controller_Action
     {
 		//  Redirige vers la page de connexion si pas connecté
 		if(!$this->utilisateur->is_logged)
-			$this->_redirector->goToSimple('index','utilisateurs');
+			$this->_redirector->goToUrl('/connexion');
     
         // Affiche la liste de toutes les formations en cours
         $this->view->sans_formateur = $this->getRequest()->getParam("sansFormateur");

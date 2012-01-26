@@ -2,13 +2,81 @@
 <configdata>
 	<nav>
 		<home>
-			<label>profil</label>
+			<label>Acceuil</label>
 			<route>profil</route>
 			<pages>
-			<listing>
-				<label>infouser </label>
-				<route>infouser</route>
-			</listing>
+				<info>
+					<label>Information utilisateur</label>
+					<route>infouser</route>
+				</info>
+				<listeutilisateur>
+					<label>Liste des utilisateurs</label>
+					<route>listeutilisateur</route>
+				</listeutilisateur>
+				<formateurvalider>
+					<label>Formateurs à valider</label>
+					<route>formateuravalider</route>			
+				</formateurvalider>
+				<listegroupe>
+					<label>Liste des groupes</label>
+					<route>listegroupe</route>	
+					<pages>
+						<detail>
+							<label>Détail du groupe</label>
+							<route>detailgroupe</route>					
+						</detail>
+					</pages>					
+				</listegroupe>
+				<question>
+					<label>Questions</label>
+					<route>listequestion</route>
+					<pages>
+						<listequestionmotivation>
+							<label>Liste des questions de motivation</label>
+							<route>listequestionmotivation</route>
+						</listequestionmotivation>
+					</pages>
+				</question>
+				<listecertification>
+					<label>Liste des certifications</label>
+					<route>certificationdispo</route>	
+					<pages>
+						<passagecertification>
+							<label>Passer une certification</label>
+							<route>passagecertification</route>
+						</passagecertification>
+					</pages>
+				</listecertification>
+				<listeformation>
+					<label>Liste des formations</label>
+					<route>listeformation</route>
+				</listeformation>
+				<listelogin>
+					<label>Liste des logins interdits</label>
+					<route>listelogin</route>
+				</listelogin>
+				<gererfaq>
+					<label>FAQ</label>
+					<route>faq</route>
+					<pages>
+						<gererfaq>
+							<label>Gestion de la FAQ</label>
+							<route>gererfaq</route>
+						</gererfaq>
+					</pages>
+				</gererfaq>
+				<formationdispo>
+					<label>Liste des formations</label>
+					<route>formationdispo</route>
+				</formationdispo>
+				<mesformations>
+					<label>Mes formations</label>
+					<route>mesformations</route>
+				</mesformations>
+				<changepassword>
+					<label>Changer mon mot de passe</label>
+					<route>changepassword</route>
+				</changepassword>
 			</pages>
 		</home>
 	</nav>

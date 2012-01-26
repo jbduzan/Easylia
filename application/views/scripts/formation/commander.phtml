@@ -15,7 +15,7 @@
 		
 	<br />
 	<div class="separateur"></div>
-	<p>Je choisis les jours et les heures où je suis disponible pour ma formation <a title="Un clic sur le nom du jour sélectionne toute la journée"><img src="<?php APPLICATION_PATH?>/images/aide-point-interrogation-soutien-icone-4653-16.png" /></a></p><br />
+	<p>Je choisis les jours et les heures où je suis disponible pour ma formation <a title="Un clic sur le nom du jour sélectionne toute la journée"><img src="<?php APPLICATION_PATH?>/images/aide-point-interrogation-soutien-icone-4653-16.png" /></a><br /><span id="info_commande" style="display : none; color : orange">Attention, nous ne garentissons pas la présence d'un formateur dans les 24 premières heures.</span></p><br />
 	<div id="select_jour">
 		<div id="jour1" class="select_horaire" >
 			<span class="span_jour"></span>
@@ -356,6 +356,31 @@
 		
 		// préparation et affichage des dates pour le choix de la formation
 		setDate();
+			
+		var count_pressed = 0
+		
+		// Lorsque on commande dans les 24 1ere heures on affiche une alerte
+		$("#checkbox_heures1 > input").change(function(){
+			$(this).next().each(function(){
+				if($(this).attr('aria-pressed') == 'true')
+					count_pressed += 1;
+				else
+					count_pressed -= 1;
+			});
+			if(count_pressed > 0)
+				$("#info_commande").show();
+			else
+				$("#info_commande").hide();
+		});
+		
+		$(".span_jour").click(function(){
+			if($(this).next('div').attr('id') == "checkbox_heures1"){
+				if($(this).next('div').children('label').first().attr('aria-pressed') != 'true')
+					$("#info_commande").show();					
+				else
+					$("#info_commande").hide();			
+			}
+		});
 		
 		// Affiche une infobull au survol des liens
 		$("a").wTooltip();
@@ -427,8 +452,10 @@
 				var jour = $(this).children(":first-child").html();
 				$(this).children(":nth-child(2)").each(function(){
 						$(this).children('label').each(function(){
-							if($(this).attr('aria-pressed') == "true")
-								disponibilite.push(jour + " " + $(this).children('span').html());
+							if($(this).attr('aria-pressed') == "true"){
+								var date = new Date();
+								disponibilite.push(jour + "/" + date.getFullYear() + " " + $(this).children('span').html());
+							}
 						});						
 				});
 			});

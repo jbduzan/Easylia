@@ -17,7 +17,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $acl = new MyAcl();
                                
         date_default_timezone_set("Europe/Paris");
-        
+               
         parent::run();        
     }
 
@@ -25,8 +25,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         
         $this->bootstrap('view');
         $view = $this->getResource('view');
-        $view->doctype('XHTML1_STRICT');
-        
+        $view->doctype('XHTML1_STRICT');        
     }
     
     /**
@@ -57,11 +56,26 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$router->addRoute('infouser', new Zend_Controller_Router_Route('information-utilisateur', array('controller' => 'utilisateurs', 'action' => 'afficherinfo')));
 		$router->addRoute('formationdispo', new Zend_Controller_Router_Route('formations-disponibles', array('controller' => 'formation', 'action' => 'listeformationdispo')));		
 		$router->addRoute('commanderformation', new Zend_Controller_Router_Route('commander-une-formation', array('controller' => 'formation', 'action' => 'commander')));
-		$router->addRoute('listecertification', new Zend_Controller_Router_Route('certifications-disponible', array('controller' => 'certifications', 'action' => 'listecertification')));
 		$router->addRoute('passagecertification', new Zend_Controller_Router_Route('passer-une-certification', array('controller' => 'certifications', 'action' => 'passercertification')));
 		$router->addRoute('parcourformateur', new Zend_Controller_Router_Route('renseigner-son-profil', array('controller' => 'utilisateurs', 'action' => 'parcoursformateur')));
 		$router->addRoute('reponsetestmotivation', new Zend_Controller_Router_Route('réponses-test-formateur', array('controller' => 'questions', 'action' => 'reponsetestmotivation')));
-		//$router->addRoute('deconnexion', new Zend_Controller_Router_Route('deconnexion', array('controller' => 'utilisateurs', 'action' => 'deconnexion')));
+		$router->addRoute('faq', new Zend_Controller_Router_Route('foire-aux-questions', array('controller' => 'faq', 'action' => 'index')));
+		$router->addRoute('mesformations', new Zend_Controller_Router_Route('mes-formations', array('controller' => 'formation', 'action' => 'viewformation')));
+		$router->addRoute('formationdispo', new Zend_Controller_Router_Route('formations-disponible', array('controller' => 'formation', 'action' => 'listeformation')));
+		$router->addRoute('changepassword', new Zend_Controller_Router_Route('changer-mot-de-passe', array('controller' => 'utilisateurs', 'action' => 'changepassword')));
+		$router->addRoute('connexion', new Zend_Controller_Router_Route('connexion', array('controller' => 'utilisateurs', 'action' => 'connexion')));
+		$router->addRoute('deconnexion', new Zend_Controller_Router_Route('deconnexion', array('controller' => 'utilisateurs', 'action' => 'deconnexion')));
+		$router->addRoute('listegroupe', new Zend_Controller_Router_Route('liste-des-groupes', array('controller' => 'groupe', 'action' => 'index')));
+		$router->addRoute('detailgroupe', new Zend_Controller_Router_Route('detail-groupe', array('controller' => 'groupe', 'action' => 'detailgroupe')));
+		$router->addRoute('listequestion', new Zend_Controller_Router_Route('liste-des-questions', array('controller' => 'questions', 'action' => 'index')));
+		$router->addRoute('listeformation', new Zend_Controller_Router_Route('liste-des-formations', array('controller' => 'formation', 'action' => 'listeformation')));
+		$router->addRoute('listequestionmotivation', new Zend_Controller_Router_Route('liste-questions-motivation', array('controller' => 'questions', 'action' => 'listequestionmotivation')));
+		$router->addRoute('listelogin', new Zend_Controller_Router_Route('liste-logins-interdits', array('controller' => 'logininterdit', 'action' => 'index')));
+		$router->addRoute('gererfaq', new Zend_Controller_Router_Route('gerer-faq', array('controller' => 'faq', 'action' => 'gestion')));
+		$router->addRoute('certificationdispo', new Zend_Controller_Router_Route('certification-disponible', array('controller' => 'certifications', 'action' => 'listecertification')));
+		$router->addRoute('listecertification', new Zend_Controller_Router_Route('liste-des-certifications', array('controller' => 'certifications', 'action' => 'index')));
+		$router->addRoute('compteinactif', new Zend_Controller_Router_Route('compte-inactif', array('controller' => 'utilisateurs', 'action' => 'nonactive')));
+		$router->addRoute('activation', new Zend_Controller_Router_Route('activation-compte', array('controller' => 'utilisateurs', 'action' => 'activation')));
     }
     
     public function _initSidebar(){
