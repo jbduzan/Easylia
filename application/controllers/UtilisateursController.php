@@ -229,7 +229,7 @@ class UtilisateursController extends Zend_Controller_Action
     public function deconnexionAction()
     {
         Zend_Session::destroy();
-        $this->_helper->redirector->goToSimple('index','index');
+        $this->_helper->redirector->goToUrl('http://spip.easylia.com');
     }
 
     public function testloginexistAction()
@@ -876,21 +876,18 @@ class UtilisateursController extends Zend_Controller_Action
 		// Si il n'y as aucun documents
 		if(!$document){
 			$this->view->cv = false;   
-			//$this->view->rib = false; 
+			$this->view->casier = false; 
 			$this->view->lettre =  false;
 		}else if($document == "true"){
 			// Si les 3 documents on été uploadé
 			$this->view->cv = true;   
-			//$this->view->rib = true; 
+			$this->view->casier = true; 
 			$this->view->lettre = true;
 			
 			// Et si le test de motivation à été passé
 			if($utilisateur->getTestMotivation() == 1){
 				$this->view->test_motivation = true;
-				if($utilisateur->getNote() != ""){
-					$this->view->waiting = true;
-					return;
-				}
+				$this->view->waiting = true;
 			}
 		}else if(count($document) > 0 && count($document) < 3){
 			// Si tous les documents non pas été uploadé
@@ -903,12 +900,10 @@ class UtilisateursController extends Zend_Controller_Action
         	else
         		$this->view->cv = true;
         		     
-        	/*
-if(!in_array('rib', $document_present))		     
-         		$this->view->rib = false;   
+        	if(!in_array('casier', $document_present))		     
+         		$this->view->casier = false;   
         	else
-        		$this->view->rib = true;
-*/
+        		$this->view->casier = true;
         		
 			if(!in_array('motivation', $document_present))
         		$this->view->lettre =  false;  

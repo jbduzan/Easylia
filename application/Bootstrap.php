@@ -15,11 +15,20 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         
         require_once('MyAcl.php');
         $acl = new MyAcl();
-                               
+                                
+		//Zend_Controller_Action_HelperBroker::addPrefix('My_Helper'); 
+		
         date_default_timezone_set("Europe/Paris");
                
         parent::run();        
     }
+
+	protected function _initForceSSL() {
+		if($_SERVER['SERVER_PORT'] != '443') {
+ 			header('Location: https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+  			exit();
+  		}
+	}
 
     protected function _initDoctype(){
         

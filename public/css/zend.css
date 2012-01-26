@@ -503,7 +503,7 @@
 #contenaire_onglets{
 	margin-left : -0.5em;
 	margin-top: 5em;
-	width: 51.3em;
+	width: 49.2em;
 	float: left;
 	min-height: 21em;
 	border : none;
@@ -616,13 +616,18 @@
 
 
 .div_checkbox_parcour{
-	float: right;
+/* 	float: right; */
 	margin-right: 35em;
 	margin-top: -0.3em;
+	font-size: 0.85em;
 }
 
 #select_jour_parcour{
 	font-size: 1.1em;
+}
+
+.span_jour_parcour{
+	display: block;
 }
 
 /* Affichage entretien skype admin */

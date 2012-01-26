@@ -34,7 +34,7 @@ $this->placeholder('sidebar')->captureStart();
 	</div> <!-- isNotLogged -->
 	<div id="isLogged" style="display : none;">
 		<p id="userHello">Bonjour <?php echo $user->login;?> </p>
-		<a href="#" id="votreCompte" onClick='return false;'>Votre compte</a> / <a href="#" id="deconnexion" onClick="return false;">Deconnexion</a>
+		<a href="#" id="votreCompte" onClick='return false;'>Votre compte</a> / <a href="/deconnexion" id="deconnexion" >Deconnexion</a>
 		<br />
 		<?php
 		if($this->profil_inactif == ""){					
