@@ -617,6 +617,8 @@ Nous acceptons les formats PDF, JPG, PNG et BMP, de moins de 10 Mo
                     $("#confirmer_fini").dialog('close');
                     $('#info_test').html('Vos réponses on été envoyées');
                     $('#onglet_test_motivation').addClass('etape_valide');
+                    $("#motivation_test").hide();
+                    $("#info_test").html('Merci d\'avoir passé le test de motivation');
                 }
             });
         }
