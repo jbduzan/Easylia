@@ -27,7 +27,7 @@ class DocumentController extends Zend_Controller_Action
     	
 		$adapter = new Zend_File_Transfer_Adapter_Http();
 		
-		$path = "/home/easylia/developpement/public/documents/";
+		$path = "/home/easylia/production/public/documents/";
 						
 		// Si le fichier passe la validation
 		if(!$this->validateFile($adapter, $request->getParam('type'))){
@@ -69,10 +69,10 @@ class DocumentController extends Zend_Controller_Action
     	
     	if($type == "cv" || $type == "motivation"){
     		$file->addValidator('Extension', false, array('pdf', 'doc', 'docx'))
-			 ->addValidator('Size', false, '100000');
+			 ->addValidator('Size', false, '10000000');
     	}else if($type == "casier"){
 			$file->addValidator('Extension', false, array('pdf', 'doc', 'docx', 'jpg', 'bmp'))
-			 ->addValidator('Size', false, '100000');   		
+			 ->addValidator('Size', false, '10000000');   		
     	}
 			 
 		if($file->isValid())
