@@ -41,7 +41,7 @@
             colModel : [
                     {display: 'Nom', name : 'nom', width : 150, sortable : true, align: 'left'},
                     {display: 'Type', name : 'type', width : 150, sortable : true, align: 'left'},
-                    {display: 'Nombre de question', name : 'nombre_question', width : 150, sortable : true, align: 'left'},
+                    {display: 'Nombre de questions', name : 'nombre_question', width : 150, sortable : true, align: 'left'},
                     {display: 'Temps de passage', name : 'temps_certification', width : 150, sortable : true, align: 'left'},
                     {display: 'Score minimum', name : 'score_minimum', width : 100, sortable : true, align: 'left'},
                     {display: 'Durée de validité (années)', name : 'duree_validite', width : 150, sortable : true, align: 'left'}
@@ -170,7 +170,7 @@
                                 data : {'id_certification' : id, 'nom' : $("#nom").val(), 'type' : $("#type").val(), "nombre_question" : $("#nombre_question").val(), "temps_certification" : $("#temps_certification").val(), 'score_minimum' : $('#score_minimum').val(), 'duree_validite' : $('#duree_validite').val()},
                                 success : function(){
                                     $("#tableau_certifications").flexReload();
-                                    $("#edit_form").dialog('close');
+                                    $("#add_form").dialog('close');
                                     $("#info").html('&nbsp;La certification à été modifiée !');
                                     $("#info").show();
                                     setTimeout(function() {
