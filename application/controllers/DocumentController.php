@@ -30,7 +30,7 @@ class DocumentController extends Zend_Controller_Action
 		$path = "/home/easylia/developpement/public/documents/";
 						
 		// Si le fichier passe la validation
-		if(!$this->validateFile($adapter)){
+		if(!$this->validateFile($adapter, $request->getParam('type'))){
 	    	// Sinon on affiche un message d'erreur
 		    $this->view->type = $request->getParam('type');
 			$this->view->result = 2;
@@ -64,10 +64,16 @@ class DocumentController extends Zend_Controller_Action
 		}
     }
     
-    public function validateFile($file){
+    public function validateFile($file, $type){
     	// Vérifie si un fichier est valide en fonction du fichier envoye
-		$file->addValidator('Extension', false, array('png', 'doc', 'docx', 'pdf'))
-			 ->addValidator('Size', false, '5000000');
+    	
+    	if($type == "cv" || $type == "motivation"){
+    		$file->addValidator('Extension', false, array('pdf', 'doc', 'docx'))
+			 ->addValidator('Size', false, '100000');
+    	}else if($type == "casier"){
+			$file->addValidator('Extension', false, array('pdf', 'doc', 'docx', 'jpg', 'bmp'))
+			 ->addValidator('Size', false, '100000');   		
+    	}
 			 
 		if($file->isValid())
 			return true;

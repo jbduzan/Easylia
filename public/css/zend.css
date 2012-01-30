@@ -37,18 +37,20 @@
 #sidebar{
 	float: right;
 	margin-top: -30.5em;
-	width: 25em;
+	width: 23em;
+	margin-left : 2em;
 }
 
 #sidebar_parcour{
 	float: right;
-	width: 25em;
+	width: 23em;
+	margin-left : 2em;
 }
 
 #sidebar_formateur{
 	float: right;
 	margin-top: -28em;
-	width: 25em;
+	width: 23em;
 }
 /* Actions administrateur */
 
@@ -503,7 +505,7 @@
 #contenaire_onglets{
 	margin-left : -0.5em;
 	margin-top: 5em;
-	width: 51.3em;
+	width: 49.2em;
 	float: left;
 	min-height: 21em;
 	border : none;
@@ -519,7 +521,7 @@
 }
 
 #etapes{
-	margin-left: 25em;
+	text-align: center;
 	margin-bottom: 2em;
 	margin-top: 2em;
 }
@@ -616,13 +618,18 @@
 
 
 .div_checkbox_parcour{
-	float: right;
+/* 	float: right; */
 	margin-right: 35em;
 	margin-top: -0.3em;
+	font-size: 0.85em;
 }
 
 #select_jour_parcour{
 	font-size: 1.1em;
+}
+
+.span_jour_parcour{
+	display: block;
 }
 
 /* Affichage entretien skype admin */
@@ -688,7 +695,7 @@
 }
 
 #submit_inscription{
-	margin-top: 5em;
+	margin-top: 2em;
 }
 
 #nom-label{
@@ -701,3 +708,37 @@
 
 #inscription_type-label{margin-top: 0em;}
 #siret-label, #adresse2-label{margin-left: 1.7em}
+
+#userHello{
+	margin-bottom: 1.5em;
+}
+
+#inscription_texte{
+	margin-left: 1em;
+}
+
+/* mot de pase oublié */
+
+#mdpoublie_label{
+	float : left;
+	margin-right: 5em;
+}
+
+#mdpoublie_label > label{
+	margin-top: 1em;
+	display: block;
+}
+
+#mdpoublie_input{
+	margin-top: 2.4em;
+}
+
+#mdpoublie_input > input{
+	margin-top: 1em;
+	display: block;
+}
+
+#loading{
+	float: left;
+	margin-left: 2em;
+}

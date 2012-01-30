@@ -12,11 +12,11 @@ class IndexController extends Zend_Controller_Action
 
     public function indexAction()
     {
-    	$this->_helper->layout->disableLayout();
-		//$this->_redirector->goToUrl('http://dev.easylia.com/spip');
+		$this->_redirector->goToUrl('http://spip.easylia.com');
     }
 
-    public function expresscheckoutAction()
+   /*
+ public function expresscheckoutAction()
     {
 		$authInfo = new Zend_Service_PayPal_Data_AuthInfo(
 			'jbduza_1319099049_biz_api1.gmail.com',
@@ -98,6 +98,7 @@ class IndexController extends Zend_Controller_Action
     {
         // action body
     }
+*/
 
 
 }

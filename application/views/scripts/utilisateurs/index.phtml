@@ -20,7 +20,7 @@ echo $this->placeholder('menu-connecte');
 					<?php
 				        echo "<a href='liste-des-utilisateurs?id=1'>Liste des administrateurs</a><br />";
 				        
-				        echo "<a href='formateurs-à-valider'>Formateurs à valider</a>";
+				        echo "<a href='formateurs-a-valider'>Formateurs à valider</a>";
 				    }
 				    ?>
 		    </div>
@@ -42,7 +42,7 @@ echo $this->placeholder('menu-connecte');
 			        echo "<a href=".$this->url(array('controller' => 'questions', 'action' => 'index'), 'default', true).">Liste des questions</a><br />";
 	
 				if($this->voir_formation)
-					echo "<a href=".$this->url(array('controller' => 'formation', 'action' => 'listeformation'), 'default', true).">Voir la liste des formation</a>";
+					echo "<a href=".$this->url(array('controller' => 'formation', 'action' => 'listeformation'), 'default', true).">Voir la liste des formations</a>";
 				
 	            ?>
 	        </div>
@@ -53,7 +53,7 @@ echo $this->placeholder('menu-connecte');
 	       			echo "<a href=".$this->url(array('controller' => 'faq', 'action' => 'gestion'), 'default', true).">Gérer la FAQ</a><br />";
 	           			
 				if($this->voir_login_interdit)
-					echo "<a href=".$this->url(array('controller' => 'logininterdit', 'action' => 'index'), 'default', true).">Voir la liste des logins interdit</a>";
+					echo "<a href=".$this->url(array('controller' => 'logininterdit', 'action' => 'index'), 'default', true).">Voir la liste des logins interdits</a>";
 	           	?>	
 	       </div>
 	       <div class="block-right-bottom">

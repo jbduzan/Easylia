@@ -392,7 +392,7 @@ class Application_Model_UtilisateursMapper
 			// Si on en a aucun on met tous en erreur
 			if(count($documents) == 0){
 				$cv = "<img class='icone_erreur' src='images/icone_erreur_16.png' />";
-				$rib = "<img class='icone_erreur' src='images/icone_erreur_16.png' />";
+				$casier = "<img class='icone_erreur' src='images/icone_erreur_16.png' />";
 				$motivation = "<img class='icone_erreur' src='images/icone_erreur_16.png' />";
 				if($row->date_entretien_skype != "")
 	     	  		$entretien = "<img class='icone_ok' src='images/icone_ok_16.png' />";
@@ -402,7 +402,7 @@ class Application_Model_UtilisateursMapper
 			
 				$data['rows'][] = array(
                 	'id' => $row->id_utilisateur,
-                	'cell' => array(utf8_encode($row->nom), utf8_encode($row->prenom),$certification, $cv, $motivation, $rib, $test_motivation, $entretien)
+                	'cell' => array(utf8_encode($row->nom), utf8_encode($row->prenom),$certification, $cv, $motivation, $casier, $test_motivation, $entretien)
            		 );
            		 continue;
 			}
@@ -417,10 +417,10 @@ class Application_Model_UtilisateursMapper
 	        else
 	        	$cv = "<img class='icone_erreur' src='images/icone_erreur_16.png' />";
 	
-	        if(in_array('rib', $liste_document))
-				$rib = "<img class='icone_ok' src='images/icone_ok_16.png' />";
+	        if(in_array('casier', $liste_document))
+				$casier = "<img class='icone_ok' src='images/icone_ok_16.png' />";
 	        else
-	        	$rib = "<img class='icone_erreur' src='images/icone_erreur_16.png' />";
+	        	$casier = "<img class='icone_erreur' src='images/icone_erreur_16.png' />";
 	        		        	
 	        if(in_array('motivation', $liste_document))
 				$motivation = "<img class='icone_ok' src='images/icone_ok_16.png' />";
@@ -435,7 +435,7 @@ class Application_Model_UtilisateursMapper
 	       	
             $data['rows'][] = array(
                 'id' => $row->id_utilisateur,
-                'cell' => array(utf8_encode($row->nom), utf8_encode($row->prenom),$certification, $cv, $motivation, $rib, $test_motivation, $entretien)
+                'cell' => array(utf8_encode($row->nom), utf8_encode($row->prenom),$certification, $cv, $motivation, $casier, $test_motivation, $entretien)
             );
         }
         return json_encode($data);        

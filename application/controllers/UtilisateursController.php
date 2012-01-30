@@ -167,6 +167,8 @@ class UtilisateursController extends Zend_Controller_Action
                                         
             if($client->getPassword() == $password){
                 $this->user->login = $client->getLogin();
+				$this->user->prenom = $client->getPrenom();
+                $this->user->nom = $client->getNom();
                 $this->user->id_utilisateur = $client->getIdUtilisateur();
                 $this->user->id_groupe = $client->getIdGroupe();
                 $this->user->is_logged = true;
@@ -186,7 +188,7 @@ class UtilisateursController extends Zend_Controller_Action
         
         // Connexion par la requetes ajax depuis n'importe quelle page
         $request = $this->getRequest();
-		$this->getResponse()->setHeader("Access-Control-Allow-Origin", "http://spip.easylia.com", true);
+		$this->getResponse()->setHeader("Access-Control-Allow-Origin", "http://www.easylia.com", true);
 		
 		
         if($request->getPost('loginFromIndex') == true){
@@ -209,6 +211,8 @@ class UtilisateursController extends Zend_Controller_Action
                 
             if($client->getPassword() == $password){
                 $this->user->login = $client->getLogin();
+                $this->user->prenom = $client->getPrenom();
+                $this->user->nom = $client->getNom();
                 $this->user->id_utilisateur = $client->getIdUtilisateur();
                 $this->user->id_groupe = $client->getIdGroupe();
                 $this->user->is_logged = true;
@@ -229,7 +233,7 @@ class UtilisateursController extends Zend_Controller_Action
     public function deconnexionAction()
     {
         Zend_Session::destroy();
-        $this->_helper->redirector->goToSimple('index','index');
+        $this->_helper->redirector->goToUrl('http://www.easylia.com');
     }
 
     public function testloginexistAction()
@@ -571,38 +575,38 @@ class UtilisateursController extends Zend_Controller_Action
     }
 
     public function changepasswordAction()
-    {
-        $form = new Application_Form_Changepassword();
-        
-        $this->view->form = $form;
-        
-        $request = $this->getRequest();
-        
-        if($this->getRequest()->isPost()){
-            if($form->isValid($request->getPost())){
-                $client = new Application_Model_Utilisateurs();
-            
-                $this->userMapper->find($this->user->id_utilisateur, $client);
-                                
-                $path = APPLICATION_PATH."/configs/application.ini";
-                $config = new Zend_Config_Ini($path, 'development');
+    {       
                 
-                $password = sha1($config->salt.$form->getValue('old'));
-                                            
-                if($client->getPassword() == $password && $client->getPassword() != $form->getValue('new')){
-                    $client->setPassword(sha1($config->salt.$form->getValue('new')));
-                    
-                    $this->userMapper->save($client);
-                    
-                    $this->view->password_changed = 'yes';
-                }else{
-                    $this->view->password_changed = 'no';
-                }
+    }
+    
+    public function setchangepasswordAction(){
+    	$this->getHelper('layout')->disableLayout();
+		$this->_helper->viewRenderer->setNoRender(true);
+		
+		$request = $this->getRequest();
+        if($this->getRequest()->isPost()){
+            $client = new Application_Model_Utilisateurs();
+        
+            $this->userMapper->find($this->user->id_utilisateur, $client);
+                            
+            $path = APPLICATION_PATH."/configs/application.ini";
+            $config = new Zend_Config_Ini($path, 'development');
+            
+            $password = sha1($config->salt.$request->getParam('old'));              
+                                        
+            if($client->getPassword() == $password && $client->getPassword() != $request->getParam('new')){
+                $client->setPassword(sha1($config->salt.$request->getParam('new')));
+                
+                $this->userMapper->save($client);
+                
+                echo 'yes';
+            }else{
+                echo 'no';
             }
         }
-        
-    }
 
+    }
+    
     public function testpasswordAction()
     {
         // Vérifie si c'est le bon password lors du changement de mot de passe
@@ -876,21 +880,18 @@ class UtilisateursController extends Zend_Controller_Action
 		// Si il n'y as aucun documents
 		if(!$document){
 			$this->view->cv = false;   
-			//$this->view->rib = false; 
+			$this->view->casier = false; 
 			$this->view->lettre =  false;
 		}else if($document == "true"){
 			// Si les 3 documents on été uploadé
 			$this->view->cv = true;   
-			//$this->view->rib = true; 
+			$this->view->casier = true; 
 			$this->view->lettre = true;
 			
 			// Et si le test de motivation à été passé
 			if($utilisateur->getTestMotivation() == 1){
 				$this->view->test_motivation = true;
-				if($utilisateur->getNote() != ""){
-					$this->view->waiting = true;
-					return;
-				}
+				$this->view->waiting = true;
 			}
 		}else if(count($document) > 0 && count($document) < 3){
 			// Si tous les documents non pas été uploadé
@@ -903,12 +904,10 @@ class UtilisateursController extends Zend_Controller_Action
         	else
         		$this->view->cv = true;
         		     
-        	/*
-if(!in_array('rib', $document_present))		     
-         		$this->view->rib = false;   
+        	if(!in_array('casier', $document_present))		     
+         		$this->view->casier = false;   
         	else
-        		$this->view->rib = true;
-*/
+        		$this->view->casier = true;
         		
 			if(!in_array('motivation', $document_present))
         		$this->view->lettre =  false;  
@@ -984,7 +983,7 @@ if(!in_array('rib', $document_present))
 			if($request->getParam('key') == $cle){
 				$utilisateur->setProfilActif(1);
 				$this->userMapper->save($utilisateur);
-				$this->view->message = "<p>Votre profil a été activé avec success. <br />Vous pouvez vous <a href='/utilisateurs/'>connecter</a> à votre profil</p>";
+				$this->view->message = "<p>Votre compte a correctement été activé.<br /><br />Nous vous invitons maintenant à vous connecter à votre profil, afin de poursuivre la procédure d'inscription, avec les identifiants fournis lors de votre préinscription (si vous avez oublié vos identifiants, nous pouvons vous les renvoyer par e-mail.<br /> <br />Pour cela, cliquez <a href='/mot-de-passe-oublie'>ici</a>  </p>";
 			}else{
 				$this->view->message = "Une erreur c'est produite pendant le processus d'activation";
 			}
@@ -1030,7 +1029,7 @@ if(!in_array('rib', $document_present))
 
 		foreach($result as $row){    
         	$i ++;
-            $question = "<div class='question' style='display : none' id='question".$row->getidQuestion()."'><p class='enonce'><span class='enonce-question'>".$row->getQuestion()." ?</span><span class='enonce-numero'>Question N° $i sur $nombre_reponse</span></p><div class='separateur'></div>";
+            $question = "<div class='question' style='display : none' id='question".$row->getidQuestion()."'><p class='enonce'><span class='enonce-question'>".$row->getQuestion()."</span><span class='enonce-numero'>Question N° $i sur $nombre_reponse</span></p><div class='separateur'></div>";
             
             // Si c'est une question ouverte on affiche un textarea pour répondre
             $question .= "<div class='reponse'><p><i>Veuillez inscrire votre réponse ci-dessous : </i></p><textarea rows='10' cols='80' name='".$row->getIdQuestion()."'></textarea>";
@@ -1159,8 +1158,53 @@ if(!in_array('rib', $document_present))
 		$this->view->cle_activation = $utilisateur->getCleActivation();
 		$this->view->id_utilisateur = $utilisateur->getIdUtilisateur();
 	}
+		
+	public function motdepasseoublieAction(){
 	
-	public function connexionfromspipAction(){
-/* 		$this->getHelper('layout')->disableLayout(); */
+	}
+	
+	public function setpasswordAction(){
+		// Renvoie le mot de passe à un utilisateur
+		$this->getHelper('layout')->disableLayout();
+		$this->_helper->viewRenderer->setNoRender(true);
+		
+		// On vérifie si l'utilisateur à bien rentré son adresse mail et login
+		$request = $this->getRequest();
+		
+		$utilisateur = new Application_Model_Utilisateurs();
+		$this->userMapper->findByLogin($request->getParam('login'), $utilisateur);
+		
+		if($utilisateur->getMail() != $request->getParam('mail') || $request->getParam('mail') == "" && $request->getParam('login') == ''){
+			echo "false";
+			return false;
+		}
+		else{
+			// On générère un nouveau mot de passe aléatoire
+			$string = "";
+			
+			$chaine = "abcdefghijklmnpqrstuvwxyz123456789";
+			srand((double)microtime()*1000000);
+			
+			for($i=0; $i<8; $i++) {
+				$string .= $chaine[rand()%strlen($chaine)];
+			}
+						
+			$path = APPLICATION_PATH."/configs/application.ini";
+            $config = new Zend_Config_Ini($path, 'development');
+            
+            $password = sha1($config->salt.$string);
+            
+            $utilisateur->setPassword($password);
+            $this->userMapper->save($utilisateur);
+			
+			$mail = new Zend_Mail();
+			$mail->setFrom('no-reply@easylia.com', 'Easylia');
+			$mail->addTo($utilisateur->getMail());
+			$mail->setSubject(utf8_decode("Renvoi de vos identifiants"));
+			$mail->setBodyHtml(utf8_decode("<div><img src='http://dev.easylia.com/images/logo.jpg'/><br /><br/><br/></div><div><p>Vous avez demandé un renvoi de vos identifiants de connexion.<br /><br />Nom d'utilisateur : ".$utilisateur->getLogin()." , mot de passe : ".$string."<br /><br />Nous vous conseillons de changer votre mot de passe lors de votre prochaine connexion<br /><br />Cordialement,<br />L'équipe d'Easylia.</p></div>"));
+			$mail->send();
+			
+			echo "true";
+		}
 	}
 }	

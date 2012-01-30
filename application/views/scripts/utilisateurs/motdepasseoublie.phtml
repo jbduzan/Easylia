@@ -1,0 +1,46 @@
+<h1>Mot de passe oublié</h1>
+<p>
+	Veuillez renseigner votre nom d'utilisateur ainsi que votre adresse E-mail, afin que nous vous envoyons un nouveau mot de passe.
+</p>
+<div id="mdpoublie_label">
+	<label for="login">Nom d'utilisateur :</label>
+	<label for="mail">Adresse E-mail : </label>
+</div>
+<div id="mdpoublie_input">
+	<input id="login" name="login"/>
+	<input id="mail" name="mail"/>
+</div>
+<br />
+<input type="submit" id="envoyer" value="Valider" style="margin-left : 18em"/>
+<br /><br /><span id="info" style="color : green"></span>
+<span id="error" style="color : red"></span>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#envoyer').click(function(){
+		$.ajax({
+			type : "post",
+			url : "/utilisateurs/setpassword",
+			data : {'login' : $('#login').val(), 'mail' : $('#mail').val()},
+			success : function(data){
+				if(data == "true"){
+					$("#info").html('Un nouveau mot de passe vous à été envoyé.');
+                    $("#info").show();
+                    setTimeout(function() {
+                    	$("#info").fadeOut("slow");
+                    }, 2000 );
+                    return false;
+				}else{
+					$("#error").html('Votre nom d\'utilisateur ou votre adresse mail ne correspondent pas à ceux enregistrés.');
+                    $("#error").show();
+                    setTimeout(function() {
+                    	$("#error").fadeOut("slow");
+                    }, 2000 );
+                    return false;
+				}
+			}
+		});
+		return false;
+		});
+	});
+</script>

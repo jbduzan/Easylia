@@ -41,7 +41,7 @@ class Application_Model_CpAutoCompleteMapper
             $where .= "AND ville like '".$ville."%'";
         }
                                 
-        $select = $db->select('code_postal', 'ville')->distinct('code_postal')->where($where)->limit(10,0);
+        $select = $db->select('code_postal', 'ville')->distinct('code_postal')->where($where)->limit(30,0);
                 
         $list = $db->fetchAll($select);
         

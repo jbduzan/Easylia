@@ -24,7 +24,7 @@
                     {display: 'Certification pédagogique', name : 'certification', width : 120, sortable : false, align: 'left'},
           			{display: 'CV', name : 'cv', width : 60, sortable : false, align: 'left'},
           			{display: 'Motivation', name : 'motivation', width : 80, sortable : false, align: 'left'},
-          			{display: 'RIB', name : 'rib', width : 60, sortable : false, align: 'left'},
+          			{display: 'Casier', name : 'rib', width : 60, sortable : false, align: 'left'},
           			{display: 'Test de motivation passé', name : 'test_motivation', width : 150, sortable : false, align: 'left'},
           			{display: 'Entretien Skype passé', name : 'entretien_skype', width : 200, sortable : false, align: 'left'}, 
                       ],
@@ -87,7 +87,7 @@
             });
             
             if((cv || rib || lettre) == '<img class="icone_erreur" src="images/icone_erreur_16.png">' || test == '<img class="icone_erreur" src="images/icone_erreur_16.png">'){
-            	$("#error").html('&nbsp;Ce formateur n\'as pas remplis toutes les formalitées');
+            	$("#error").html('&nbsp;Ce formateur n\'a pas rempli toutes les formalitées');
                 $("#error").show();
                 setTimeout(function() {
                     $("#error").fadeOut("slow");

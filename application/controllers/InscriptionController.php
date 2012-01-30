@@ -48,17 +48,22 @@ class InscriptionController extends Zend_Controller_Action
                 $mail = new Zend_Mail();
                 $mail->setFrom('no-reply@easylia.com', 'Easylia');
                 $mail->addTo($client->getMail());
-                $mail->setSubject("Votre inscription sur Easylia");
-                $mail->setBodyHtml("<div><img src='http://dev.easylia.com/images/logo.jpg'/></div><div><p>Merci de vous etre enregistre sur Easylia.<br />Votre nom d'utilisateur est : '".$client->getLogin()."', et votre mot de passe : '".$request->getPost('password')."'.</p><p>Vous devez maintenant activer votre compte avant de vous connecter. Vous pouvez le faire en cliquant sur ce <a href='/activation-compte?id=".$this->id_utilisateur."&key=".$this->cle_activation."'>lien</a>.</p></div>");
+                $mail->setSubject("Bienvenue chez Easylia !");
+                $mail->setBodyHtml(utf8_decode("<div><img src='http://in.easylia.com/images/logo.jpg'/></div><div><p>Bonjour, <br /><br />Vous venez de vous préinscrire comme formateur chez Easylia, et nous vous en remercions. <br /><br /> Nous vous invitons tout d'abord à cliquer sur le lien suivant pour terminer votre préinscription : <br /><a href='http://in.easylia.com/activation-compte?id=".$id."&key=".$client->getCleActivation()."'>Activer votre compte</a><br /><br />Vous pourrez ensuite vous connecter sur votre <a href='http://in.easylia.com/profil-utilisateur'>espace personnel</a>, afin de poursuivre la procédure d'inscription.<br /><br />Une fois celle-ci achevée, vous pourrez accéder à la liste des formations disponibles et à donner.<br /><br />En cas de questions, nous vous invitons à consulter la FAQ, accessible depuis notre site Internet. <br /><br />Restant à votre écoute,<br />Nous vous souhaitons la bienvenue chez Easylia.<br /><br />Cordialement, <br />L'équipe Easylia. </p></div>"));
                 $mail->send();
 
                                                              
-                return $this->_redirector->goToSimple('confirmation', 'inscription');
+                return $this->_redirector->goToUrl('/confirmation-inscription?id='.$id);
             }
         }
 	}
 	
 	public function confirmationAction(){
+		// Récupère l'adresse mail de l'utilisateur
+		$utilisateur = new Application_Model_Utilisateurs();
+		$this->userMapper->find($this->getRequest()->getParam('id'), $utilisateur);
+		
+		$this->view->email = $utilisateur->getMail();
 	}
 
 }

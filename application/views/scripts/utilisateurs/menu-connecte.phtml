@@ -4,13 +4,13 @@ $this->placeholder('menu-connecte')->captureStart();
 if($user->id_groupe == 1){
 ?>
 <div id="menu-connecte">
-	    <li><a href="/profil-utilisateur">Profil</a></li>
+	    <li><a href="/profil-utilisateur">Accueil</a></li>
 	    <li><a>Actions utilisateurs</a>
 	        <ul>            
 	            <li><a href="/liste-des-utilisateurs">Liste des utilisateurs</a></li>
 	            <li><a href="/liste-des-utilisateurs?id=1">Liste des administrateurs</a></li>
 	            <li><a href="/liste-des-utilisateurs?id=2">Liste des formateurs</a></li>
-	            <li><a href="/formateurs-à-valider">Formateurs à valider</a></li>	            
+	            <li><a href="/formateurs-a-valider">Formateurs à valider</a></li>	            
 	        </ul>
 	    </li>
 	    <li><a>Autres actions</a>
@@ -20,11 +20,11 @@ if($user->id_groupe == 1){
 	            <li><a href="/liste-des-certifications">Liste des certifications</a></li>
 	            <li><a href="/liste-des-formations">Liste des formations</a></li>
 	            <li><a href="/liste-questions-motivation">Liste des questions de motivation</a></li>
-	            <li><a href="/liste-logins-interdits">Liste des logins interdit</a></li>
+	            <li><a href="/liste-logins-interdits">Liste des logins interdits</a></li>
 	            <li><a href="/gerer-faq">Gérer la FAQ</a></li>
 	        </ul>
 	    </li>
-	    <li><a id="deconnexion_menu">Deconnexion</a></li>
+	    <li><a id="deconnexion_menu">Déconnexion</a></li>
 </div> <!-- menu-connecte -->
 <p><?php echo $this->navigation()->breadcrumbs()->setSeparator(' > '); ?></p>
 <?php
@@ -35,7 +35,7 @@ if($user->id_groupe == 1){
 	    <li><a href="/certification-disponible">Passer une certification</a></li>
 	    <li><a href="/formations-disponible">Formations disponibles</a></li>
    	    <li><a href="/mes-formations">Mes formations</a>
-	    <li><a id="deconnexion_menu">Deconnexion</a></li>
+	    <li><a id="deconnexion_menu">Déconnexion</a></li>
 </div> <!-- menu-connecte -->
 <p><?php echo $this->navigation()->breadcrumbs()->setSeparator(' > '); ?></p>
 <?php 

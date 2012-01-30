@@ -32,31 +32,26 @@ $this->placeholder('sidebar')->captureStart();
 			</fieldset>
 		</form>
 	</div> <!-- isNotLogged -->
-	<div id="isLogged" style="display : none;">
-		<p id="userHello">Bonjour <?php echo $user->login;?> </p>
-		<a href="#" id="votreCompte" onClick='return false;'>Votre compte</a> / <a href="#" id="deconnexion" onClick="return false;">Deconnexion</a>
-		<br />
-		<?php
-		if($this->profil_inactif == ""){					
-			// Si l'utilisateur n'est pas actif on n'affiche pas les options de profil
-			//echo "<br /><a href=".$this->url(array('controller' => 'utilisateurs', 'action' => 'deconnexion'), 'default', true).">Deconnexion</a>";
-		
-		    echo "<br /><a href='/information-utilisateur'>Voir mon profil</a>";
-		    
-		   // echo "<br /><a href=".$this->url(array('controller' => 'utilisateurs', 'action' => 'voirdocument'), 'default', true).">Voir mes documents</a>";
-		
-			echo "<br /><a href='changer-mot-de-passe'>Changer mon mot de passe</a>";
-		}
-		?>
-	</div> <!-- isLogged -->
 	<div id="navigation-content">
-		
+		<div id="isLogged" style="display : none;">
+			<p id="userHello"><?php echo utf8_encode($user->prenom." ".$user->nom);?> [<a href="/deconnexion" id="deconnexion" >Déconnexion</a>]</p>
+			<?php
+			if($this->profil_inactif == ""){					
+				?>
+				<ul>
+					<li><a href='/information-utilisateur'>Voir mon profil</a></li>
+					<li><a href='changer-mot-de-passe'>Changer mon mot de passe</a></li>
+				</ul>
+			<?php
+			}
+			?>
+		</div> <!-- isLogged -->
 			<h2 class="crayon article-titre-8 titre">Recrutement des formateurs : faites-nous confiance</h2>
 			<div class="crayon article-texte-8 texte"><p><span class="spip_document_9 spip_documents spip_documents_left" style="float:left; width:100px;">
-	<img src="/images/81-fcfa9.png" width="100" height="112" alt="" style="height:112px;width:100px;"></span>Pour vous proposer les intervenants les plus compétents qui se déplaceront à votre domicile, Easylia sélectionne avec attention ses formateurs et applique un processus de recrutement strict. Découvrez ici notre méthode de sélection.</p></div>
+	<img src="/images/81-fcfa9.png" width="100" height="112" alt="" style="height:112px;width:100px;"></span>Pour vous proposer les intervenants les plus compétents qui se déplaceront à votre domicile, Easylia sélectionne avec attention ses formateurs et applique un processus de recrutement strict. Découvrez <a href="http://www.easylia.com/Devenir-formateur">ici</a> notre méthode de sélection.</p></div>
 		
 			<h2 class="crayon article-titre-7 titre">Liens divers</h2>
-			<div class="crayon article-texte-7 texte"><ul class="spip"><li><a href="foire-aux-questions" class="spip_ancre">Une question&nbsp;? Direction la FAQ&nbsp;!</a></li><li><a href="#" class="spip_ancre">Tout savoir sur les avantages fiscaux liés aux services à la personne.</a></li></ul></div>
+			<div class="crayon article-texte-7 texte"><ul class="spip"><li><a href="foire-aux-questions" class="spip_ancre">Une question&nbsp;? Direction la FAQ&nbsp;!</a></li><li><a href="http://www.easylia.com/Avantages-fiscaux" class="spip_ancre">Tout savoir sur les avantages fiscaux liés aux services à la personne.</a></li></ul></div>
 	</div> <!-- navigation-content -->
 </div> <!-- sidebar -->
 

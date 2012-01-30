@@ -2,7 +2,7 @@
 <configdata>
 	<nav>
 		<home>
-			<label>Acceuil</label>
+			<label>Accueil</label>
 			<route>profil</route>
 			<pages>
 				<info>
@@ -39,14 +39,18 @@
 				</question>
 				<listecertification>
 					<label>Liste des certifications</label>
-					<route>certificationdispo</route>	
+					<route>listecertification</route>
+				</listecertification>
+				<certificationdispo>
+					<label>Certifications disponibles</label>
+					<route>certificationdispo</route>
 					<pages>
 						<passagecertification>
 							<label>Passer une certification</label>
 							<route>passagecertification</route>
 						</passagecertification>
 					</pages>
-				</listecertification>
+				</certificationdispo>
 				<listeformation>
 					<label>Liste des formations</label>
 					<route>listeformation</route>

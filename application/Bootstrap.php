@@ -15,11 +15,20 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         
         require_once('MyAcl.php');
         $acl = new MyAcl();
-                               
+                                
+		//Zend_Controller_Action_HelperBroker::addPrefix('My_Helper'); 
+		
         date_default_timezone_set("Europe/Paris");
                
         parent::run();        
     }
+
+	protected function _initForceSSL() {
+		if($_SERVER['SERVER_PORT'] != '443') {
+ 			header('Location: https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+  			exit();
+  		}
+	}
 
     protected function _initDoctype(){
         
@@ -49,7 +58,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		// retourne un routeur de réécriture par défaut
 		$router->addRoute('formation',new Zend_Controller_Router_Route('liste-des-formations-disponibles',array('controller' => 'formation','action' => 'listeformationdispo')));
 		$router->addRoute('inscription', new Zend_Controller_Router_Route('inscription-formateur', array('controller' => 'inscription', 'action' =>'index')));
-		$router->addRoute('formateuravalider', new Zend_Controller_Router_Route('formateurs-à-valider', array('controller' => 'utilisateurs', 'action' => 'formateuravalider')));
+		$router->addRoute('confirmation', new Zend_Controller_Router_Route('confirmation-inscription', array('controller' => 'inscription', 'action' => 'confirmation')));
+		$router->addRoute('formateuravalider', new Zend_Controller_Router_Route('formateurs-a-valider', array('controller' => 'utilisateurs', 'action' => 'formateuravalider')));
 		$router->addRoute('listeutilisateur', new Zend_Controller_Router_Route('liste-des-utilisateurs', array('controller' => 'utilisateurs', 'action' => 'listeutilisateurs')));
 		$router->addRoute('profil', new Zend_Controller_Router_Route('profil-utilisateur', array('controller' => 'utilisateurs', 'action' => 'index')));		
 		$router->addRoute('validerformateur', new Zend_Controller_Router_Route('valider-formateur', array('controller' => 'utilisateurs', 'action' => 'validerutilisateur')));		
@@ -76,6 +86,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$router->addRoute('listecertification', new Zend_Controller_Router_Route('liste-des-certifications', array('controller' => 'certifications', 'action' => 'index')));
 		$router->addRoute('compteinactif', new Zend_Controller_Router_Route('compte-inactif', array('controller' => 'utilisateurs', 'action' => 'nonactive')));
 		$router->addRoute('activation', new Zend_Controller_Router_Route('activation-compte', array('controller' => 'utilisateurs', 'action' => 'activation')));
+		$router->addRoute('mdpoublie', new Zend_Controller_Router_Route('mot-de-passe-oublie', array('controller' => 'utilisateurs', 'action' => 'motdepasseoublie')));
     }
     
     public function _initSidebar(){
