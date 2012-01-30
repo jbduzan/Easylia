@@ -146,7 +146,7 @@
                                  var id = this.id.substr(3);
                                  $.ajax({
                                     type : 'post',
-                                    url : 'deleteuser',
+                                    url : '/utilisateurs/deleteuser',
                                     data : {'id_utilisateur' : id, 'delete' : $("#supprimer_utilisateur").val()},
                                     success : function(){
                                         $("#delete_modal").dialog('close');
