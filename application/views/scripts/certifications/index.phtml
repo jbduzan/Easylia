@@ -1,25 +1,25 @@
 <?php
-	echo $this->placeholder('menu-connecte');
+    echo $this->placeholder('menu-connecte');
 ?>
 <table id="tableau_certifications">
 </table>
 <div id="add_form" style="display : none">
-	<div id="label_certification">
-		<label for="nom" class="optional">Nom :</label>
-		<label for="type" class="optional">Type :</label>
-		<label for="nombre_question" class="optional">Nombre de question :</label>
-		<label for="temps_certification" class="optional">Temps certification (mn) :</label>
-		<label for="score_minimum" class="optional">Score minimum (%) :</label>
-		<label for="duree_validite" class="optional">Durée de validité (années) :</label>	
-	</div> <!-- label_certification -->
-	<div id="input_certification">
-		<input type="text" name="nom" id="nom" value="" />
-		<input type="text" name="type" id="type" value="" />
-		<input type="text" name="nombre_question" id="nombre_question" value="" />
-		<input type="text" name="temps_certification" id="temps_certification" value="" />
-		<input type="text" name="score_minimum" id="score_minimum" value="" />
-		<input type="text" name="duree_validite" id="duree_validite" value="" />
-	</div> <!-- input_certification -->
+    <div id="label_certification">
+        <label for="nom" class="optional">Nom :</label>
+        <label for="type" class="optional">Type :</label>
+        <label for="nombre_question" class="optional">Nombre de question :</label>
+        <label for="temps_certification" class="optional">Temps certification (mn) :</label>
+        <label for="score_minimum" class="optional">Score minimum (%) :</label>
+        <label for="duree_validite" class="optional">Durée de validité (années) :</label>   
+    </div> <!-- label_certification -->
+    <div id="input_certification">
+        <input type="text" name="nom" id="nom" value="" />
+        <input type="text" name="type" id="type" value="" />
+        <input type="text" name="nombre_question" id="nombre_question" value="" />
+        <input type="text" name="temps_certification" id="temps_certification" value="" />
+        <input type="text" name="score_minimum" id="score_minimum" value="" />
+        <input type="text" name="duree_validite" id="duree_validite" value="" />
+    </div> <!-- input_certification -->
 </div>
 <div id="delete_dialog" style="display : none">
     <p>Etes vous sur de vouloir supprimer cette certification ? </p>
@@ -81,14 +81,14 @@
                     $( "#error" ).fadeOut("slow");
                 }, 2000 );
             }
-			
-			// On vide les champs par sécurité            
+            
+            // On vide les champs par sécurité            
             $("#nom").val('');
             $("#type").val('');
             $("#nombre_question").val('');
             $("#temps_certification").val('');
             $('#score_minimum').val('');
-			$('#duree_validite').val('');
+            $('#duree_validite').val('');
             
             $("#add_form").dialog({
                 title : "Ajouter une certification",
@@ -166,8 +166,8 @@
                         click : function(){
                             $.ajax({
                                 type : 'post',
-                                url : 'certifications/editcertification',
-                                data : {'id_certification' : id, 'nom' : $("#nom_edit").val(), 'type' : $("#type_edit").val(), "nombre_question" : $("#nombre_question_edit").val(), "temps_certification" : $("#temps_certification_edit").val(), 'score_minimum' : $('#score_minimum').val(), 'duree_validite' : $('#duree_validite').val()},
+                                url : '/certifications/editcertification',
+                                data : {'id_certification' : id, 'nom' : $("#nom").val(), 'type' : $("#type").val(), "nombre_question" : $("#nombre_question").val(), "temps_certification" : $("#temps_certification").val(), 'score_minimum' : $('#score_minimum').val(), 'duree_validite' : $('#duree_validite').val()},
                                 success : function(){
                                     $("#tableau_certifications").flexReload();
                                     $("#edit_form").dialog('close');

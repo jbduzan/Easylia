@@ -2,3 +2,4 @@
 # Ignorer tous les fichiers nommés foo.txt
 /library
 /application/controllers/IndexController.php
+/application/Bootsrap.php

@@ -139,7 +139,7 @@ if($("#editer_question").val() != "true"){
 		 			click : function(){
 		 				$.ajax({
 		 					type : 'post',
-		 					url : 'editer',
+		 					url : '/questions/editer',
 		 					data : {id_question : id, question : $("#question").val(), motivation : 1},
 		 					success : function(){
 		 						$("#formulaire_question").dialog('close');
