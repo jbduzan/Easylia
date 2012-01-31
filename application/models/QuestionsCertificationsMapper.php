@@ -57,6 +57,21 @@ class Application_Model_QuestionsCertificationsMapper
            $question->setQuestionObligatoire($row->question_obligatoire);
     }
 
+    // Trouve un enregistrement en fonction de son id_question
+    public function findByIdQuestion($id_question, Application_Model_QuestionsCertifications $question){
+       $select = $this->getDbTable()->select()->where("id_question = ?", $id_question);
+       $result = $this->getDbTable()->fetchAll($select);
+
+        if(0 == count($result)){
+               return;
+           }
+           $row = $result->current();
+           $question->setIdQuestionCertification($row->id_question_certification);
+           $question->setidQuestion($row->id_question);
+           $question->setIdCertification($row->id_certification);
+           $question->setQuestionObligatoire($row->question_obligatoire);
+    }
+
     // Retourne tous les enregistrement
     public function fetchAll(){
       $resultSet = $this->getDbTable()->fetchAll();

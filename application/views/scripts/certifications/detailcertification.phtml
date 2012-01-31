@@ -181,7 +181,7 @@
             colModel : [
                     {display: 'Questions', name : 'question', width : 695, sortable : true, align: 'left'},
                     {display: 'Nombre de réponses', name : 'nbr_reponse', width : 100, sortable : true, align: 'left'},                    
-                    {display: 'Question obligatoire', name : 'question_obligatoire', width : 100, sortable : false, align: 'left'},
+                    {display: 'Question obligatoire', name : 'question_obligatoire', width : 100, sortable : true, align: 'left'},
                     //{display: 'Réponse ouverte', name : 'reponse_ouverte', width : 100, sortable : false, align: 'left'}
             ],
            buttons : [
@@ -322,9 +322,10 @@
              $('.trSelected',grid).each(function(){
                  id = this.id.substr(3);
                  $("#question_editer").val($('td[abbr="question"] >div', this).html());
-                 question_obligatoire = $('td[abbr="nbr_reponse"] >div', this).html();                 
+                 question_obligatoire = $('td[abbr="question_obligatoire"] >div', this).html();                 
              });
              
+            console.log(question_obligatoire);
             if(question_obligatoire == "oui")            
                 $('#question_obligatoire_editer').attr('checked', true);
             else
@@ -338,11 +339,12 @@
                          text : "Valider",
                          click : function(){
                             var question_obligatoire;
+                            console.log($('#question_obligatoire_editer').attr('checked'));
                             if($('#question_obligatoire_editer').attr('checked') == "checked")
                                 question_obligatoire = 1;
                             else
                                 question_obligatoire = 0;
-
+                            
                              $.ajax({
                                  type : 'post',
                                  url : '/Questions/editer',

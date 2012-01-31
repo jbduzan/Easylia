@@ -142,12 +142,13 @@ class QuestionsController extends Zend_Controller_Action
         $this->getHelper('layout')->disableLayout();
         // Edite une question
         $request = $this->getRequest();
-        echo "toto";
+
         if($request->isPost()){
             $question = new Application_Model_Questions();
             $certification = new Application_Model_QuestionsCertifications();
           
             $this->question_reponse_mapper->find($request->getParam('id_question'), $question);
+            $this->question_certification_mapper->findByIdQuestion($request->getParam('id_question'), $certification);
             
             if($request->getParam('motivation') == 1){
             	// Si c'est une question de motivation
@@ -159,6 +160,8 @@ class QuestionsController extends Zend_Controller_Action
                               ->setIdCertification($request->getParam('certification_demande'));
             }
             
+echo $request->getParam('question_obligatoire');
+
             $this->question_certification_mapper->save($certification);
             $this->question_reponse_mapper->save($question);
         }
