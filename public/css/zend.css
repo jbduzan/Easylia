@@ -235,6 +235,11 @@
 	height : 10em;
 }
 
+#question_editer{
+	width : 22em;
+	height : 10em;
+}
+
 .separateur{
 	text-align: center;
 	width: 20em;
