@@ -40,6 +40,12 @@
 				<listecertification>
 					<label>Liste des certifications</label>
 					<route>listecertification</route>
+					<pages>
+						<detailcertification>
+							<label>Liste des questions</label>
+							<route>detailcertification</route>
+						</detailcertification>
+					</pages>
 				</listecertification>
 				<certificationdispo>
 					<label>Certifications disponibles</label>
