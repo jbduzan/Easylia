@@ -286,7 +286,7 @@ class CertificationsController extends Zend_Controller_Action
         // On construit le QCM avec les questions et les réponses         
         foreach($result as $row){    
             $i ++;
-            $question = "<div class='question' style='display : none' id='question".$row->getidQuestion()."'><p class='enonce'><span class='enonce-question'>".$row->getQuestion()." ?</span><span class='enonce-numero'>Question N° $i sur $nombre_reponse</span></p><div class='separateur'></div>";
+            $question = "<div class='question' style='display : none' id='question".$row->getidQuestion()."'><p class='enonce'><span class='enonce-question'>".$row->getQuestion()." </span><span class='enonce-numero'>Question N° $i sur $nombre_reponse</span></p><div class='separateur'></div>";
             
             $reponses = $this->reponse_mapper->fetchAllWithId($row->getidQuestion());
             $array_reponse = array();
