@@ -107,6 +107,19 @@
                     }, 2000 );  
                 return;
                 }
+            }else{
+                // On vérifie ensuite que il y a une réponse juste de rentré
+                var reponse = [];
+                $(".reponse").each(function(){
+                    if($(this).next('input[:checked]').attr('checked') != "checked")
+                        return;
+                    reponse.push($(this).next('input[:checked]').attr('checked'));
+                });
+                
+                if(reponse.length == 0){
+                    $("#erreur_enregistrer").html("Veuillez saisir au moins une réponse juste");
+                    return;
+                }
             }
                                     
             // On enregistre le tout
