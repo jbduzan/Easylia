@@ -76,7 +76,7 @@
 
             // OOn récupère les valeurs
             var reponse = [];
-            var question = $(".question").val();
+            var question = $("#question").val();
             var question_obligatoire = $("#question_obligatoire").attr('checked');
             var reponse_ouverte = $("#reponse_ouverte").attr('checked');
             $(".reponse").each(function(){
@@ -325,7 +325,6 @@
                  question_obligatoire = $('td[abbr="question_obligatoire"] >div', this).html();                 
              });
              
-            console.log(question_obligatoire);
             if(question_obligatoire == "oui")            
                 $('#question_obligatoire_editer').attr('checked', true);
             else
@@ -339,7 +338,6 @@
                          text : "Valider",
                          click : function(){
                             var question_obligatoire;
-                            console.log($('#question_obligatoire_editer').attr('checked'));
                             if($('#question_obligatoire_editer').attr('checked') == "checked")
                                 question_obligatoire = 1;
                             else
