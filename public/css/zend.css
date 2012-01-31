@@ -313,7 +313,7 @@
 /* Modification des dialogs */
 .ui-widget{
 	font-family: Arial, Helvetica, sans-serif; 
-	color:#7a7a7a;
+	/*color:#7a7a7a;*/
 	font-size: 0.90em;
 }
 
