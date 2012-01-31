@@ -38,7 +38,7 @@
 	<h2>Étape 2 - Envoi de vos documents</h2>
 	<p>
 		Dans cette première étape, nous vous invitons à nous envoyer en ligne votre curriculum vitæ, une lettre de motivation, et un extrait de casier judiciaire de moins de trois mois (obligatoire pour intervenir chez des particuliers ; vous pouvez le demander en ligne <a target="_blank" href="https://www.cjn.justice.gouv.fr/cjn/b3/eje20">ici</a>). <br />
-Dans un quatrième temps, nous vous inviterons à répondre à quelques questions ouvertes de motivation. <br />
+		Dans un quatrième temps, nous vous inviterons à répondre à quelques questions ouvertes de motivation. <br />
 	</p>
 	<div id="contenaire_onglets">
 		<ul>
@@ -61,8 +61,8 @@ Dans un quatrième temps, nous vous inviterons à répondre à quelques question
 				<p id="upload_cv">
 				<?php
 						echo "<form target='cv_target' id='cv_target' action='/document/upload' enctype='multipart/form-data' method='post'>";
-						echo "<input id='cv_file' style='width: 25em;' name='cv_file' type='file' ><br />";
-						echo "<input type='hidden' id='type' name='type' value='cv' >";
+						echo "<input id='cv_file' style='width: 25em;' name='cv_file' type='file' /><br />";
+						echo "<input type='hidden' id='type' name='type' value='cv' />";
 						echo "<input id='cv_envoyer' type='submit' value='Envoyer'/>";
 						echo "</form>";
 						echo "<iframe id='cv_target' name='cv_target' src='#' style='width:0;height:0;border:0px solid #fff;'></iframe>";
@@ -83,8 +83,8 @@ Dans un quatrième temps, nous vous inviterons à répondre à quelques question
 				</p>
 				<?php
 						echo "<form target='motivation_target' id='lettre_target' action='/document/upload' enctype='multipart/form-data' method='post'>";
-						echo "<input id='motivation_file' style='width: 25em;' name='motivation_file' type='file' ><br />";
-						echo "<input type='hidden' id='type' name='type' value='motivation' >";
+						echo "<input id='motivation_file' style='width: 25em;' name='motivation_file' type='file' /><br />";
+						echo "<input type='hidden' id='type' name='type' value='motivation' />";
 						echo "<input id='motivation_envoyer' type='submit' value='Envoyer'/>";
 						echo "</form>";
 						echo "<iframe id='motivation_target' name='motivation_target' src='#' style='width:0;height:0;border:0px solid #fff;'></iframe>";
@@ -107,8 +107,8 @@ Dans un quatrième temps, nous vous inviterons à répondre à quelques question
 				<p>
 				<?php
 						echo "<form target='casier_target' id='casier_target' action='/document/upload' enctype='multipart/form-data' method='post'>";
-						echo "<input id='casier_file' style='width: 25em;' name='casier_file' type='file' ><br />";
-						echo "<input type='hidden' id='type' name='type' value='casier' >";
+						echo "<input id='casier_file' style='width: 25em;' name='casier_file' type='file' /><br />";
+						echo "<input type='hidden' id='type' name='type' value='casier' />";
 						echo "<input id='casier_envoyer' type='submit' value='Envoyer'/>";
 						echo "</form>";
 						echo "<iframe id='casier_target' name='casier_target' src='#' style='width:0;height:0;border:0px solid #fff;'></iframe>";
@@ -651,9 +651,8 @@ Dans un quatrième temps, nous vous inviterons à répondre à quelques question
             	numero_tab_selected = 3;
 			
 			$('#contenaire_onglets').tabs({
-			selected : numero_tab_selected
+				selected : numero_tab_selected
 			});
-
 		}else if(result == 2){
 			// Si il y a une erreur sur la taille ou le format
 			$("#error_"+type).html('La taille ou l\'extension de votre fichier n\'est pas valide');
@@ -669,7 +668,8 @@ Dans un quatrième temps, nous vous inviterons à répondre à quelques question
                 $("#error_"+type).fadeOut("slow");
             }, 2000 );
 		
-		$('#loading').html('');
+			$('#loading').html('');
+		}
 	}
 	
 	function setDate(){
