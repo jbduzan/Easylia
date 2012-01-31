@@ -349,7 +349,7 @@ class UtilisateursController extends Zend_Controller_Action
         $this->user->requested_controller = $request->getControllerName();
         $this->user->requested_action = $request->getActionName();
         
-        return $this->_helper->redirector('connexion');
+        return $this->_redirector->goToUrl('/connexion');
     }
 
     public function afficherinfoAction()
