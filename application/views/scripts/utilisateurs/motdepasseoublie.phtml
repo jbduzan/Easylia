@@ -1,6 +1,6 @@
 <h1>Mot de passe oublié</h1>
 <p>
-	Veuillez renseigner votre nom d'utilisateur ainsi que votre adresse E-mail, afin que nous vous envoyons un nouveau mot de passe.
+	Veuillez renseigner votre nom d'utilisateur ainsi que votre adresse e-mail, afin que nous vous envoyions un nouveau mot de passe.
 </p>
 <div id="mdpoublie_label">
 	<label for="login">Nom d'utilisateur :</label>
@@ -28,6 +28,7 @@
                     $("#info").show();
                     setTimeout(function() {
                     	$("#info").fadeOut("slow");
+                    	location.href = "/connexion"
                     }, 2000 );
                     return false;
 				}else{
