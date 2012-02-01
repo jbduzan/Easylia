@@ -35,6 +35,8 @@
                     {separator: true},
 					{name: 'Voir les réponses du test', bclass: 'detail', onpress : detail_record},
 					{separator: true},
+                    {name: 'Voir les documents', bclass: 'document', onpress : document_record},
+                    {separator: true},
 					{name: 'Entretien Skype', bclass: 'entretien', onpress: entretien_formateur}
             ],
             searchitems : [
@@ -281,6 +283,27 @@
         			}
         		]
         	});
+        }
+
+        function document_record (command, grid) {
+            // On vérifie que l'utilisateur a séléctionné une ligne     
+            var record_count = $('.trSelected',grid).length;
+            if (0 == record_count)
+            {
+                $("#error").html('&nbsp;Veuillez dabord sélectionner une ligne !');
+                $("#error").show();
+                setTimeout(function() {
+                    $("#error").fadeOut("slow");
+                }, 2000 );
+                return;
+            }
+
+            var id;
+            $('.trSelected',grid).each(function(){
+                id = this.id.substr(3);
+            });   
+
+            location.href = "/utilisateurs/voirdocument?id="+id;
         }
 	});
 </script>

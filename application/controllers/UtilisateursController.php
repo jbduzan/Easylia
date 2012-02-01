@@ -663,35 +663,6 @@ class UtilisateursController extends Zend_Controller_Action
 		return $liste_document;
     }
 
-    public function voirdocumentAction()
-    {
-    
-		$utilisateur = new Application_Model_Utilisateurs();
-		
-		$this->userMapper->find($this->user->id_utilisateur, $utilisateur);
-		
-		$this->view->document_envoye = $utilisateur->getDocumentEnvoye();
-		    
-        // Voir la liste des documents uploadé par l'utilisateur
-        $document_array = $this->document_mapper->fetchALl();
-        
-        $liste = "";
-        
-        foreach($document_array as $row){
-        	if($row->getIdUtilisateur() == $this->user->id_utilisateur){
-        		$path = explode("/", $row->getChemin());
-            		
-            	$number = count($path) - 1;
-            	
-            	$path = $path[$number];
-        		
-        		$liste .= "<p>Vous avez uploadé votre ".$row->getType().", vous pouvez <span class='modifier'>le <a href='/document/upload/type/".$row->getType()."'>modifier</a> ou </span>le <a href='/documents/".$path."'>télécharger</a> ";
-        	}
-        }
-        
-        $this->view->liste = $liste;
-    }
-
     public function validerdocumentAction()
     {
     
@@ -1207,4 +1178,36 @@ class UtilisateursController extends Zend_Controller_Action
 			echo "true";
 		}
 	}
+
+    public function voirdocumentAction(){
+        // Affiche la liste des documents d'un utilisateur
+
+        // On récupère son nom et son prénom
+        $utilisateur = new Application_Model_Utilisateurs();
+        $this->userMapper->find($this->getRequest()->getParam('id'), $utilisateur);
+        
+        $this->view->prenom = $utilisateur->getPrenom();
+        $this->view->nom = $utilisateur->getNom();   
+
+        // On récupère la liste des documents de cet utilisateur et le chemin des documents
+        $document = new Application_Model_Document();
+        $result = $this->document_mapper->fetchAll($id_utilisateur = $this->getRequest()->getParam('id'));
+        
+        $liste_document = "<p>";
+
+        foreach ($result as $row) {
+            if($row->getType() == 'cv')
+                $nom = "Curriculum Vitae";
+            elseif($row->getType() == 'casier') 
+                $nom = "Extrait de casier judiciaire";
+            elseif($row->getType() == 'motivation')
+                $nom = "Lettre de motivation";
+            
+            $chemin = explode('/', $row->getChemin());
+            //$liste_document .= "<span><a href='/document/downloadfile?chemin=".$chemin[6]."'>$nom</a></span><br />";
+            $liste_document .= "<span><a href='/document/downloadfile?chemin=".$chemin[6]."'>$nom</a></span><br />";
+        }
+
+        $this->view->liste = $liste_document;
+    }
 }	

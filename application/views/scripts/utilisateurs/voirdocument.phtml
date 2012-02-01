@@ -1,51 +1,6 @@
-<h2>Vos Documents</h2>
-<div id="info" style="color : green"></div>
+<h1>Document du formateur</h1>
+
 <?php
-echo $this->liste;
+	echo "<h2>".$this->prenom." ".$this->nom."</h2>";
+	echo $this->liste;
 ?>
-
-<br /><button type="button" id="envoyer">Envoyer les documents à la validation</button>
-<div id="confirmation_dialog" style="display : none">
-	Etes vous sur de vouloir envoyer vos documents ? Ils ne seront plus modifiable ensuite.
-</div>
-<input type="hidden" id="document_envoye" value="<?php echo $this->document_envoye?>" />
-
-<script type="text/javascript">
-	$(document).ready(function(){
-		if($("#document_envoye").val() == true){
-			$(".modifier").hide(); 
-			$("#envoyer").hide();
-			$("#info").html("Vos documents on été envoyé, vous ne pouvez plus les modifier, un administrateur les valideras");
-		}
-	
-		$("#envoyer").click(function(){
-			$("#confirmation_dialog").dialog({
-				title : "Confirmer",
-				buttons : [
-					{	
-						text : "Valider",
-						click : function(){
-							$.ajax({
-								type : 'post',
-								url : 'validerdocument',
-								data : {'valid_doc' : true},
-								success : function(data){
-									if(data == true){
-										$("#confirmation_dialog").dialog('close');
-										$(".modifier").hide();
-										$("#envoyer").hide();
-									}
-								}
-							});
-						}
-					},{
-						text : "Annuler",
-						click : function(){
-							$(this).dialog('close');
-						}
-					}
-				]
-			});
-		});
-	});
-</script>

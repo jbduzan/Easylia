@@ -86,6 +86,33 @@ class DocumentController extends Zend_Controller_Action
 		// Vérifie si les 4 docs on été uploadé et le valide en bdd si c'est le cas
 	}
 
+	public function downloadfileAction(){
+		// Télécharge le fichier demandé
+		$this->view->layout()->disableLayout();
+		$this->_helper->viewRenderer->setNoRender(true);
+
+		$filename = $this->getRequest()->getParam('chemin');
+  
+		$filepath = "http://in.easylia.com/documents/".$filename;
+        $filemd5 = md5_file($filepath);
+ 
+        // Gestion du cache
+        header('Pragma: public');
+        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+        header('Cache-Control: must-revalidate, pre-check=0, post-check=0, max-age=0');
+
+        // Informations sur le contenu à envoyer
+        header('Content-MD5: ' . base64_encode($filemd5));
+        header('Content-Type: application/force-download; name="' . $filename . '"');
+        header('Content-Disposition: attachement; filename="' . $filename . '"');
+
+        // Informations sur la réponse HTTP elle-même
+        header('Date: ' . gmdate('D, d M Y H:i:s', time()) . ' GMT');
+        header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 1) . ' GMT');
+        header('Last-Modified: ' . gmdate('D, d M Y H:i:s', time()) . ' GMT');
+        readfile($filepath);
+	}
+
 }
 
 
