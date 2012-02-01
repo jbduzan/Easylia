@@ -53,6 +53,10 @@ $user = new Zend_Session_Namespace('user');?>
 			<dt id="paysNaissance-label"><label for="paysNaissance" class="optional"><span class="red">*</span> Pays de naissance :</label></dt>
 			<dd id="paysNaissance-element">
 				<input type="text" name="paysNaissance" id="paysNaissance" value="France" /></dd>
+      <br />
+      <dt>
+        <span style="color : orange"><small><i>Vous devez avoir au moins 18 ans pour vous inscrire</i></small></span>
+      </dt>
 
 			<div id="inscription_login">
 				<h4>Informations de connexion</h4>
@@ -91,59 +95,6 @@ $user = new Zend_Session_Namespace('user');?>
 
     $(document).ready(function(){
 		var cache = {};
-                
-        var isLogged = false;
-         <?php
-            // le namespace est setté en haut de la page
-            if(!empty($user->is_logged) && $user->is_logged == true) {?> 
-             isLogged = true;
-         <?php } ?>
-        
-       //Récupération des infos et envoie à l'action login du controller utilisateurs.
-       $("#submitLogin").click(function(){
-           $.ajax({
-              type: 'post',
-              url: '/utilisateurs/connexionFromIndex',
-              data: {'login' : $("#login_top").val(), 'password' : $("#password_top").val(), 'loginFromIndex' : true, 'remember' : $("#remember").val()},
-              success : function(data){
-                   if(data != ''){
-                       $("#userHello").html('Bonjour '+ data + " !");
-                       $("#isNotLogged").hide();
-                       $("#isLogged").show();
-                       location.reload();
-                    }else{
-                        $("#erreur").html("Votre nom d'utilisateur ou votre mot de passe ne correspond pas !");
-                        $("#erreur").show();
-                        setTimeout(function() {
-                            $( "#erreur" ).fadeOut("slow");
-                        }, 2000 );
-                    }                
-              }
-           });
-       });
-       
-       $("#deconnexion").click(function(){
-           $.ajax({
-               type: 'post',
-               url: '/utilisateurs/deconnexion',
-               success: function(){
-				location.href = "http://dev.easylia.com";
-               }
-           }); 
-       });
-       
-       $("#votreCompte").click(function(){
-            window.location.replace("/utilisateurs");
-       });
-                  
-       if( isLogged === true){
-            $("#isNotLogged").hide();
-            $("#isLogged").show();
-       }else{
-           $("#isNotLogged").show();
-           $("#isLogged").hide();
-       }
-       
                          
         // Ajout des champs pour le design
         $("dd").addClass("inscription-right"); 
@@ -178,8 +129,22 @@ $user = new Zend_Session_Namespace('user');?>
         $("#inscription_type-label").append("<span class='errors_inscription' id='info_typet>&nbsp;</span>");
          
         // Date picker sur le champ dateNaissance
-        
-        $("#dateNaissance").datepicker({changeYear : true, autoSize : true, dateFormat : 'dd/mm/yy', changeMonth : true, yearRange : '1930 : 2011', onClose : function(){ $("#dateNaissance").focus() }});      
+
+        var date = new Date();
+        var annee = date.getFullYear() - 18;
+
+        $("#dateNaissance").datepicker({
+          changeYear : true, 
+          autoSize : true,
+          defaultDate: null,
+          dateFormat : 'dd/mm/yy', 
+          changeMonth : true, 
+          yearRange : '-80 : -18',
+          maxDate : -6570,
+          onClose : function(){ 
+            $("#dateNaissance").focus() 
+          }
+        });      
                
                
         // Autocomplétion de la ville et du code postal
@@ -256,13 +221,13 @@ $user = new Zend_Session_Namespace('user');?>
         // Vérification de okForSubmit et envoie du form si ok
         $("#inscription_form").submit(function(event){
             if(okForSubmit >= 11){
-				$("#inscription_form").submit();
+				      $("#inscription_form").submit();
             }else{
-                $("#info_submit").html("Veuillez remplir tous les champs requis avant de valider");
-                $("#info_submit").show();
-                setTimeout(function() {
-                    $( "#info_submit" ).fadeOut("slow");
-                }, 2000 );
+              $("#info_submit").html("Veuillez remplir tous les champs requis avant de valider");
+              $("#info_submit").show();
+              setTimeout(function() {
+                  $( "#info_submit" ).fadeOut("slow");
+              }, 2000 );
 
             }
             return false;
@@ -391,7 +356,7 @@ $user = new Zend_Session_Namespace('user');?>
         });
         
         $("#prenom").blur(function(){
-	         var regExp = new RegExp(/^[A-Z]?[a-z]*(-)?[a-z]+$/);
+	         var regExp = new RegExp(/^[A-Z]*[a-z]*(-)?[a-z]*$/);
             if($('#prenom').val().length > 0 && regExp.test($("#prenom").val())){
                 $("#info_prenom").html("<img src='<?php APPLICATION_PATH?>/images/icone_ok.png' height='20px' width='20px' alt='valide' />");
                 okForSubmit ++;
