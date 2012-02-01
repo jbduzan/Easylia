@@ -159,6 +159,7 @@ body {
 	background: white;
 }
 
+
 /* Onglets */
 
 #onglets {
@@ -185,16 +186,16 @@ body {
 	padding-top: 1.35em;
 }
 
+#onglets ul li.item_formateur a {
+	background: #c43d3b;
+}
+
 #onglets ul li a:hover {
-	color: #171717;
+	/* color: #171717; */
 	text-decoration: none;
 	/*background: url(images/menu/bg_menu-act.gif) top left repeat-x;
 	background: url(images/menu/bg_menu.gif) top right no-repeat #eb9b2d;*/
 	background: #eb9b2d;
-}
-
-#onglets ul li.item_formateur a {
-	background: #c43d3b;
 }
 
 #onglets ul li a.current {
@@ -321,7 +322,7 @@ body {
 #footer ul li {
 	margin: 0;
 	display: inline;
-	background: url(../images/bg_li.gif) center left no-repeat;
+	background: url(images/bg_li.png) center left no-repeat;
 	float: left;
 }
 
@@ -344,6 +345,10 @@ body {
 
 #footer ul li.current a {
 	color: #5C5C5C;
+}
+
+#footer ul li a:hover {
+	text-decoration: underline;
 }
 
 /* Formulaire espace privé */
