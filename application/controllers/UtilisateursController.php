@@ -1172,10 +1172,9 @@ class UtilisateursController extends Zend_Controller_Action
 			$mail->setFrom('no-reply@easylia.com', 'Easylia');
 			$mail->addTo($utilisateur->getMail());
 			$mail->setSubject(utf8_decode("Renvoi de vos identifiants"));
-			$mail->setBodyHtml(utf8_decode("<div><img src='http://dev.easylia.com/images/logo.jpg'/><br /><br/><br/></div><div><p>Vous avez demandé un renvoi de vos identifiants de connexion.<br /><br />Nom d'utilisateur : ".$utilisateur->getLogin()." , mot de passe : ".$string."<br /><br />Nous vous conseillons de changer votre mot de passe lors de votre prochaine connexion<br /><br />Cordialement,<br />L'équipe d'Easylia.</p></div>"));
+			$mail->setBodyHtml(utf8_decode("<div><img src='http://dev.easylia.com/images/logo.jpg'/><br /><br/><br/></div><div><p>Bonjour,<br /><br />Vous avez demandé un renvoi de vos identifiants de connexion à votre compte sur le site Web d'Easylia.<br /><br />Nom d'utilisateur : ".$utilisateur->getLogin()."<br />Mot de passe : ".$string."<br /><br />Nous vous conseillons fortement de personnaliser ce nouveau mot de passe lors de votre prochaine connexion.<br /><br />Cordialement,<br />L'équipe d'Easylia.</p></div>"));
 			$mail->send();
-			
-			echo "true";
+
 		}
 	}
 
