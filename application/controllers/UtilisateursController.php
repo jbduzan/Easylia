@@ -1182,6 +1182,10 @@ class UtilisateursController extends Zend_Controller_Action
     public function voirdocumentAction(){
         // Affiche la liste des documents d'un utilisateur
 
+        // On vérifie que l'utilisateur est connecté est que il est bien administrateur
+        if($this->user->is_logged != true || $this->user->id_groupe != 1)
+            $this->_redirector->goToUrl('/connexion');
+
         // On récupère son nom et son prénom
         $utilisateur = new Application_Model_Utilisateurs();
         $this->userMapper->find($this->getRequest()->getParam('id'), $utilisateur);
