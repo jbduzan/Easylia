@@ -1199,6 +1199,12 @@ class UtilisateursController extends Zend_Controller_Action
         
         $liste_document = "<p>";
 
+        if(count($result) == 0){
+            $liste_document .= "Ce formateur n'as pas encore envoyé de documents</p>";
+            $this->view->liste = $liste_document;
+            return;
+        }
+
         foreach ($result as $row) {
             if($row->getType() == 'cv')
                 $nom = "Curriculum Vitae";
@@ -1212,6 +1218,8 @@ class UtilisateursController extends Zend_Controller_Action
             $liste_document .= "<span><a href='/document/downloadfile?chemin=".$chemin[6]."'>$nom</a></span><br />";
         }
 
+        $liste_document .= "</p>";
+            
         $this->view->liste = $liste_document;
     }
 }	
