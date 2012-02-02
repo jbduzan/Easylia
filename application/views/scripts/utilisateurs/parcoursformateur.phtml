@@ -75,7 +75,7 @@
 			<p id="info_cv" style='color : green'></p>
 		</div>
 		<div id="upload_lettre">
-			<div id="form_lettre">
+			<div id="form_motivation">
 				<?php if(!$this->lettre){?>
 				<p>
 					Vous devez ici nous envoyer en ligne votre lettre de motivation. <br />
@@ -654,6 +654,7 @@ L'équipe Easylia vous contactera très rapidement par mail pour vous indiquer l
 			$('#contenaire_onglets').tabs({
 				selected : numero_tab_selected
 			});
+
 		}else if(result == 2){
 			// Si il y a une erreur sur la taille ou le format
 			$("#error_"+type).html('La taille ou l\'extension de votre fichier n\'est pas valide');
