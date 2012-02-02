@@ -477,8 +477,6 @@ $user = new Zend_Session_Namespace('user');?>
           array_check.push(password_conf_check);
           array_check.push(mail_check);
 
-          console.log(array_check);
-
             if(jQuery.inArray(false, array_check) == -1){
                $("#inscription_form").submit();
             }else{
