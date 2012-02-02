@@ -141,7 +141,6 @@ class UtilisateursController extends Zend_Controller_Action
             }
         }
         $this->view->form = $form;
-
     }
     
     public function inscriptionsuccessAction(){
@@ -954,7 +953,7 @@ class UtilisateursController extends Zend_Controller_Action
 			if($request->getParam('key') == $cle){
 				$utilisateur->setProfilActif(1);
 				$this->userMapper->save($utilisateur);
-				$this->view->message = "<p>Votre compte a correctement été activé.<br /><br />Nous vous invitons maintenant à vous connecter à votre profil, afin de poursuivre la procédure d'inscription, avec les identifiants fournis lors de votre préinscription (si vous avez oublié vos identifiants, nous pouvons vous les renvoyer par e-mail.<br /> <br />Pour cela, cliquez <a href='/mot-de-passe-oublie'>ici</a>  </p>";
+				$this->view->message = "<p>Votre compte a correctement été activé.<br /><br />Nous vous invitons maintenant à vous connecter à votre <a href='/profil-utilisateur'>profil</a>, afin de poursuivre la procédure d'inscription, avec les identifiants fournis lors de votre préinscription (si vous avez oublié vos identifiants, nous pouvons vous les renvoyer par e-mail.<br /> <br />Pour cela, cliquez <a href='/mot-de-passe-oublie'>ici</a>)</p>";
 			}else{
 				$this->view->message = "Une erreur c'est produite pendant le processus d'activation";
 			}
