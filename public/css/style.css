@@ -322,7 +322,7 @@ body {
 #footer ul li {
 	margin: 0;
 	display: inline;
-	background: url(images/bg_li.png) center left no-repeat;
+	background: url(../images/bg_li.png) center left no-repeat;
 	float: left;
 }
 
