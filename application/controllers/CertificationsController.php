@@ -301,14 +301,16 @@ class CertificationsController extends Zend_Controller_Action
                 
                 if($nbr_reponse_juste > 1){
                     // Si il y a plusieurs réponses à la question on crée une checkbox
+                    $input_reponse = "<p><i>Cocher les bonnes réponses : </i></p";
                     foreach($reponses as $reponse){
-                        $input_reponse = "<input type='checkbox' id='".$reponse->getIdReponse()."' value='".$reponse->getIdReponse()."' name='".$row->getidQuestion()."' /><label for='".$reponse->getIdReponse()."'>".$reponse->getReponse()."</label><br />";
+                        $input_reponse .= "<input type='checkbox' id='".$reponse->getIdReponse()."' value='".$reponse->getIdReponse()."' name='".$row->getidQuestion()."' /><label for='".$reponse->getIdReponse()."'>".$reponse->getReponse()."</label><br />";
                         $array_reponse[] = $input_reponse;
                     }
                 }else if($nbr_reponse_juste == 1){
                     // Sinon des radio button
+                    $input_reponse = "<p><i>Cocher la bonne réponse : </i></p";
                     foreach($reponses as $reponse){
-                        $input_reponse = "<input type='radio' id='".$reponse->getIdReponse()."' value='".$reponse->getIdReponse()."' name='".$row->getidQuestion()."' /><label for='".$reponse->getIdReponse()."'>".$reponse->getReponse()."</label><br />";
+                        $input_reponse .= "<input type='radio' id='".$reponse->getIdReponse()."' value='".$reponse->getIdReponse()."' name='".$row->getidQuestion()."' /><label for='".$reponse->getIdReponse()."'>".$reponse->getReponse()."</label><br />";
                         $array_reponse[] = $input_reponse;
                     }
                 }
@@ -323,7 +325,7 @@ class CertificationsController extends Zend_Controller_Action
 
                 shuffle($range);
                 
-                $question .= "<div class='reponse'><p><i>Cocher la ou les bonnes réponses : </i></p>";
+                //$question .= "<div class='reponse'><p><i>Cocher la ou les bonnes réponses : </i></p>";
                 foreach($range as $numero_question){
                     $question .= $array_reponse[$numero_question];
                 }
