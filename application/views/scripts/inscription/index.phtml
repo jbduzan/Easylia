@@ -15,7 +15,7 @@ $user = new Zend_Session_Namespace('user');?>
 			</div>
 			<dt id="inscription_type-label"><label for="inscription_type" class="optional"><span class="red">*</span> Civilité :</label></dt>
 			<dd id="inscription_type-element">
-				<select name="inscription_type" id="inscription_type">
+				<select name="type" id="type">
 				    <option value="mr" >M.</option>
 				    <option value="mlle">Mlle</option>
 				    <option value="mme" >Mme</option>
@@ -40,7 +40,7 @@ $user = new Zend_Session_Namespace('user');?>
 				<input type="text" name="codePostal" id="codePostal" value="" /></dd>
 			<dt id="ville-label"><label for="ville" class="optional"><span class="red">*</span> Ville <i style="font-size : 10.3px;">(Se remplit automatiquement en fonction du code postal)</i> :</label></dt>
 			<dd id="ville-element">
-				<input type="text" name="ville" id="ville" value="" disabled="disabled"/></dd>
+				<input type="text" name="ville" id="ville" value="" /></dd>
 			<dt id="telephone-label"><label for="telephone" class="optional"><span class="red">*</span> Téléphone :</label></dt>
 			<dd id="telephone-element">
 				<input type="text" name="telephone" id="telephone" value="" /></dd>
@@ -425,7 +425,7 @@ $user = new Zend_Session_Namespace('user');?>
                                    value: function (){
 										if ($(this).attr('id') == 'codePostal'){
 											$('#ville').val(item.ville);
-											$('#ville').attr('disabled', 'disabled');
+											//$('#ville').attr('disabled', 'disabled');
 											return item.code_postal;
 										}
 										else{
@@ -476,7 +476,7 @@ $user = new Zend_Session_Namespace('user');?>
           array_check.push(password_check);
           array_check.push(password_conf_check);
           array_check.push(mail_check);
-
+          
             if(jQuery.inArray(false, array_check) == -1){
                $("#inscription_form").submit();
             }else{
