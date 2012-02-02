@@ -682,7 +682,7 @@ $user = new Zend_Session_Namespace('user');?>
             }
         });
         
-        $("#paysNaissance").blur(function(){
+        $("#paysNaissance").change(function(){
           pays_naissance_check = false;
         	var regExp = new RegExp(/[a-zA-Z]/);
         	if(regExp.test($("#paysNaissance").val())){
