@@ -282,9 +282,8 @@ $user = new Zend_Session_Namespace('user');?>
                          <option value="Zimbabwe">Zimbabwe </option>
                     </select>
                </dd>
-      <br />
-      <dt id="departementNaissance-label" style='display : none'><label for="departementNaissance" class="optional"><span class="red">*</span> Département de naissance :</label></dt>
-      <dd id="departementNaissance-element" style='display : none'>
+      <dt id="departementNaissance-label" ><label for="departementNaissance" class="optional"><span class="red">*</span> Département de naissance :</label></dt>
+      <dd id="departementNaissance-element" >
         <input type="text" name="departementNaissance" id="departementNaissance" value="" /></dd>
 
 			<div id="inscription_login">
@@ -484,7 +483,7 @@ $user = new Zend_Session_Namespace('user');?>
           array_check.push(code_postal_check);
           array_check.push(telephone_check);
           array_check.push(date_naissance_check);
-          array_check.push(pays_naissance_check);
+          //array_check.push(pays_naissance_check);
           array_check.push(login_check);
           array_check.push(password_check);
           array_check.push(password_conf_check);
@@ -691,10 +690,9 @@ $user = new Zend_Session_Namespace('user');?>
 	                $("#info_paysNaissance").html("<img src='<?php APPLICATION_PATH?>/images/icone_ok.png' height='20px' width='20px' alt='valide' />");
                   
                   console.log($('#paysNaissance').val());
-                  // Si le pays est la france on affiche le champs département
+                  // Si le pays est la france on cache le champs département
                   if($('#paysNaissance').val() == 'France'){
                     $('#departementNaissance-element, #departementNaissance-label').show();
-                    $('#departementNaissance').focus();
                   }else{
                     $('#departementNaissance-element, #departementNaissance-label').hide();
                   }

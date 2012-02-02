@@ -37,6 +37,13 @@
 
 #sidebar{
 	float: right;
+	margin-top: -30.5em;
+	width: 23em;
+	margin-left : 2em;
+}
+
+#sidebar_nonconnecte{
+	float: right;
 	margin-top: -31.5em;
 	width: 23em;
 	margin-left : 2em;
@@ -158,7 +165,7 @@
 }
 
 #nom{
-	margin-top : 2.4em;
+	/*margin-top : 2.4em;*/
 }
 
 .errors	_modifier{
@@ -705,7 +712,7 @@
 }
 
 #nom-label{
-	margin-top: 2em;
+	/*margin-top: 2em;*/
 }
 
 #dateNaissance{
