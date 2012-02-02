@@ -476,5 +476,7 @@ body {
 	text-decoration: underline;
 }
 
-
+ul.spip {
+	margin: -0.7em 0 1em 2em;
+}
 
