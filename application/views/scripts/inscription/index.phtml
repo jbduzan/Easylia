@@ -285,6 +285,22 @@ $user = new Zend_Session_Namespace('user');?>
       <dt id="departementNaissance-label" ><label for="departementNaissance" class="optional"><span class="red">*</span> Département de naissance :</label></dt>
       <dd id="departementNaissance-element" >
         <input type="text" name="departementNaissance" id="departementNaissance" value="" /></dd>
+     <div id="info_inscription_span">
+          <p class='errors_inscription'><span id='info_nom'>&nbsp;</span></p>
+          <p class='errors_inscription'><span id='info_prenom'>&nbsp;</span></p>
+          <p class='errors_inscription'><span id='info_adresse'>&nbsp;</span></p>
+          <p class='errors_inscription' style="margin-top: 1em;"><span id='info_codePostal'>&nbsp;</span></p>
+          <p class='errors_inscription'><span id='info_ville'>&nbsp;</span></p>
+          <p class='errors_inscription'><span id='info_telephone'>&nbsp;</span></p>
+          <p class='errors_inscription'><span id='info_dateNaissance'>&nbsp;</span></p>
+          <p class='errors_inscription'><span id='info_paysNaissance'>&nbsp;</span></p>
+          <p class='errors_inscription' style="margin-top: 1em;"><span id='info_departementNaissance'>&nbsp;</span></p>
+          <p class='errors_inscription' style="margin-top: 7em;"><span id='info_login'>&nbsp;</span></p>
+          <p class='errors_inscription'><span id='info_password'>&nbsp;</span></p>
+          <p class='errors_inscription'><span id='info_password_conf'>&nbsp;</span></p>
+          <p class='errors_inscription'><span id='info_email'>&nbsp;</span></p>
+          <p class='errors_inscription'><span id='info_submit'>&nbsp;</span></p>
+     </div> <!-- info_inscription -->
 
 			<div id="inscription_login">
 				<h4>Informations de connexion</h4>
@@ -337,25 +353,7 @@ $user = new Zend_Session_Namespace('user');?>
         $("#ville-label > label").attr('id', 'inscription_ville');
         $("#telephone-label > label").attr('id', 'inscription_telephone');
         $("#mail-label > label").attr('id', 'inscription_mail');
-                 
-        // Ajout des champs info
-                
-        $("#nom-element").append("<span class='errors_inscription' id='info_nom'>&nbsp;</span>"); 
-        $("#prenom-element").append("<span class='errors_inscription' id='info_prenom'>&nbsp;</span>");
-        $("#login-element").append("<span class='errors_inscription' id='info_login'>&nbsp;</span>");
-        $("#password-element").append("<span class='errors_inscription' id='info_password'>&nbsp;</span>");
-        $("#password_conf-element").append("<span class='errors_inscription' id='info_password_conf'>&nbsp;</span>");        
-        $("#adresse-element").append("<span class='errors_inscription' id='info_adresse'>&nbsp;</span>");
-        $("#codePostal-element").append("<span class='errors_inscription' id='info_codePostal'>&nbsp;</span>");
-        $("#ville-element").append("<span class='errors_inscription' id='info_ville'>&nbsp;</span>");
-        $("#telephone-element").append("<span class='errors_inscription' id='info_telephone'>&nbsp;</span>");
-        $("#mail-element").append("<span class='errors_inscription' id='info_email'>&nbsp;</span>");
-        $("#dateNaissance-element").append("<span class='errors_inscription' id='info_dateNaissance'>&nbsp;</span>");
-        $("#departementNaissance-element").append("<span class='errors_inscription' id='info_departementNaissance'>&nbsp;</span>");
-        $("#paysNaissance-element").append("<span class='errors_inscription' id='info_paysNaissance'>&nbsp;</span>");
-        $("#submit-element").append("<span class='errors_inscription' id='info_submit'>&nbsp;</span>");
-        $("#inscription_type-label").append("<span class='errors_inscription' id='info_typet>&nbsp;</span>");
-         
+                          
         // Date picker sur le champ dateNaissance
 
         var date = new Date();

@@ -653,6 +653,12 @@
 
 /*Formulaire d'inscription*/
 
+#info_inscription_span{
+	float: right;
+	margin-top: -17em;
+	margin-right: 10em;
+}
+
 .inscription-left{
 	float : left;
 /* 	margin-top: 0.6em; */
@@ -702,9 +708,8 @@
 }
 
 .errors_inscription{
-	color : red;
-	display: inline-block;
-	margin-left: 2em;
+	color: red;
+	margin-top: -1em;
 }
 
 #submit_inscription{
