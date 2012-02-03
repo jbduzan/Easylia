@@ -223,7 +223,7 @@ class Application_Model_UtilisateursMapper
         
         // Get total count of records
         $sql = "select * from Utilisateurs $search_sql";
-        
+    
         $select = $this->getDbTable()->select($sql);
         $result = $this->getDbTable()->fetchAll($select);
         $total = count($result);
@@ -302,7 +302,7 @@ class Application_Model_UtilisateursMapper
             
             $data['rows'][] = array(
                 'id' => $row->id_utilisateur,
-                'cell' => array($row->id_utilisateur, $row->nom, $row->prenom, $row->login, $groupe->nom)
+                'cell' => array($row->id_utilisateur, utf8_encode($row->nom), utf8_encode($row->prenom), utf8_encode($row->login), $groupe->nom)
             );
         }
         
