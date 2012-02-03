@@ -9,6 +9,8 @@ $this->placeholder('sidebar')->captureStart();
 		echo "<div id='sidebar_nonconnecte'>";
 	else 
 		echo '<div id="sidebar">';
+
+	if($user->is_logged){
 ?>
 	<h2>Espace privé</h2>
 	<div id="isNotLogged">
@@ -33,7 +35,9 @@ $this->placeholder('sidebar')->captureStart();
 				</p>
 			</fieldset>
 		</form>
-	</div> <!-- isNotLogged -->
+	</div> <!-- isNotLogged -->		<?php 
+		}
+	?>
 	<div id="navigation-content">
 		<div id="isLogged" style="display : none;">
 			<p id="userHello"><?php echo utf8_encode($user->prenom." ".$user->nom);?> [<a href="/deconnexion" id="deconnexion" >Déconnexion</a>]</p>
