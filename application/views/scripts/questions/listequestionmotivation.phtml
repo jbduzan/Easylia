@@ -4,10 +4,10 @@
 <table id="tableau_motivation"></table>
 <div id="formulaire_question" style="display : none;">
 	<p style="margin-left : 0.7em; margin-bottom : 0.5em"><label class="ajouter_question_label" for="question">Question : </label><textarea id="question" class="question"></textarea></p>
-	<p><input type="submit" id="valider_question_reponse" value="Enregistrer" /> <span id="info_enregistrer" style="color : green"></span><span id="erreur_enregistrer" style="color : red"></span></p>
+	<p><span id="info_enregistrer" style="color : green"></span><span id="erreur_enregistrer" style="color : red"></span></p>
 </div> <!-- formulaire_question -->
 <div id="supprimer_question" style="display : none">
-	<p>Êtes vous sur de vouloir supprimer cette question ? </p>
+	<p>Êtes vous sûr de vouloir supprimer cette question ? </p>
 </div>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -40,42 +40,7 @@ $(document).ready(function(){
 	});
 	$(".ftitle").append('<span id="info" style="color : green"></span>');
 	$(".ftitle").append('<span id="error" style="color : red"></span>');
-	
-	// Lorsque on enregistre une question
-	$("#valider_question_reponse").click(function(){
-
-		// On récupère les valeurs
-		var question = $("#question").val();
-
-		// On vérifie que la question a été remplie
-		if(question == ""){
-			$("#erreur_enregistrer").html("Veuillez remplir la question");
-            $("#erreur_enregistrer").show();
-                setTimeout(function() {
-                    $( "#erreur_enregistrer" ).fadeOut("slow");
-                }, 2000 );  
-			return;
-		}
-			
-		// On enregistre le tout
-		$.ajax({
-			type : "post",
-			url : "/questions/ajouter",
-			data : {question : question, motivation : 1},
-			success : function(){
-				// On remet le formulaire à zero
-				$('#question').val('');	
-				
-				// On affiche la confirmation
-				$("#info_enregistrer").html("Votre question a été enregistrée");
-                $("#info_enregistrer").show();
-                setTimeout(function() {
-                    $( "#info_enregistrer" ).fadeOut("slow");
-                }, 2000 );    
-			}
-		});		
-   	});
-	
+		
 	function add_record(command, grid){
 		 // On affiche le bouton enregistrer
 		 $('#valider_question_reponse').show();
@@ -87,6 +52,42 @@ $(document).ready(function(){
 			width : 620,
 			title : 'Ajouter une question',
 			buttons : [
+				{
+					text : 'Enregistrer',
+					click : function(){
+						// On récupère les valeurs
+						var question = $("#question").val();
+
+						// On vérifie que la question a été remplie
+						if(question == ""){
+							$("#erreur_enregistrer").html("Veuillez remplir la question");
+				            $("#erreur_enregistrer").show();
+				                setTimeout(function() {
+				                    $( "#erreur_enregistrer" ).fadeOut("slow");
+				                }, 2000 );  
+							return;
+						}
+							
+						// On enregistre le tout
+						$.ajax({
+							type : "post",
+							url : "/questions/ajouter",
+							data : {question : question, motivation : 1},
+							success : function(){
+								// On remet le formulaire à zero
+								$('#question').val('');	
+								
+								// On affiche la confirmation
+								$("#info_enregistrer").html("Votre question a été enregistrée");
+				                $("#info_enregistrer").show();
+				                setTimeout(function() {
+				                    $( "#info_enregistrer" ).fadeOut("slow");
+				                }, 2000 );    
+				                $('#tableau_motivation').flexReload();
+							}
+						});	
+					}	
+				},
 				{
 					text : 'Fermer',
 					click : function(){
@@ -109,7 +110,10 @@ if($("#editer_question").val() != "true"){
 		    return;
 		}
 */
-		
+		// On nettoie la confirmation précédente par sécurité
+		$('#info_enregistrer').html('');
+		$('#info_enregistrer').hide();
+
 		var record_count = $('.trSelected',grid).length;
 		if (0 == record_count)
 		{
@@ -199,6 +203,11 @@ if($("#editer_question").val() != "true"){
 		 					data : {id_question : id, motivation : 1},
 		 					success : function(){
 		 						$('#supprimer_question').dialog('close');
+							    $("#info").html('&nbsp;La question a été supprimée!');
+							    $("#info").show();
+							    setTimeout(function() {
+							        $("#info").fadeOut("slow");
+							    }, 2000 );
 		 						$('#tableau_motivation').flexReload();
 		 					}
 		 				});
