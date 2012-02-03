@@ -285,7 +285,7 @@ class GroupeController extends Zend_Controller_Action
             
             foreach($data as $autorisation){
                 if(!in_array($autorisation->getIdAutorisation(), $gp))
-                $liste .= "<option value=".$autorisation->getIdAutorisation().">".$autorisation->getDroitAccorde()."</option>";
+                $liste .= "<option value=".$autorisation->getIdAutorisation().">".utf8_encode($autorisation->getDroitAccorde())."</option>";
             }
         }
          $this->view->liste = $liste;
@@ -307,7 +307,20 @@ class GroupeController extends Zend_Controller_Action
         }
     }
 
-
+    public function editautorisationAction(){
+        $this->_helper->viewRenderer->setNoRender(true);
+        
+        $request = $this->getRequest();
+        
+        $autorisation = new Application_Model_Autorisation();
+        $autorisation_mapper= new Application_Model_AutorisationMapper();
+        
+        $autorisation_mapper->find($request->getParam('id'), $autorisation);
+        
+        $autorisation->setDroitAccorde($request->getParam('droit_accorde'));
+        
+        $autorisation_mapper->save($autorisation);    
+    }
 }
 
 

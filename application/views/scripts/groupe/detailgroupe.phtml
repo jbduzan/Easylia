@@ -13,7 +13,7 @@
     Etes vous sur de vouloir retirer l'utilisateur de ce groupe ? 
 </div>
 <div id="delete_autorisation_modal" style="display : none">
-    Etes vous sur de vouloir retirer l'autorisation à ce groupe ? 
+    Etes vous sûr de vouloir retirer l'autorisation à ce groupe ? 
 </div>
 <div id="ajout_utilisateur_modal" style="display : none;">
     <p id="nom_groupe"></p><br />
@@ -26,6 +26,9 @@
     Veuillez sélectionner le nom de l'autorisation que vous voulez ajouter : <br />
     <br /><select id="select_ajout_autorisation_groupe">
     </select>
+</div>
+<div id="edit_autorisation" style="display : none">
+    <label for="droit_accorde">Droit accordé : </label><input type="text" style="width : 20em" id="droit_accorde" />
 </div>
 <input type="hidden" id="id_groupe" value="<?php echo $this->id_groupe ?>" />
 <input type="hidden" id="retirer_utilisateur" value="<?php echo $this->retirer_utilisateur?>" />
@@ -194,7 +197,9 @@
             buttons : [
                     {name: 'Ajouter', bclass: 'add', onpress : add_record_autorisation},
                     {separator: true},                    
-                    {name: 'Retirer', bclass: 'delete', onpress : delete_record_autorisation}
+                    {name: 'Retirer', bclass: 'delete', onpress : delete_record_autorisation},
+                    {separator: true},
+                    {name: 'Editer', bclass: 'edit', onpress: edit_record_autorisation},
             ],
             sortname: "id_autorisation",
             sortorder: "asc",
@@ -337,6 +342,56 @@
                      }
                  ]
              });
+        }
+
+        function edit_record_autorisation(command, grid){
+            var record_count = $('.trSelected',grid).length;
+            if (0 == record_count){
+                $("#error_autorisation").html('&nbsp;Veuillez dabord sélectionner une ligne !');
+                $("#error_autorisation").show();
+                setTimeout(function() {
+                $("#error_autorisation").fadeOut("slow");
+                }, 2000 );
+                return;
+            }
+
+             var id;
+             $('.trSelected',grid).each(function(){
+                 id = this.id.substr(3);
+                 $("#droit_accorde").val($('td[abbr="droit_accorde"] >div', this).html());
+             });  
+
+            $('#edit_autorisation').dialog({
+                title : 'Editer une autorisation',
+                width : 400,
+                buttons : [
+                    {
+                        text : "Valider",
+                        click : function(){
+                            $.ajax({
+                                type : 'post',
+                                url : '/groupe/editautorisation',
+                                data : {'id' : id, 'droit_accorde' : $('#droit_accorde').val()},
+                                success : function(){
+                                    $('#edit_autorisation').dialog('close');                                    
+                                    $('#tableau_autorisations').flexReload();
+                                    $("#info_autorisation").html('&nbsp;L\'autorisation à été modifié');
+                                    $("#info_autorisation").show();
+                                    setTimeout(function() {
+                                        $( "#info" ).fadeOut("slow");
+                                    }, 2000 );
+                                }
+                            });
+                        }
+                    },
+                    {
+                        text : "Annuler",
+                        click : function(){
+                            $(this).dialog('close');
+                        }
+                    }
+                ]
+            });
         }
         
     }); 

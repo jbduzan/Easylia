@@ -22,7 +22,7 @@
 					<route>listegroupe</route>	
 					<pages>
 						<detail>
-							<label>Détail du groupe</label>
+							<label>Détails du groupe</label>
 							<route>detailgroupe</route>					
 						</detail>
 					</pages>					
