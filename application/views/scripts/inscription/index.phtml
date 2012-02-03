@@ -377,65 +377,40 @@ $user = new Zend_Session_Namespace('user');?>
        
         $("#codePostal, #ville").autocomplete({
             source: function(request, response){
-                
-                // Si la réponse est dans le cache
-            	if (('FR' + '-' + request.term) in cache){
-    				response($.map(cache['FR' + '-' + request.term], function (item){
-    					return {
-    						label: item.code_postal + ", " + item.ville,
-    						value: function (){
-    							if ($(this).attr('id') == 'codePostal'){
-    								$('#ville').val(item.ville);
-    								$('#ville').attr('disabled', 'disabled');
-    								return item.codePostal;
-    							}
-    							else{
-    								$('#codePostal').val(item.codePostal);
-							    	$('#codePostal').attr('disabled', 'disabled');
-    								return item.ville;
-    							}
-    						}
-    					}
-    				}));
-    			}
-    			
-    			// Sinon -> Requete Ajax
-                else{
-                    var objData = {};
-                    if($(this.element).attr('id') == 'codePostal'){
-                        objData = {codePostal : request.term, pays : 'FR', maxRows : 10};
-                    }else{
-                        objData = {ville : request.term, pays : 'FR', maxRows : 10};
-                    }
-                
-                    $.ajax({
-                       url : "/Autocomplete/index",
-                       dataType : "json",
-                       data : objData,
-                       type : 'POST',
-                       success : function(data){
-                           // Ajout de reponse dans le cache
-						   cache[('FR' + '-' + request.term)] = data;
-                           response($.map(data, function (item){
-                               return{
-                                   label : item.code_postal + ", " + item.ville,
-                                   value: function (){
-										if ($(this).attr('id') == 'codePostal'){
-											$('#ville').val(item.ville);
-											//$('#ville').attr('disabled', 'disabled');
-											return item.code_postal;
-										}
-										else{
-											$('#codePostal').val(item.code_postal);
-											$('#codePostal').attr('disabled', true);
-											return item.ville;
-										}
+               var objData = {};
+               if($(this.element).attr('id') == 'codePostal'){
+                   objData = {codePostal : request.term, pays : 'FR', maxRows : 10};
+               }else{
+                   objData = {ville : request.term, pays : 'FR', maxRows : 10};
+               }
+           
+               $.ajax({
+                  url : "/Autocomplete/index",
+                  dataType : "json",
+                  data : objData,
+                  type : 'POST',
+                  success : function(data){
+                      // Ajout de reponse dans le cache
+					   cache[('FR' + '-' + request.term)] = data;
+                      response($.map(data, function (item){
+                          return{
+                              label : item.code_postal + ", " + item.ville,
+                              value: function (){
+									if ($(this).attr('id') == 'codePostal'){
+										$('#ville').val(item.ville);
+										//$('#ville').attr('disabled', 'disabled');
+										return item.code_postal;
 									}
-                               }
-                           }));
-                       }
-                    });
-                }                
+									else{
+										$('#codePostal').val(item.code_postal);
+										$('#codePostal').attr('disabled', true);
+										return item.ville;
+									}
+								}
+                          }
+                      }));
+                  }
+               });            
             },
             minLength : 2,
             delay : 0
