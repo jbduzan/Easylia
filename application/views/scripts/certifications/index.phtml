@@ -10,7 +10,7 @@
         <label for="nombre_question" class="optional">Nombre de question :</label>
         <label for="temps_certification" class="optional">Temps certification (mn) :</label>
         <label for="score_minimum" class="optional">Score minimum (%) :</label>
-        <label for="duree_validite" class="optional">Durée de validité (années) :</label>   
+        <label for="duree_validite" class="optional">Durée de validité (mois) :</label>   
     </div> <!-- label_certification -->
     <div id="input_certification">
         <input type="text" name="nom" id="nom" value="" />
@@ -44,7 +44,7 @@
                     {display: 'Nombre de questions', name : 'nombre_question', width : 150, sortable : true, align: 'left'},
                     {display: 'Temps de passage', name : 'temps_certification', width : 150, sortable : true, align: 'left'},
                     {display: 'Score minimum', name : 'score_minimum', width : 100, sortable : true, align: 'left'},
-                    {display: 'Durée de validité (années)', name : 'duree_validite', width : 150, sortable : true, align: 'left'}
+                    {display: 'Durée de validité (mois)', name : 'duree_validite', width : 150, sortable : true, align: 'left'}
             ],
            buttons : [
                     {name: 'Ajouter', bclass: 'add', onpress : add_record},
