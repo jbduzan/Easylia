@@ -204,26 +204,34 @@
                  var adresse2 = adresse1[1].split('<br>');
                  var complement = adresse2[0].substring(1, adresse2[0].length);
                  var ville = adresse1[2].substring(1, adresse1[2].length);
-                 
+                 var mail_temp = $('td[abbr="mail"] >div', this).html().split('>');
+                 var mail = mail_temp[1].split('</a')
+
                  $("#nom").val($('td[abbr="nom"] >div', this).html());
                  $("#prenom").val($('td[abbr="prenom"] >div', this).html());
-/*                  $("#login").val($('td[abbr="login"] >div', this).html()); */
                  $("#adresse").val(adresse1[0]);
                  $("#adresse2edit").val(complement);
                  $("#code_postal").val(adresse2[1]);
                  $("#ville").val(ville);
                  $("#telephone").val($('td[abbr="telephone"] >div', this).html());
-                 $("#mail").val($('td[abbr="mail"] >div', this).html());
+                 $("#mail").val(mail[0]);
                  $("#date_naissance").val($('td[abbr="date_naissance"] >div', this).html());
-                 
+                 var groupe_name = $('td[abbr="groupe_name"] >div', this).html();
+                
                  $.ajax({
                       type : 'post',
+                      async : false,
                       url : '/groupe/getnomgroupe',
                       success : function(data){
-                          $("#nom_groupe").append(data);
+                          $("#nom_groupe").html(data);
                       }
                  });
                     
+                $('#nom_groupe > option').each(function(){
+                    if($(this).html() == groupe_name)
+                        $(this).attr('selected', 'selected');
+                });
+                
                  $("#form").dialog({
                      title : 'Editer',
                      width : 650,
@@ -238,7 +246,6 @@
                                         'id_utilisateur' : id,
                                         'nom' : $("#nom").val(),
                                         'prenom' : $("#prenom").val(),
-/*                                         'login' : $("#login").val(), */
                                         'adresse' : $("#adresse").val(),
                                         'adresse2' : $("#adresse2edit").val(),
                                         'code_postal' : $("#code_postal").val(),
