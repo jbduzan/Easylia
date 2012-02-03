@@ -453,7 +453,6 @@ class UtilisateursController extends Zend_Controller_Action
             
             $utilisateur->setNom($request->getParam('nom'))
                         ->setPrenom($request->getParam('prenom'))
-                        ->setLogin($request->getParam('login'))
                         ->setAdresse($request->getParam('adresse'))
                         ->setAdresse2($request->getParam('adresse2'))
                         ->setCodePostal($request->getParam('code_postal'))
