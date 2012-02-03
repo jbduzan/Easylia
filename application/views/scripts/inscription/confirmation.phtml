@@ -4,5 +4,27 @@
 	<br />
 	<br />
 	Un e-mail de confirmation viens de vous être envoyé à l'adresse <b><?php echo $this->email?></b>.<br />
-	Cet e-mail comporte un lien sur lequel vous devez cliquer afin de valider votre inscription. 
+	Cet e-mail comporte un lien sur lequel vous devez cliquer afin de valider votre inscription. <br /><br />
+	Si vous n'avez pas reçu l'e-mail de confirmation, veuillez vérifier votre dossier "courrier indésirable",<br /> ou bien demander le renvoie de cet e-mail en cliquant <a id="renvoie_mail" href="#">ici</a>
 </p>
+<span id="info_envoie" style="color : green; display : none"></span>
+<input type="hidden" id="id_utilisateur" value="<?php echo $this->id_utilisateur?>" />
+ 
+<script type="text/javascript">
+	$(document).ready(function(){
+		// Lorsque on demande un renvoie de mail
+		$('#renvoie_mail').click(function(event){
+			event.preventDefault();
+			$.ajax({
+				type : 'post',
+				url : '/inscription/renvoiemailactivation',
+				data : {'id' : $("#id_utilisateur").val()},
+				success : function(data){
+					$('#info_envoie').html('Un nouvel e-mail vous a été envoyé.');
+					$('#info_envoie').show();
+					console.log(data);
+				}
+			});
+		});	
+	});
+</script>
