@@ -1,6 +1,7 @@
 <?php
 	echo $this->placeholder('menu-connecte');
 ?>
+<h2>Groupe <?php echo $this->nom_groupe ?></h2>
 <div id="utilisateurs">
 <table id="tableau_utilisateurs">
 </table>
@@ -39,7 +40,7 @@
     $(document).ready(function(){
         // Liste des utilisateurs
         $("#tableau_utilisateurs").flexigrid({
-            url : 'getlisteutilisateurs',
+            url : '/groupe/getlisteutilisateurs?id_groupe='+$('#id_groupe').val(),
             dataType: 'json',
             colModel : [
                     {display: 'ID', name : 'id_utilisateur', width : 40, sortable : true, align: 'left'},

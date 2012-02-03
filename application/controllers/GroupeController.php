@@ -172,6 +172,11 @@ class GroupeController extends Zend_Controller_Action
         if($this->acl->isAllowed($nom_groupe, null, 'ajouter_autorisation_groupe'))
             $this->view->ajouter_autorisation = "true";
                     
+        $groupe = new Application_Model_Groupes();
+        $this->groupeMapper->find($this->getRequest()->getParam('id_groupe'), $groupe);
+
+        $this->view->nom_groupe = $groupe->getNom();
+
         $this->user->id_groupe_detail = $this->getRequest()->getParam('id_groupe');
         $this->view->id_groupe = $this->user->id_groupe_detail;
     }
@@ -191,7 +196,7 @@ class GroupeController extends Zend_Controller_Action
         $offset = (($page - 1) * $limit);
         $search_column = $this->_getParam('qtype');
         $search_for = $this->_getParam('query');
-        $id_groupe = $this->user->id_groupe_detail;
+        $id_groupe = $request->getParam('id_groupe');
 
         // Récupération de la liste des utilisateurs
         $mapper = new Application_Model_UtilisateursMapper();
