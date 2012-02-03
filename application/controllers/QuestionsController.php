@@ -25,6 +25,11 @@ class QuestionsController extends Zend_Controller_Action
 
     public function indexAction()
     {
+        // On vérifie si l'utilisateur est loggue
+        if(empty($this->user->is_logged) && $this->user->is_logged != true && $this->user->id_groupe != 1){          
+            $this->_redirector->goToUrl('/connexion');
+        }   
+
         // Vérification des permissions
         if(!$this->acl->isAllowed($this->nom_groupe, null, "voir_liste_questions"))
             $this->_redirector->goToSimple('index', 'Utilisateurs');
@@ -160,8 +165,6 @@ class QuestionsController extends Zend_Controller_Action
                               ->setIdCertification($request->getParam('certification_demande'));
             }
             
-echo $request->getParam('question_obligatoire');
-
             $this->question_certification_mapper->save($certification);
             $this->question_reponse_mapper->save($question);
         }
@@ -222,6 +225,11 @@ echo $request->getParam('question_obligatoire');
     }
 
     public function detailsquestionAction(){
+        // On vérifie si l'utilisateur est loggue
+        if(empty($this->user->is_logged) && $this->user->is_logged != true && $this->user->id_groupe != 1){          
+            $this->_redirector->goToUrl('/connexion');
+        }   
+        
         // Affiche la liste des réponse d'une questions
         $this->view->id_demande = $this->getRequest()->getParam('id');
         
@@ -231,6 +239,11 @@ echo $request->getParam('question_obligatoire');
     }
     
     public function listequestionmotivationAction(){
+        // On vérifie si l'utilisateur est loggue
+        if(empty($this->user->is_logged) && $this->user->is_logged != true){          
+            $this->_redirector->goToUrl('/connexion');
+        }   
+        
     	// Affichage du tableaux liste des questions de motivation
     }
     
@@ -256,6 +269,12 @@ echo $request->getParam('question_obligatoire');
     }
     
     public function reponsetestmotivationAction(){
+
+        // On vérifie si l'utilisateur est loggue
+        if(empty($this->user->is_logged) && $this->user->is_logged != true && $this->user->id_groupe != 1){          
+            $this->_redirector->goToUrl('/connexion');
+        }   
+        
     	// Affiche les réponses du test de motivation pour un formateur
     	$request = $this->getRequest();
     	

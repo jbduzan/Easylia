@@ -125,7 +125,10 @@ class CertificationsController extends Zend_Controller_Action
 
     public function detailcertificationAction()
     {
-        
+        // On vérifie si l'utilisateur est loggue
+        if(empty($this->user->is_logged) && $this->user->is_logged != true && $this->user->id_groupe != 1){          
+            $this->_redirector->goToUrl('/connexion');
+        }   
         // Vérification des permissions
         if(!$this->acl->isAllowed($this->nom_groupe, null, "voir_liste_questions"))
             $this->_redirector->goToSimple('index', 'Utilisateurs');
@@ -533,9 +536,10 @@ class CertificationsController extends Zend_Controller_Action
     {
         // Liste toute les certifications sous forme de lien pour le formateur
         
-        if($this->utilisateur->is_logged != true){
+        // On vérifie si l'utilisateur est loggue
+        if(empty($this->user->is_logged) && $this->user->is_logged != true && $this->user->id_groupe != 1){          
             $this->_redirector->goToUrl('/connexion');
-        }
+        }   
         
         // On fait dabord la liste des certifications que le formateur a deja afin de ne pas les afficher
         

@@ -109,14 +109,14 @@
                 }
             }else{
                 // On vérifie ensuite que il y a une réponse juste de rentré
-                var reponse = [];
+                var reponse_juste = [];
                 $(".reponse").each(function(){
                     if($(this).next('input[:checked]').attr('checked') != "checked")
                         return;
-                    reponse.push($(this).next('input[:checked]').attr('checked'));
+                    reponse_juste.push($(this).next('input[:checked]').attr('checked'));
                 });
                 
-                if(reponse.length == 0){
+                if(reponse_juste.length == 0){
                     $("#erreur_enregistrer").html("Veuillez saisir au moins une réponse juste");
                     return;
                 }
