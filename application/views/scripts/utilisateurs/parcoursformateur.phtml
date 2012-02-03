@@ -63,7 +63,7 @@
 						echo "<form target='cv_target' id='cv_target' action='/document/upload' enctype='multipart/form-data' method='post'>";
 						echo "<input id='cv_file' style='width: 25em;' name='cv_file' type='file'/><br />";
 						echo "<input type='hidden' id='type' name='type' value='cv' />";
-						echo "<input id='cv_envoyer' type='submit' value='Envoyer'/>";
+						echo "<input id='cv_envoyer' type='submit' class='submit' value='Envoyer'/>";
 						echo "</form>";
 						echo "<iframe id='cv_target' name='cv_target' src='#' style='width:0;height:0;border:0px solid #fff;'></iframe>";
 						echo "<p id='error_cv' style='display : none; color : red'></p>";
@@ -85,7 +85,7 @@
 						echo "<form target='motivation_target' id='lettre_target' action='/document/upload' enctype='multipart/form-data' method='post'>";
 						echo "<input id='motivation_file' style='width: 25em;' name='motivation_file' type='file' /><br />";
 						echo "<input type='hidden' id='type' name='type' value='motivation' />";
-						echo "<input id='motivation_envoyer' type='submit' value='Envoyer'/>";
+						echo "<input id='motivation_envoyer' type='submit' class='submit' value='Envoyer'/>";
 						echo "</form>";
 						echo "<iframe id='motivation_target' name='motivation_target' src='#' style='width:0;height:0;border:0px solid #fff;'></iframe>";
 						echo "<p id='error_motivation' style='display : none; color : red'></p>";
@@ -109,7 +109,7 @@
 						echo "<form target='casier_target' id='casier_target' action='/document/upload' enctype='multipart/form-data' method='post'>";
 						echo "<input id='casier_file' style='width: 25em;' name='casier_file' type='file' /><br />";
 						echo "<input type='hidden' id='type' name='type' value='casier' />";
-						echo "<input id='casier_envoyer' type='submit' value='Envoyer'/>";
+						echo "<input id='casier_envoyer' type='submit' class='submit'value='Envoyer'/>";
 						echo "</form>";
 						echo "<iframe id='casier_target' name='casier_target' src='#' style='width:0;height:0;border:0px solid #fff;'></iframe>";
 						echo "<p id='error_casier' style='display : none; color : red'></p>";
@@ -132,7 +132,7 @@
 					}
 				?>
 				<p id="last"></p>			    	
-				<br /><p id="bouton_certification"><button id="previous">Précédent</button><button id="next">Suivant</button><button id="finish" style="display : none">Finir</button></p>
+				<br /><p id="bouton_certification"><button id="previous" class='submit'>Précédent</button>&nbsp;<button class='submit' id="next">Suivant</button><button class='submit' id="finish" style="display : none">Finir</button></p>
 			</div> <!-- motivation_test -->
 			<p id="info_test" style="color : green"></p>
 			<?php }else
@@ -416,8 +416,8 @@
 								</div>
 							</div>
 						</div>
-						<input type="submit" id="plus" value="Afficher sept jours supplémentaires" />
-						<input type="submit" id="send_adresse_skype" />
+						<input type="submit" id="plus" class="submit" value="Afficher sept jours supplémentaires" />
+						<input type="submit" id="send_adresse_skype" class="submit" value="Valider" />
 					</div> <!-- select_jour -->
 					<?php
 						}else{

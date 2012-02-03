@@ -493,3 +493,20 @@ ul.spip {
 	color: #E7E7E7 !important;
 	font-size: 2.5em;
 }
+
+.submit{
+	color: #737373;
+	background-color: #d1d1d1;
+	min-width: 4em;
+	text-align: center;
+	font-weight: bold;
+	line-height: 1.9em;
+	text-decoration: none;
+	-moz-border-radius: 1.5em; /* 15px */
+	-webkit-border-radius: 1.5em; /* 15px */
+	-khtml-border-radius: 1.5em; /* 15px */
+	border-radius: 1.5em; /* 15px */
+	border: none;
+	padding-left: 1em;
+	padding-right: 1em;
+}
