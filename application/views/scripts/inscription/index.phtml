@@ -46,11 +46,11 @@ $user = new Zend_Session_Namespace('user');?>
 				<input type="text" name="telephone" id="telephone" value="" /></dd>
 			<dt id="dateNaissance-label"><label for="dateNaissance" class="optional"><span class="red">*</span> Date de naissance :</label></dt>
 			<dd id="dateNaissance-element">
-				<input type="text" name="dateNaissance" id="dateNaissance" value="" /><span class='errors_inscription' id='info_dateNaissance'>&nbsp;</span><span style="color : orange"><small><i>Vous devez avoir au moins 18 ans pour vous inscrire</i></small></span>
+				<input type="text" name="dateNaissance" id="dateNaissance" value="" /><span class='errors_inscription' id='info_dateNaissance'>&nbsp;</span><span style="color : orange; margin-left: 4em"><small><i>Vous devez avoir au moins 18 ans pour vous inscrire</i></small></span>
       </dd>
 			<dt id="paysNaissance-label"><label for="paysNaissance" class="optional"><span class="red">*</span> Pays de naissance :</label></dt>
 			<dd id="paysNaissance-element">
-				<select name="paysNaissance" id="paysNaissance"> 
+				<select name="paysNaissance" id="paysNaissance" style="width : 12em"> 
                          <option value="France" selected="selected">France </option>
                          <option value="Afghanistan">Afghanistan </option>
                          <option value="Afrique_Centrale">Afrique_Centrale </option>
@@ -299,7 +299,7 @@ $user = new Zend_Session_Namespace('user');?>
           <p class='errors_inscription'><span id='info_password'>&nbsp;</span></p>
           <p class='errors_inscription'><span id='info_password_conf'>&nbsp;</span></p>
           <p class='errors_inscription'><span id='info_email'>&nbsp;</span></p>
-          <p class='errors_inscription'><span id='info_submit'>&nbsp;</span></p>
+          <p class='errors_inscription' style='margin-top: 0.5em;margin-left: -10em;'><span id='info_submit'>&nbsp;</span></p>
      </div> <!-- info_inscription -->
 
 			<div id="inscription_login">
