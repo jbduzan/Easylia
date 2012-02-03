@@ -449,6 +449,17 @@ L'équipe Easylia vous contactera très rapidement par mail pour vous indiquer l
 <script language="javascript" type="text/javascript">
 	$(document).ready(function(){
 
+		// On desactive les heures du premier jours -4h
+		var date = new Date();
+		$('#checkbox_heures1 > input').each(function(){
+			var length = $(this).val().length - 1;
+			var heure = $(this).val().substr(0,length);
+			if(date.getHours() - heure >= 0 && date.getHours() - heure <= 4)
+				$(this).attr('disabled', 'disabled');
+		});
+
+		$("#2").attr('disabled', 'disabled');
+
 		// Changement de la couleur de l'étape suivant l'étape
 		if($("#id_certification").val() != ""){
 			$("#etape1 > span").html('<img src="/images/etape_debut_green.png" />');
