@@ -63,7 +63,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$router->addRoute('listeutilisateur', new Zend_Controller_Router_Route('liste-des-utilisateurs', array('controller' => 'utilisateurs', 'action' => 'listeutilisateurs')));
 		$router->addRoute('profil', new Zend_Controller_Router_Route('profil-utilisateur', array('controller' => 'utilisateurs', 'action' => 'index')));		
 		$router->addRoute('validerformateur', new Zend_Controller_Router_Route('valider-formateur', array('controller' => 'utilisateurs', 'action' => 'validerutilisateur')));		
-		$router->addRoute('infouser', new Zend_Controller_Router_Route('information-utilisateur', array('controller' => 'utilisateurs', 'action' => 'afficherinfo')));
+		$router->addRoute('infouser', new Zend_Controller_Router_Route('modification-informations-personnelles', array('controller' => 'utilisateurs', 'action' => 'afficherinfo')));
 		$router->addRoute('formationdispo', new Zend_Controller_Router_Route('formations-disponibles', array('controller' => 'formation', 'action' => 'listeformationdispo')));		
 		$router->addRoute('commanderformation', new Zend_Controller_Router_Route('commander-une-formation', array('controller' => 'formation', 'action' => 'commander')));
 		$router->addRoute('passagecertification', new Zend_Controller_Router_Route('passer-une-certification', array('controller' => 'certifications', 'action' => 'passercertification')));

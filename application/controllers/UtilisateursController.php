@@ -152,7 +152,7 @@ class UtilisateursController extends Zend_Controller_Action
 
     public function connexionAction()
     {
-                
+        
         // Connexion depuis la page connexion
         $request = $this->getRequest();
     
