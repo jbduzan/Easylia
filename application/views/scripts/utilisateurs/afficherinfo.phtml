@@ -36,6 +36,7 @@
 	<span class="errors_modifier" id="info_email">&nbsp;</span>
 </div> <!-- span-right -->
 <input type="submit" name="submit" id="submit_modifier" value="Valider"><input type="submit" name="annuler" onclick="javascript:history.back()" value="Annuler">	
+<span id="info_submit" style="display : none; color : green"></span><span id="error_submit" style="display : none; color : red"></span>
         <?php
     }   
 ?>	
@@ -44,70 +45,78 @@
 <script type="text/javascript">
 
     $(document).ready(function(){    
-    	            
-        var okForSubmit = 0;
+    	
+        // Variables pour la validation du submit            
+        var nom_check = false;
+        var prenom_check = false;
+        var adresse_check = false;
+        var code_postal_check = false;
+        var telephone_check = false;
+        //var mail_check = false;
+        var array_check = [];
+
+        $('#nom').blur(function(){
+            nomCheck($('#nom').val()); 
+        });
+
+        $('#prenom').blur(function(){
+            prenomCheck($('#prenom').val());
+        })
+
+        $('#adresse').blur(function(){
+            adresseCheck($('#adresse').val());
+        })
+
+        $('#codePostal').blur(function(){
+            codepostalCheck($('#codePostal').val());  
+        })
+
+        $('#telephone').blur(function(){
+            telephoneCheck($('#telephone').val());  
+        })
+                   
+        $("#submit_modifier").click(function(event){
+            event.preventDefault();
+            $('#submit_modifier').focus();
+
+            if(array_check.length > 0)
+               array_check = [];
+
+            // On rapelle toutes les vérifications au cas ou
+            telephone_check = telephoneCheck($('#telephone').val());
+            //mailCheck($('#mail').val());
+            nom_check = nomCheck($('#nom').val());
+            prenom_check = prenomCheck($('#prenom').val());
+            adresse_check = adresseCheck($('#adresse').val());
+            code_postal_check = codepostalCheck($('#codePostal').val());
+
+            array_check.push(nom_check);
+            array_check.push(prenom_check);
+            array_check.push(adresse_check);  
+            array_check.push(code_postal_check);
+            array_check.push(telephone_check);
+            console.log(array_check);
+          
+            if(jQuery.inArray(false, array_check) == -1){
+               sendData();
+            }else{
+              $("#error_submit").html("Veuillez remplir tous les champs requis avant de valider");
+              $("#error_submit").show();
+              setTimeout(function() {
+                  $( "#error_submit" ).fadeOut("slow");
+              }, 2000 );
+            }
+            return false;
+        });
                        
         $("#annuler").click(function(event){
         	history.back();
-        });
-                      
-        // Lors que on veut submit
-        $("#submit_modifier").click(function(event){
-        	event.preventDefault();
-            var regExp = new RegExp(/[0-9]{10}/);
-                        
-            if($("#telephone").val().length == 10){
-                if(regExp.test($("#telephone").val())){
-                    $('#info_telephone').html("");
-                    var regExp2 = new RegExp(/^([a-zA-Z0-9]+(([\.\-\_]?[a-zA-Z0-9]+)+)?)\@(([a-zA-Z0-9]+[\.\-\_])+[a-zA-Z]{2,4})$/);
-                    if($("#mail").val().length > 1){
-                        
-                        if(regExp2.test($("#mail").val())){
-                            $("#info_email").html('');
-                            if($('#nom').val().length > 0){
-                                $("#info_nom").html('');
-                                if($('#prenom').val().length > 0){
-                                    $("#info_prenom").html('');
-                                    if($('#adresse').val().length > 0){
-                                        $("#info_adresse").html('');
-                                        if($('#codePostal').val().length > 0){
-                                            $("#info_codePosta").html('');
-                                            if($('#ville').val().length > 0){
-                                                sendData();
-                                            }else{
-                                                $("#info_ville").html("<img src='<?php APPLICATION_PATH?>/images/icone_erreur.png' height='20px' width='20px' alt='valide' />");
-                                            }
-                                        }else{
-                                            $("#info_codePostal").html("<img src='<?php APPLICATION_PATH?>/images/icone_erreur.png' height='20px' width='20px' alt='valide' />");
-                                        }
-                                    }else{
-                                        $("#info_adresse").html("<img src='<?php APPLICATION_PATH?>/images/icone_erreur.png' height='20px' width='20px' alt='valide' />");
-                                    }
-                                }else{
-                                     $("#info_prenom").html("<img src='<?php APPLICATION_PATH?>/images/icone_erreur.png' height='20px' width='20px' alt='valide' />");
-                                }
-                            }else{
-                                 $("#info_nom").html("<img src='<?php APPLICATION_PATH?>/images/icone_erreur.png' height='20px' width='20px' alt='valide' />");
-                            }
-                        }else{
-                            $("#info_email").html("<img src='<?php APPLICATION_PATH?>/images/icone_erreur.png' height='20px' width='20px' alt='valide' />");
-                        }
-                    }else{
-                         $("#info_email").html("<img src='<?php APPLICATION_PATH?>/images/icone_erreur.png' height='20px' width='20px' alt='valide' />");
-                    }
-                }else{
-                     $("#info_telephone").html("<img src='<?php APPLICATION_PATH?>/images/icone_erreur.png' height='20px' width='20px' alt='valide' />");
-                }
-            }else{
-                $("#info_telephone").html("<img src='<?php APPLICATION_PATH?>/images/icone_erreur.png' height='20px' width='20px' alt='valide' />");
-            }               
-        });
-                
+        });  
         
         // Fonction qui va envoyer les infos du formulaire
         function sendData(){
             $.ajax({
-                url : 'modifierInfo',
+                url : '/utilisateurs/modifierInfo',
                 type : 'post',
                 data : {'nom' : $("#nom").val(), 'prenom' : $("#prenom").val(), 'adresse' : $("#adresse").val(), 'adresse2' : $("#adresse2").val(), 'codePostal' : $("#codePostal").val(), 'ville' : $("#ville").val(), 'telephone' : $("#telephone").val(), 'mail' : $("#mail").val()},
                 success : function(data){

@@ -38,8 +38,9 @@ class UtilisateursController extends Zend_Controller_Action
             if($this->user->id_groupe == 3){
             	// On redirige sur la page d'approuvation
 	           	$this->_redirector->goToSimple('index','renseigner-son-profil');            	
-            }else if($this->utilisateur->id_groupe = 4){
-            	// Si l'utilisateur est :
+            }else if($this->utilisateur->id_groupe = 5){
+            	// Si l'utilisateur est client
+                $this->view->is_client = true;
             }
             
             // Compte le nombre de formation en attente de formateur
@@ -47,11 +48,13 @@ class UtilisateursController extends Zend_Controller_Action
             
            	$nombre_formation = 0;
            	
-           	foreach($result as $row){
-           		if($row->getIdFormateur() == null)
-           			$nombre_formation += 1;
+            if(count($result) > 0){
+               	foreach($result as $row){
+               		if($row->getIdFormateur() == null)
+               			$nombre_formation += 1;
+               	}
            	}
-           	
+
            	$this->view->nombre_formation = $nombre_formation;
             
             $this->view->utilisateur = $utilisateur->getPrenom()." ".$utilisateur->getNom();
@@ -489,9 +492,8 @@ class UtilisateursController extends Zend_Controller_Action
         }
         
         // Récupération de la liste des utilisateurs
-        $mapper = new Application_Model_UtilisateursMapper();
         
-        $this->view->rows = $mapper->fetchAllForFlexigrid($page, $sort_column, $sort_order, $search_column, $search_for, $limit, $id_groupe);
+        $this->view->rows = $this->userMapper->fetchAllForFlexigrid($page, $sort_column, $sort_order, $search_column, $search_for, $limit, $id_groupe);
         
     }
 
@@ -564,7 +566,7 @@ class UtilisateursController extends Zend_Controller_Action
                     $nom = $utilisateur->getNom();
                     $prenom = $utilisateur->getPrenom();
                 
-                    $liste .= "<option value='$id_utilisateur'>$nom&nbsp;$prenom</option>";
+                    $liste .= "<option value='$id_utilisateur'>".utf8_encode($nom)."&nbsp;".utf8_encode($prenom)."</option>";
                 }
             }
             

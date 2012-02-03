@@ -168,12 +168,15 @@
 	/*margin-top : 2.4em;*/
 }
 
-.errors	_modifier{
-	float : right;
+.errors_modifier{
+	float : left;
+	color : red;
+	margin-left: 30em;
 }
 
 #span-right{
-	margin-right : 22em;
+	float: left;
+	margin-right : 30em;
 }
 
 #info_nom{ margin-top : -17em}

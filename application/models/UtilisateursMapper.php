@@ -222,7 +222,10 @@ class Application_Model_UtilisateursMapper
         $search_sql = ($qtype != '' && $query != '') ? "$qtype LIKE '%$query%'" : '';
         
         // Get total count of records
-        $sql = "select * from Utilisateurs $search_sql";
+        $sql = "select * from Utilisateurs";
+
+        if($id_groupe != '')
+            $sql .= " where id_groupe = $id_groupe";
     
         $select = $this->getDbTable()->select($sql);
         $result = $this->getDbTable()->fetchAll($select);
@@ -271,7 +274,10 @@ class Application_Model_UtilisateursMapper
         $search_id = "id_groupe = $id_groupe";
 
         // Get total count of records
-        $sql = "select * from Utilisateurs $search_sql";
+        $sql = "select * from Utilisateurs";
+
+        if($id_groupe != '')
+            $sql .= " where id_groupe = $id_groupe";
         
         $select = $this->getDbTable()->select($sql);
         $result = $this->getDbTable()->fetchAll($select);

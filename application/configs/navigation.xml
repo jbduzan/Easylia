@@ -6,7 +6,7 @@
 			<route>profil</route>
 			<pages>
 				<info>
-					<label>Information utilisateur</label>
+					<label>Modification des informations personnelles</label>
 					<route>infouser</route>
 				</info>
 				<listeutilisateur>
