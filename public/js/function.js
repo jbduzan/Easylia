@@ -19,11 +19,11 @@ function telephoneCheck(telephone){
 }
 
 function loginCheck(login){
+  var login_check;
 	if(login.length < 3){
        $("#info_login").html("<img src='../images/icone_erreur.png' height='20px' width='20px' alt='erreur' />&nbsp;Veuillez remplir le nom d'utilisateur ");
        return login_check = false;
-    }else{
-    	var login_check;
+    }else{    	
         $.ajax({
            async : false,
            url: "/utilisateurs/testloginexist",
@@ -44,11 +44,11 @@ function loginCheck(login){
 }
 
 function mailCheck(mail){
-	mail_check = false;
+	var mail_check = false;
 	    var regExp = new RegExp(/^^[a-z0-9._-]+@[a-z0-9._-àáâãäåçèéêëìíîïðòóôõöùúûüýÿ]{2,}\.[a-z]{2,4}$/);
 	    if(mail.length < 1){
 	        $("#info_email").html("<img src='../images/icone_erreur.png' height='20px' width='20px' alt='erreur' />&nbsp;Veuillez remplir l'adresse e-mail ");
-	        return mail_check = false;
+	        mail_check = false;
 	     }else if(regExp.test(mail)){
 	        $.ajax({
 	           url: "/utilisateurs/testemailexist",
@@ -58,15 +58,16 @@ function mailCheck(mail){
 	           success : function(data){
 	               if(data == "true"){
 	                    $("#info_email").html("<img src='../images/icone_erreur.png' height='20px' width='20px' alt='erreur' />&nbsp;L'adresse e-mail existe déjà ");
-	                    return mail_check = false;
+	                    mail_check = false;
 	                }else{
 	                  $("#info_email").html("<img src='../images/icone_ok.png' height='20px' width='20px' alt='valide' />");
-	                    return mail_check = true;
+	                    mail_check = true;
 	                }
 	           } 
 	        });
 	    }else
 	        $("#info_email").html("<img src='../images/icone_erreur.png' height='20px' width='20px' alt='erreur' />&nbsp;Le format de l'adresse e-mail n'est pas correct ");   
+    return mail_check;
 }
 
 function passwordCheck(password){

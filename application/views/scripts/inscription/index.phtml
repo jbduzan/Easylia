@@ -432,7 +432,7 @@ $user = new Zend_Session_Namespace('user');?>
         var array_check = [];
 
         // Vérification de okForSubmit et envoie du form si ok
-        $("#inscription_form").submit(function(event){
+        $("#submit_inscription").click(function(event){
 
           $('#submit_inscription').focus();
 
@@ -440,9 +440,7 @@ $user = new Zend_Session_Namespace('user');?>
                array_check = [];
 
           // On rapelle toutes les vérifications au cas ou
-          //login_check = loginCheck($('#login').val());
           telephone_check = telephoneCheck($('#telephone').val());
-          //mail_check = mailCheck($('#mail').val());
           password_check = passwordCheck($('#password').val());
           password_conf_check = passwordconfCheck($('#password').val(), $('#password_conf').val());
           date_naissance_check = datenaissanceCheck($('#dateNaissance').val());
@@ -451,6 +449,8 @@ $user = new Zend_Session_Namespace('user');?>
           adresse_check = adresseCheck($('#adresse').val());
           code_postal_check = codepostalCheck($('#codePostal').val());
           departement_naissance_check = departementnaissanceCheck($('#departementNaissance').val());
+          login_check = loginCheck($('#login').val());
+          mail_check = mailCheck($('#mail').val());
 
           array_check.push(nom_check);
           array_check.push(prenom_check);
@@ -472,8 +472,8 @@ $user = new Zend_Session_Namespace('user');?>
               setTimeout(function() {
                   $( "#info_submit" ).fadeOut("slow");
               }, 2000 );
+              return false;
             }
-            return false;
         });
         
         // Vérification de l'existance du login
