@@ -46,7 +46,7 @@ $user = new Zend_Session_Namespace('user');?>
 				<input type="text" name="telephone" id="telephone" value="" /></dd>
 			<dt id="dateNaissance-label"><label for="dateNaissance" class="optional"><span class="red">*</span> Date de naissance :</label></dt>
 			<dd id="dateNaissance-element">
-				<input type="text" name="dateNaissance" id="dateNaissance" value="" /><span class='errors_inscription' id='info_dateNaissance'>&nbsp;</span><span style="color : orange; margin-left: 4em"><small><i>Vous devez avoir au moins 18 ans pour vous inscrire</i></small></span>
+				<input type="text" name="dateNaissance" id="dateNaissance" value="" /><span style="color : orange; margin-left: 4em"><small><i>Vous devez avoir au moins 18 ans pour vous inscrire</i></small></span>
       </dd>
 			<dt id="paysNaissance-label"><label for="paysNaissance" class="optional"><span class="red">*</span> Pays de naissance :</label></dt>
 			<dd id="paysNaissance-element">
@@ -440,9 +440,9 @@ $user = new Zend_Session_Namespace('user');?>
                array_check = [];
 
           // On rapelle toutes les vérifications au cas ou
-          login_check = loginCheck($('#login').val());
+          //login_check = loginCheck($('#login').val());
           telephone_check = telephoneCheck($('#telephone').val());
-          mail_check = mailCheck($('#mail').val());
+          //mail_check = mailCheck($('#mail').val());
           password_check = passwordCheck($('#password').val());
           password_conf_check = passwordconfCheck($('#password').val(), $('#password_conf').val());
           date_naissance_check = datenaissanceCheck($('#dateNaissance').val());
@@ -478,49 +478,49 @@ $user = new Zend_Session_Namespace('user');?>
         
         // Vérification de l'existance du login
         $("#login").blur(function(){
-            loginCheck($('#login').val());
+            login_check = loginCheck($('#login').val());
         });
         
         // Vérification du champs téléphone
         $("#telephone").blur(function(){
-            telephoneCheck($('#telephone').val());
+            telephone_check = telephoneCheck($('#telephone').val());
         });
         
         // Vérification de la validité et de la non-existance de l'adresse mail
         $("#mail").blur(function(){
-            mailCheck($('#mail').val());
+            mail_check = mailCheck($('#mail').val());
         });
 
         // Vérification de la longueur du password
         $("#password").blur(function(){
-          passwordCheck($('#password').val());
+          password_check = passwordCheck($('#password').val());
         });
         
         $("#password_conf").blur(function(){
-          passwordconfCheck($('#password').val(), $('#password_conf').val());
+          password_conf_check = passwordconfCheck($('#password').val(), $('#password_conf').val());
         });
         
         // Vérification du format de la date
         $("#dateNaissance").blur(function(){
-            datenaissanceCheck($('#dateNaissance').val());
+           date_naissance_check = datenaissanceCheck($('#dateNaissance').val());
         });
         
         // Vérification du remplissage de tout les champs
         
         $("#nom").blur(function(){
-          nomCheck($('#nom').val());
+         nom_check = nomCheck($('#nom').val());
         });
         
         $("#prenom").blur(function(){
-          prenomCheck($('#prenom').val());
+          prenom_check = prenomCheck($('#prenom').val());
         });
         
         $("#adresse").blur(function(){
-          adresseCheck($('#adresse').val());
+          adresse_check = adresseCheck($('#adresse').val());
         });
         
         $("#codePostal").blur(function(){
-          codepostalCheck($('#codePostal').val());
+          code_postal_check = codepostalCheck($('#codePostal').val());
         });
         
         // $("#ville").blur(function(){
@@ -531,7 +531,7 @@ $user = new Zend_Session_Namespace('user');?>
         // });
             
         $("#departementNaissance").blur(function(){
-            departementnaissanceCheck($('#departementNaissance').val());
+           departement_naissance_check = departementnaissanceCheck($('#departementNaissance').val());
         });
         
         $("#paysNaissance").change(function(){
