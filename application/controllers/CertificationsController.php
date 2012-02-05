@@ -83,7 +83,7 @@ class CertificationsController extends Zend_Controller_Action
             $certification->setType($request->getParam('type'));
             $certification->setNombreQuestion($request->getParam('nombre_question'));
             $certification->setTempsCertification($request->getParam('temps_certification'));
-            $certifiation->setScoreMinimum($request->getParam('score_minimum'))
+            $certification->setScoreMinimum($request->getParam('score_minimum'))
                          ->setDureeValidite($request->getParam('duree_validite'));
             
             $this->certification_mapper->save($certification);
@@ -612,7 +612,22 @@ class CertificationsController extends Zend_Controller_Action
         }       
     }
 
+    public function getlistecertificationformateAction(){
+        // Retourne la liste des certification formaté par le prénom pour affichage dans un select
+        $this->getHelper('layout')->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
 
+        $result = $this->certification_mapper->fetchAll();
+
+        $option = "";
+
+        foreach($result as $row){
+            $option .= "<option value='".$row->getNom()."'>".$row->getNom()."</option>";
+        }
+
+        echo $option;
+
+    }
 
 }
 
