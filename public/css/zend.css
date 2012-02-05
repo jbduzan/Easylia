@@ -37,7 +37,7 @@
 
 #sidebar{
 	float: right;
-	margin-top: -31em;
+	margin-top: -30.5em;
 	width: 23em;
 	margin-left : 2em;
 }
@@ -57,9 +57,17 @@
 
 #sidebar_formateur{
 	float: right;
-	margin-top: -28em;
+	margin-top: -27em;
 	width: 23em;
 }
+
+#sidebar_client{
+	float: right;
+	margin-top: -12em;
+	width: 23em;
+	margin-left : 2em;
+}
+
 /* Actions administrateur */
 
 .block-left{

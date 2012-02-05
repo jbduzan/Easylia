@@ -2,6 +2,9 @@
 echo $this->placeholder('menu-connecte');
     if($this->is_admin){
     ?>
+
+ <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Profil administrateur !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+
 <div id="action_admin">
 <!-- 	<h4>Actions administrateur</h4> -->
 		<div id="action_utilisateur">
@@ -59,10 +62,16 @@ echo $this->placeholder('menu-connecte');
 	       <div class="block-right-bottom">
 				<?php
 					echo "<a href=".$this->url(array('controller' => 'questions', 'action' => 'listequestionmotivation'), 'default', true).">Liste des questions de motivation</a><br />";
+				?>
+				<?php
+					echo "<a href=".$this->url(array('controller' => 'formation', 'action' => 'gererformation'), 'default', true).">Administrer les formations</a><br />";
 				?>	       
 	       </div>
 		</div> <!-- autre_action -->
 	</div> <!-- action_admin -->
+
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Profil formateur !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+
 	<?php
 		}
 		// On affiche les options formateur que si l'utilisateur est formateur
@@ -92,10 +101,17 @@ echo $this->placeholder('menu-connecte');
     </div> <!-- action_formateur -->
     <?php 
     	}
-	    if($this->client){ 
+	    if($this->is_client){ 
 	?>
-    <div id="action_client">
 
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Profil client !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+
+    <div id="action_client">
+     	<div >
+	        <?php
+	    		echo "<br /><a href=/formations-disponibles><img src='/images/panier-acheter-ecommerce-shopping-icone-8314-48.png' class='img-left' /> Commander une formation</a>";
+	        ?>
+        </div>
     </div> <!-- action_client -->
     <?php }
 		 echo $this->placeholder('sidebar');?>

@@ -5,6 +5,8 @@ $this->placeholder('sidebar')->captureStart();
 		echo "<div id='sidebar_parcour'>";
 	else if($user->id_groupe == 2)
 		echo "<div id='sidebar_formateur'>";
+	else if($user->id_groupe == 5)
+		echo "<div id='sidebar_client'>";
 	else if(!$user->is_logged)
 		echo "<div id='sidebar_nonconnecte'>";
 	else 

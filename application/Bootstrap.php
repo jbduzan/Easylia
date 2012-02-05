@@ -56,7 +56,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     	$router = $FrontController->getRouter();
     	
 		// retourne un routeur de réécriture par défaut
-		$router->addRoute('formation',new Zend_Controller_Router_Route('liste-des-formations-disponibles',array('controller' => 'formation','action' => 'listeformationdispo')));
 		$router->addRoute('inscription', new Zend_Controller_Router_Route('inscription-formateur', array('controller' => 'inscription', 'action' =>'index')));
 		$router->addRoute('confirmation', new Zend_Controller_Router_Route('confirmation-inscription', array('controller' => 'inscription', 'action' => 'confirmation')));
 		$router->addRoute('formateuravalider', new Zend_Controller_Router_Route('formateurs-a-valider', array('controller' => 'utilisateurs', 'action' => 'formateuravalider')));
@@ -64,7 +63,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$router->addRoute('profil', new Zend_Controller_Router_Route('profil-utilisateur', array('controller' => 'utilisateurs', 'action' => 'index')));		
 		$router->addRoute('validerformateur', new Zend_Controller_Router_Route('valider-formateur', array('controller' => 'utilisateurs', 'action' => 'validerutilisateur')));		
 		$router->addRoute('infouser', new Zend_Controller_Router_Route('modification-informations-personnelles', array('controller' => 'utilisateurs', 'action' => 'afficherinfo')));
-		$router->addRoute('formationdispo', new Zend_Controller_Router_Route('formations-disponibles', array('controller' => 'formation', 'action' => 'listeformationdispo')));		
 		$router->addRoute('commanderformation', new Zend_Controller_Router_Route('commander-une-formation', array('controller' => 'formation', 'action' => 'commander')));
 		$router->addRoute('passagecertification', new Zend_Controller_Router_Route('passer-une-certification', array('controller' => 'certifications', 'action' => 'passercertification')));
 		$router->addRoute('parcourformateur', new Zend_Controller_Router_Route('renseigner-son-profil', array('controller' => 'utilisateurs', 'action' => 'parcoursformateur')));
@@ -88,6 +86,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$router->addRoute('activation', new Zend_Controller_Router_Route('activation-compte', array('controller' => 'utilisateurs', 'action' => 'activation')));
 		$router->addRoute('mdpoublie', new Zend_Controller_Router_Route('mot-de-passe-oublie', array('controller' => 'utilisateurs', 'action' => 'motdepasseoublie')));
 		$router->addRoute('detailcertification', new Zend_Controller_Router_Route('detail-certification', array('controller' => 'certifications', 'action' => 'detailcertification')));
+		$router->addRoute('formationdispo', new Zend_Controller_Router_Route('formations-disponibles', array('controller' => 'formation', 'action' => 'listeformationdispo')));
     }
     
     public function _initSidebar(){

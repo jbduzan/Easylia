@@ -1,0 +1,232 @@
+<?php 
+echo $this->placeholder('menu-connecte');
+?>
+<h1>Gérer les formations</h1>
+<table id="tableau_formation"></table>
+<div id="add_edit_form" style="display : none">
+	<label for="nom_formation">Nom de la formation : </label><input type="text" id="nom_formation" /><br /><br />
+	<label for="type_formation">Certification requise : </label><select id="type_formation"></select>
+</div>
+<div id="delete_form" style="display : none">
+	<p>Etes vous sûr de vouloir supprimmer cette formation ? </p>
+</div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#tableau_formation").flexigrid({
+            url : '/formation/getformationdispo',
+            dataType: 'json',
+            colModel : [
+                    {display: 'Nom de la formation', name : 'nom', width : 450, sortable : true, align: 'left'},
+                    {display: 'Certification requise', name : 'type', width : 450, sortable : true, align: 'left'},
+            ],
+            buttons : [
+            		{name: 'Ajouter', bclass: 'add', onpress : add_record},
+                    {separator: true},                    
+                    {name: 'Editer', bclass: 'edit', onpress : edit_record},
+                    {separator: true},                    
+                    {name: 'Supprimer', bclass: 'delete', onpress : delete_record},
+            ],
+            searchitems : [
+                    {display: 'Nom', name : 'nom'},
+                    {display: 'Prenom', name : 'prenom', isdefault: true},
+                    {display: 'Nom d\'utilisateur', name : 'login'},
+                    {display: 'Groupe', name :'groupe_name'},                                        
+                    {display: 'Adresse', name : 'adresse', isdefault: true},
+                    {display: 'Code postal', name : 'code_postal', isdefault: true},
+                    {display: 'Ville', name : 'ville', isdefault: true},
+                    {display: 'Téléphone', name : 'telephone', isdefault: true},
+                    {display: 'Mail', name : 'mail', isdefault: true},
+                    {display: 'Date de naissance', name : 'date_naissance', isdefault: true}
+            ],
+            sortname: "id_formation_dispo",
+            sortorder: "asc",
+            usepager: true,
+            title: 'Gérer les formations',
+            useRp: true,
+            rp: 20,
+            showTableToggleBtn: false,
+            resizable: false,
+            height: 500,
+            singleSelect: true
+        });
+        $(".ftitle").append('<span id="info" style="color : green"></span>');
+        $(".ftitle").append('<span id="error" style="color : red"></span>');
+
+        function add_record(command, grid){
+
+        	// On vide les champs avant d'afficher le dialog
+        	$('#nom_formation').val('');
+        	$('#type_formation').html('');
+
+        	// On récupère la liste des certifications pour l'afficher dans le select
+        	$.ajax({
+        		type : 'get',
+        		url : '/certifications/getlistecertificationformate',
+        		success : function(data){
+        			console.log(data);
+        			$('#type_formation').html(data);
+        		}
+        	});
+
+        	$('#add_edit_form').dialog({
+        		title : 'Ajouter une formation',
+        		width : 415,
+        		height : 200,
+        		buttons : [
+        			{
+        				text : 'Valider',
+        				click : function(){
+        					$.ajax({
+        						type : 'post',
+        						url : '/formation/ajouterformationdispo',
+        						data : {
+        							'Nom' : $('#nom_formation').val(),
+        							'Type' : $('#type_formation').val()
+        						},
+        						success : function(){
+        					        $('#add_edit_form').dialog('close');
+        					        $('#tableau_formation').flexReload();	
+        					        $("#info").html('&nbsp;La formation à été ajoutée');
+                                    $("#info").show();
+                                    setTimeout(function() {
+                                        $( "#info" ).fadeOut("slow");
+                                    }, 2000 );	
+        						}
+        					});
+        				}
+        			},
+        			{
+        				text : 'Fermer',
+        				click : function(){
+        					$(this).dialog('close');
+        				}
+        			}
+        		]
+        	});
+        }
+
+        function edit_record(command, grid){
+            var record_count = $('.trSelected',grid).length;
+            if (0 == record_count)
+            {
+                $("#error").html('&nbsp;Veuillez dabord sélectionner une ligne !');
+                $("#error").show();
+                setTimeout(function() {
+                    $("#error").fadeOut("slow");
+                }, 2000 );
+                return;
+            }
+
+			// On vide les champs avant d'afficher le dialog
+        	$('#nom_formation').val('');
+        	$('#type_formation').html('');
+
+        	// On récupère la liste des certifications pour l'afficher dans le select
+        	$.ajax({
+        		type : 'get',
+        		async : false,
+        		url : '/certifications/getlistecertificationformate',
+        		success : function(data){
+        			$('#type_formation').html(data);
+        		}
+        	});
+            
+            $('.trSelected',grid).each(function(){
+                var id = this.id.substr(3);
+                 
+                $("#nom_formation").val($('td[abbr="nom"] >div', this).html());
+                var certification = $('td[abbr="type"] >div', this).html();
+
+	            $('#type_formation > option').each(function(){
+	                if($(this).html() == certification)
+	                    $(this).attr('selected', 'selected');
+	            });
+
+	            $('#add_edit_form').dialog({
+	            	title : 'Modifier une formation',
+	        		width : 415,
+	        		height : 200,
+	        		buttons : [
+	        			{
+	        				text : 'Valider',
+	        				click : function(){
+	        					$.ajax({
+	        						type : 'post',
+	        						url : '/formation/editerformationdispo',
+	        						data : {
+	        							'IdFormationDispo' : id,
+	        							'Nom' : $('#nom_formation').val(),
+	        							'Type' : $('#type_formation').val()
+	        						},
+	        						success : function(){
+	        					        $('#add_edit_form').dialog('close');
+	        					        $('#tableau_formation').flexReload();	
+	        					        $("#info").html('&nbsp;La formation à été modifiée');
+	                                    $("#info").show();
+	                                    setTimeout(function() {
+	                                        $( "#info" ).fadeOut("slow");
+	                                    }, 2000 );	
+	        						}
+	        					});
+	        				}
+	        			},
+	        			{
+	        				text : 'Fermer',
+	        				click : function(){
+	        					$(this).dialog('close');
+	        				}
+	        			}
+	        		]
+	        	});
+        	});
+        }
+
+        function delete_record(command, grid){
+        	var record_count = $('.trSelected',grid).length;
+            if (0 == record_count)
+            {
+                $("#error").html('&nbsp;Veuillez dabord sélectionner une ligne !');
+                $("#error").show();
+                setTimeout(function() {
+                    $("#error").fadeOut("slow");
+                }, 2000 );
+                return;
+            }
+
+            $('.trSelected',grid).each(function(){
+                var id = this.id.substr(3);
+            
+	            $('#delete_form').dialog({
+	            	title : 'Supprimer une formation',
+	            	buttons : [
+	            		{
+	            			text : 'Valider',
+	            			click : function(){
+	            				$.ajax({
+	            					type : 'post',
+	            					url : '/formation/deleteformationdispo',
+	            					data : {'id_formation_dispo' : id},
+	            					success : function(){
+	            						$('#delete_form').dialog('close');
+	            						$('#tableau_formation').flexReload();
+	            						$("#info").html('&nbsp;La formation à été supprimée');
+	                                    $("#info").show();
+	                                    setTimeout(function() {
+	                                        $( "#info" ).fadeOut("slow");
+	                                    }, 2000 );	
+	            					}
+	            				});
+	            			}
+	            		},
+	            		{
+	            			text : 'Fermer',
+	            			click : function(){
+	            				$(this).dialog('close');
+	            			}
+	            		}
+	            	]
+	            });
+	        });
+        }
+	});
+</script>

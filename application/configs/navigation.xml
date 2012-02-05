@@ -76,8 +76,14 @@
 					</pages>
 				</gererfaq>
 				<formationdispo>
-					<label>Liste des formations</label>
+					<label>Formations disponibles</label>
 					<route>formationdispo</route>
+					<pages>
+						<commanderformation>
+							<label>Commander une formation</label>
+							<route>commanderformation</route>
+						</commanderformation>
+					</pages>
 				</formationdispo>
 				<mesformations>
 					<label>Mes formations</label>

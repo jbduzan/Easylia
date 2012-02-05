@@ -18,7 +18,7 @@ class FormationController extends Zend_Controller_Action
         $this->nom_groupe = $this->groupe_mapper->getGroupeNameWithId($this->utilisateur->id_groupe);
         
         if(!$this->utilisateur->is_logged)
-        	$this->_redirector->goToSimple('index', 'utilisateurs');
+        	$this->_redirector->goToUrl('profil-utilisateur');
     }
 
     public function preDispatch(){
@@ -279,6 +279,11 @@ class FormationController extends Zend_Controller_Action
         
         $liste = "";
         
+        if(count($result) == 0){
+        	$this->view->liste = "<p>Il n'y a aucune formations disponible pour le moment.</p>";
+        	return;
+        }
+
         foreach($result as $row){
         	$liste .= "<br /><p><a href='commander-une-formation?id=".$row->getIdFormationDispo()."'>".$row->getNom()."</a></p>";
         }
@@ -437,6 +442,112 @@ class FormationController extends Zend_Controller_Action
 			
 	}
 
+	public function gererformationAction(){
+		// Affiche la liste des formations existante et permet de les administrer
+
+		// Si l'utilisateur n'est pas connecté ou n'est pas administrateur
+		if(!$this->utilisateur->is_logged || $this->utilisateur->id_groupe != 1)
+			$this->_redirector->goToUrl('/profil-utilisateur');
+	}
+
+	public function getformationdispoAction(){
+		// Renvoie la liste des formations existante au format flexigrid
+		$this->getHelper('layout')->disableLayout();
+		$this->_helper->viewRenderer->setNoRender(true);
+
+		$request = $this->getRequest();
+                
+        // Request parameters received via GET from flexigrid.
+        $sort_column = $this->_getParam('sortname','id_formation_dispo'); 
+        $sort_order = $this->_getParam('sortorder','asc'); 
+        $page = $this->_getParam('page',1);
+        $limit = $this->_getParam('rp',17);
+        $offset = (($page - 1) * $limit);
+        $search_column = $this->_getParam('qtype');
+        $search_for = $this->_getParam('query');
+
+		echo $this->formation_dispo_mapper->fetchAllForFlexigrid($page, $sort_column, $sort_order, $search_column, $search_for, $limit);
+	}
+
+	public function ajouterformationdispoAction(){
+		// Ajoute une formation à partir d'une requete ajax
+		$this->getHelper('layout')->disableLayout();
+		$this->_helper->viewRenderer->setNoRender(true);
+
+		$request = $this->getRequest();
+
+		$formation = new Application_Model_FormationsDispo();
+		
+		$proprietes = array_slice($request->getParams(), 3);
+		
+		// On les injecte à l'utilisateur
+		foreach($proprietes as $key=>$value){
+			// On saute l'id 
+			if($key == "id_utilisateur")
+				continue;
+
+			// Si la value est un array
+			if(is_array($value)){
+				$temp = "";
+				foreach($value as $row){
+					$temp .= $row.",";
+				}
+				$temp = substr($temp, '0', '-1');
+				$formation->__set($key,$temp);
+				continue;
+			}
+			$formation->__set($key,$value);
+		}
+		
+		// Une fois que on a fait toute les modifications, on sauvegarde
+		$this->formation_dispo_mapper->save($formation);
+	}
+
+	public function editerformationdispoAction(){
+		// Ajoute une formation à partir d'une requete ajax
+		$this->getHelper('layout')->disableLayout();
+		$this->_helper->viewRenderer->setNoRender(true);
+
+		$request = $this->getRequest();
+
+		$formation = new Application_Model_FormationsDispo();
+		$this->formation_dispo_mapper->find($request->getParam('idFormationDispo'), $formation);
+
+		$proprietes = array_slice($request->getParams(), 3);
+		
+		// On les injecte à l'utilisateur
+		foreach($proprietes as $key=>$value){
+			// On saute l'id 
+			if($key == "idFormationDispo")
+				continue;
+
+			// Si la value est un array
+			if(is_array($value)){
+				$temp = "";
+				foreach($value as $row){
+					$temp .= $row.",";
+				}
+				$temp = substr($temp, '0', '-1');
+				$formation->__set($key,$temp);
+				continue;
+			}
+			$formation->__set($key,$value);
+		}
+		
+		// Une fois que on a fait toute les modifications, on sauvegarde
+		$this->formation_dispo_mapper->save($formation);
+	}
+
+	public function deleteformationdispoAction()
+    {
+        // Supprime une formation
+        $this->getHelper('layout')->disableLayout();
+		$this->_helper->viewRenderer->setNoRender(true);
+        
+        $request = $this->getRequest();
+        
+        $this->formation_dispo_mapper->delete($request->getParam("id_formation_dispo"));
+    }
 }
 
 

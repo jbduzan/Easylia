@@ -38,7 +38,7 @@ class UtilisateursController extends Zend_Controller_Action
             if($this->user->id_groupe == 3){
             	// On redirige sur la page d'approuvation
 	           	$this->_redirector->goToSimple('index','renseigner-son-profil');            	
-            }else if($this->utilisateur->id_groupe = 5){
+            }else if($this->user->id_groupe == 5){
             	// Si l'utilisateur est client
                 $this->view->is_client = true;
             }

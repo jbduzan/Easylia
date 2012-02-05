@@ -1,3 +1,4 @@
+<?php echo $this->placeholder('menu-connecte'); ?>
 <h1>Commander une formation</h1>
 <?php
 	echo "<h5 class='h5_modifie'>".$this->formation_dispo->getNom()."</h5>";
@@ -334,7 +335,7 @@
 	<br />
 
 </div>
-<input type="submit" id="plus" value="Afficher sept jours supplémentaires" />
+<input type="submit" id="plus" class="submit" value="Afficher sept jours supplémentaires" />
 <div class="separateur"></div>
 <div id="date_paiement">
 	<!--
@@ -345,7 +346,7 @@
 	<br /><p><input type="checkbox" value="cgv" name="cgv" id="cgv" /><label for="cgv">J'ai pris connaissance des <a href="#">conditions générales de ventes</a>, et je les accepte.</label></p>
 </div>
 <br /> <br />
-	<input type='submit' style="width : 150px;height : 50px; margin-left: 28em;margin-top: 5em;" name="submit" id="submit" value="Commander avec Paypal" align='top' alt='Check out with PayPal'/>
+	<input type='submit' style="margin-left: 28em;margin-top: 5em;" name="submit" id="submit" class="submit" value="Commander avec Paypal" align='top' alt='Check out with PayPal'/>
 	
 <p id="info" style="display : none; color : green"></p>
 <p id="error" style="display : none; color : red"></p>

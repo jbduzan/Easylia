@@ -2,6 +2,7 @@
 $user = new Zend_Session_Namespace('user');
 $this->placeholder('menu-connecte')->captureStart();
 if($user->id_groupe == 1){
+	// Menu administrateur
 ?>
 <div id="menu-connecte">
 	    <li><a href="/profil-utilisateur">Accueil</a></li>
@@ -32,17 +33,28 @@ if($user->id_groupe == 1){
 </div> <!-- menu-connecte -->
 <p><?php echo $this->navigation()->breadcrumbs()->setSeparator(' > '); ?></p>
 <?php
-}else{
+}else if($user->id_groupe == 2){
+	// Menu formateur
 ?>
 <div id="menu-connecte">
-	    <li><a href="/profil-utilisateur">Profil</a></li>
-	    <li><a href="/certification-disponible">Passer une certification</a></li>
-	    <li><a href="/formations-disponible">Formations disponibles</a></li>
-   	    <li><a href="/mes-formations">Mes formations</a>
-	    <li><a id="deconnexion_menu">Déconnexion</a></li>
+    <li><a href="/profil-utilisateur">Acceuil</a></li>
+    <li><a href="/certification-disponible">Passer une certification</a></li>
+    <li><a href="/formations-disponible">Formations disponibles</a></li>
+	    <li><a href="/mes-formations">Mes formations</a>
+    <li><a id="deconnexion_menu">Déconnexion</a></li>
 </div> <!-- menu-connecte -->
 <p><?php echo $this->navigation()->breadcrumbs()->setSeparator(' > '); ?></p>
 <?php 
+}else if($user->id_groupe == 5){
+	// Menu client
+?>
+<div id="menu-connecte">
+    <li><a href="/profil-utilisateur">Acceuil</a></li>
+    <li><a href="/formations-disponibles">Commander une formation</a></li>
+    <li><a id="deconnexion_menu">Déconnexion</a></li>
+</div>
+<p><?php echo $this->navigation()->breadcrumbs()->setSeparator(' > '); ?></p>
+<?php
 }
 ?>
 <script type="text/javascript">

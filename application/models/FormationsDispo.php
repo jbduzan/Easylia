@@ -24,7 +24,7 @@ class Application_Model_FormationsDispo
         if(('mapper' == $name) || !method_exists($this, $method)){
             throw new Exception('Invalid Utilisateurs property');
         }
-        return $this->$method();
+        return $this->$method($value);
         
     }
 
