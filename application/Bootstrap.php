@@ -87,6 +87,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$router->addRoute('mdpoublie', new Zend_Controller_Router_Route('mot-de-passe-oublie', array('controller' => 'utilisateurs', 'action' => 'motdepasseoublie')));
 		$router->addRoute('detailcertification', new Zend_Controller_Router_Route('detail-certification', array('controller' => 'certifications', 'action' => 'detailcertification')));
 		$router->addRoute('formationdispo', new Zend_Controller_Router_Route('formations-disponibles', array('controller' => 'formation', 'action' => 'listeformationdispo')));
+		$router->addRoute('gererformation', new Zend_Controller_Router_Route('administrer-formations', array('controller' => 'formation', 'action' => 'gererformation')));
     }
     
     public function _initSidebar(){

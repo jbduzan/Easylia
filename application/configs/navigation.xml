@@ -93,6 +93,10 @@
 					<label>Changer mon mot de passe</label>
 					<route>changepassword</route>
 				</changepassword>
+				<gererformation>
+					<label>Administrer les formations</label>
+					<route>gererformation</route>
+				</gererformation>
 			</pages>
 		</home>
 	</nav>
