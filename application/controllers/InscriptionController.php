@@ -127,7 +127,7 @@ public function indexAction(){
 
                        // On récupère les informations du mail à envoyer
                 $mail_bdd = new Application_Model_Mail();
-                $this->mail_mapper->find(, $mail_bdd);
+                $this->mail_mapper->find(2, $mail_bdd);
                 $contenu = $mail_bdd->getContenu();
                 $contenu = str_replace('{ID}', $id, $contenu);
                 $contenu = str_replace('{KEY}', $client->getCleActivation(), $contenu);
