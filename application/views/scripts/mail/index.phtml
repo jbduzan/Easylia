@@ -1,0 +1,103 @@
+<?php echo $this->placeholder('menu-connecte'); ?>
+<h1>Gestion des mails</h1>
+<table id="tableau_mail"></table>
+<div id="edit_mail_form" style="display : none">
+	<label for="description_mail">Description : </label><input type="text" id="description_mail" /><br /><br />
+	<label for="sujet_mail">Sujet : </label><input type="text" id="sujet_mail" /><br /><br />
+	<label for="contenu_mail">Contenu : </label><br /><textarea id="contenu_mail"></textarea>
+</div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#tableau_mail").flexigrid({
+            url : '/mail/getmail',
+            dataType: 'json',
+            colModel : [
+                    {display: 'Description', name : 'description', width : 175, sortable : true, align: 'center'},
+                    {display: 'Sujet', name : 'sujet', width : 125, sortable : true, align: 'center'},
+                    {display: 'Contenu', name :'contenu', width : 600, sortable : true, align: 'left'},
+            ],
+            buttons : [
+                    {name: 'Editer', bclass: 'edit', onpress : edit_record},
+                    {separator: true},                    
+            ],
+            searchitems : [
+                    {display: 'Nom', name : 'nom', isdefault: true},
+                    {display: 'Client', name : 'client'},
+                    {display: 'Formateur', name : 'formatter'},
+                    {display: 'Date', name :'date'}                                        
+            ],
+            sortname: "id_mail",
+            sortorder: "asc",
+            usepager: true,
+            title: "Liste des formations",
+            useRp: true,
+            rp: 1,
+            showTableToggleBtn: false,
+            resizable: false,
+            height: 475,
+            singleSelect: true
+        });
+        $(".ftitle").append('<span id="info" style="color : green"></span>');
+        $(".ftitle").append('<span id="error" style="color : red"></span>');
+
+        function edit_record(command, grid){
+        	var record_count = $('.trSelected',grid).length;
+	        if (0 == record_count)
+	        {
+	            $("#error").html('&nbsp;Veuillez dabord sélectionner une ligne !');
+	            $("#error").show();
+	            setTimeout(function() {
+	                $("#error").fadeOut("slow");
+	            }, 2000 );
+	            return;
+	        }
+
+	        $('.trSelected',grid).each(function(){
+                var id = this.id.substr(3);
+                 
+            	$('#description_mail').val($('td[abbr="description"] >div', this).html());
+                $('#sujet_mail').val($('td[abbr="sujet"] >div', this).html());
+                $('#contenu_mail').val($('td[abbr="contenu"] >div', this).html());
+
+                $('#edit_mail_form').dialog({
+                	title : 'Modification du mail',
+                	width : 765,
+                	height : 560,
+                	buttons : [
+                		{
+                			text : 'Valider',
+                			click : function(){
+                				$.ajax({
+                					type : 'post',
+                					url : '/mail/editer',
+                					data : {
+                						'idMail' : id,
+                						'Description' : $('#description_mail').val(),
+                						'Sujet' : $('#sujet_mail').val(),
+                						'Contenu' : $('#contenu_mail').val()
+                					},
+                					success : function(){
+                						$('#edit_mail_form').dialog('close');
+                						$('#tableau_mail').flexReload();
+							            $("#info").html('&nbsp;Le mail à été modifié');
+							            $("#info").show();
+							            setTimeout(function() {
+							                $("#info").fadeOut("slow");
+							            }, 2000 );
+                					}
+                				});
+                			}
+                		},
+                		{
+                			text : 'Fermer',
+                			click : function(){
+                				$(this).dialog('close');
+                			}
+                		}
+                	]
+                });
+            });
+        }
+
+	});
+</script>

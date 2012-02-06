@@ -788,3 +788,19 @@
 	float: left;
 	margin-left: 2em;
 }
+
+/*mail */
+#contenu_mail{
+	width : 60em;
+	height : 30em;
+}
+
+#sujet_mail{
+	width : 56em;
+}
+
+#description_mail{
+	width : 52.7em;
+}
+
+
