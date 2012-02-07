@@ -448,9 +448,13 @@ $user = new Zend_Session_Namespace('user');?>
           prenom_check = prenomCheck($('#prenom').val());
           adresse_check = adresseCheck($('#adresse').val());
           code_postal_check = codepostalCheck($('#codePostal').val());
-          departement_naissance_check = departementnaissanceCheck($('#departementNaissance').val());
           login_check = loginCheck($('#login').val());
           mail_check = mailCheck($('#mail').val());
+
+          if(!$('#departementNaissance').is(':visible'))
+               departement_naissance_check = true;
+          else
+               departement_naissance_check = departementnaissanceCheck($('#departementNaissance').val());
 
           array_check.push(nom_check);
           array_check.push(prenom_check);

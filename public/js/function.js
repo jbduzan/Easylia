@@ -123,7 +123,7 @@ function datenaissanceCheck(date_naissance){
 
 function nomCheck(nom){
 	nom_check = false;
-    var regExp = new RegExp(/^[A-Z]*[a-z]*(-)?[a-z]*$/);
+    var regExp = new RegExp(/^[A-Z]*[a-z]*(-)?[a-zA-Z]*$/);
     if(regExp.test(nom)){
         if(nom.length > 0){
             $("#info_nom").html("<img src='../images/icone_ok.png' height='20px' width='20px' alt='valide' />");
