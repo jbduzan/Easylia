@@ -88,6 +88,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$router->addRoute('detailcertification', new Zend_Controller_Router_Route('detail-certification', array('controller' => 'certifications', 'action' => 'detailcertification')));
 		$router->addRoute('formationdispo', new Zend_Controller_Router_Route('formations-disponibles', array('controller' => 'formation', 'action' => 'listeformationdispo')));
 		$router->addRoute('gererformation', new Zend_Controller_Router_Route('administrer-formations', array('controller' => 'formation', 'action' => 'gererformation')));
+		$router->addRoute('inscriptionclient', new Zend_Controller_Router_Route('inscription', array('controller' => 'inscription', 'action' => 'inscriptionclient')));
     }
     
     public function _initSidebar(){
