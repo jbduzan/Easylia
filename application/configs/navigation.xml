@@ -15,7 +15,13 @@
 				</listeutilisateur>
 				<formateurvalider>
 					<label>Formateurs à valider</label>
-					<route>formateuravalider</route>			
+					<route>formateuravalider</route>
+					<pages>
+						<reponsetestmotivation>
+							<label>Réponse du test de motivation</label>
+							<route>reponsetestmotivation</route>
+						</reponsetestmotivation>
+					</pages>			
 				</formateurvalider>
 				<listegroupe>
 					<label>Liste des groupes</label>

@@ -66,7 +66,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$router->addRoute('commanderformation', new Zend_Controller_Router_Route('commander-une-formation', array('controller' => 'formation', 'action' => 'commander')));
 		$router->addRoute('passagecertification', new Zend_Controller_Router_Route('passer-une-certification', array('controller' => 'certifications', 'action' => 'passercertification')));
 		$router->addRoute('parcourformateur', new Zend_Controller_Router_Route('renseigner-son-profil', array('controller' => 'utilisateurs', 'action' => 'parcoursformateur')));
-		$router->addRoute('reponsetestmotivation', new Zend_Controller_Router_Route('réponses-test-formateur', array('controller' => 'questions', 'action' => 'reponsetestmotivation')));
+		$router->addRoute('reponsetestmotivation', new Zend_Controller_Router_Route('reponses-test-formateur', array('controller' => 'questions', 'action' => 'reponsetestmotivation')));
 		$router->addRoute('faq', new Zend_Controller_Router_Route('foire-aux-questions', array('controller' => 'faq', 'action' => 'index')));
 		$router->addRoute('mesformations', new Zend_Controller_Router_Route('mes-formations', array('controller' => 'formation', 'action' => 'viewformation')));
 		$router->addRoute('formationdispo', new Zend_Controller_Router_Route('formations-disponible', array('controller' => 'formation', 'action' => 'listeformation')));

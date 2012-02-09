@@ -719,7 +719,8 @@ class UtilisateursController extends Zend_Controller_Action
     }
 
 	public function formateuravaliderAction(){
-	
+	    if(!$this->user->is_logged || $this->user->id_groupe != 1)
+            $this->_redirector->goToUrl('/profil-utilisateur');
 	}
 
     public function getformateuravaliderAction()
