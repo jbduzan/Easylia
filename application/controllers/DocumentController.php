@@ -93,7 +93,7 @@ class DocumentController extends Zend_Controller_Action
 
 		$filename = $this->getRequest()->getParam('chemin');
   
-		$filepath = "http://in.easylia.com/documents/".$filename;
+		$filepath = "https://in.easylia.com/documents/".$filename;
         $filemd5 = md5_file($filepath);
  
         // Gestion du cache
