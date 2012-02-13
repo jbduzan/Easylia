@@ -15,6 +15,7 @@ class FormationController extends Zend_Controller_Action
         $this->groupe_mapper = new Application_Model_GroupesMapper();
         $this->historique_mapper = new Application_Model_HistoriqueCertificationsMapper();
         $this->certification_mapper = new Application_Model_ListeCertificationMapper();
+        $this->mail_mapper = new Application_Model_MailMapper();
         $this->nom_groupe = $this->groupe_mapper->getGroupeNameWithId($this->utilisateur->id_groupe);
         
         if(!$this->utilisateur->is_logged)
@@ -30,7 +31,7 @@ class FormationController extends Zend_Controller_Action
     {
         // Liste des formations et possibilité de les commander
         
-    		$this->_redirector->goToSimple('index', 'formations-disponible');
+    		//$this->_redirector->goToSimple('index', 'formations-disponible');
     }
 
     public function commanderAction()
@@ -49,26 +50,54 @@ class FormationController extends Zend_Controller_Action
 
     public function enregistrercommandeAction()
     {
-    	if($this->commande->id_last_commande == ""){
-    		$this->_redirector->goToSimple('index', 'formation');
-    	}else if($this->validePaiement()){
-    	
+    	$request = $this->getRequest();
+    	if( $request->getParam('id') == ""){
+    		$this->_redirector->goToUrl('profil-utilisateur');
+    	}
+    	if($this->validePaiement()){
+
 	        // Enregistre la commande de la formation dans la base de donnée
         	$formation = new Application_Model_Formations();
 			
-			$this->formation_mapper->find($this->commande->id_last_commande, $formation);
+			$this->formation_mapper->find($request->getParam('id'), $formation);
 			
 			$formation->setPayee(1);
 				        	
         	$this->formation_mapper->save($formation);
+
+        	$this->view->success = true;
         	
+        	// On envoie un mail au client pour confirmer la commande
+    	    
+    	    // On récupère les informations du mail à envoyer
+    	    $utilisateur = new Application_Model_Utilisateurs();
+    	    $this->utilisateur_mapper->find($this->utilisateur->id_utilisateur, $utilisateur);
+            $mail_bdd = new Application_Model_Mail();
+            $this->mail_mapper->find(4, $mail_bdd);
+            $montant = $formation->getNombreHeure() * 55;
+            $montant .= " euros";
+            $contenu = $mail_bdd->getContenu();
+            $contenu = str_replace('{FORMATION}', $formation->getType(), $contenu);
+            $contenu = str_replace('{NOMBRE_HEURE}', $formation->getNombreHeure(), $contenu);
+            $contenu = str_replace('{DATE_COMMANDE}', $formation->getDate(), $contenu);
+            $contenu = str_replace('{MONTANT}', $montant, $contenu);
+
+            $mail = new Zend_Mail();
+            $mail->setFrom('no-reply@easylia.com', 'Easylia');
+            $mail->addTo($utilisateur->getMail());
+            $mail->setSubject($mail_bdd->getSujet());
+            $mail->setBodyHtml(utf8_decode($contenu));
+            $mail->send();
+
         	// Crée la facture associée
         	//$factureController = new FactureController();
         	
         	//$factureController->genererFacture($this->utilisateur->id_utilisateur, $this->commande->amount, $this->commande->date);
         	
     		Zend_Session::namespaceUnset('commande');
-        }                
+        }else{
+        	$this->view->id = 'toto';
+        }               
     }
 
     public function listeformationAction()
@@ -138,17 +167,6 @@ class FormationController extends Zend_Controller_Action
 		$quantite = $request->getParam("nbr_heures");
 
 		$amount = 55 * $quantite;
-		
-/*
-		if($request->getParam("date_payement") == "maintenant"){
-			$payement_action = "Sale";
-			$description = "Paiement de la formation";
-		}
-		else{
-			$payement_action = "Authorization";		
-			$description = "Autorisation de paiement de la formation";			
-		}
-*/
 
 		$payement_action = "Authorization";		
 		$description = "Autorisation de paiement de la formation";			
@@ -166,7 +184,7 @@ class FormationController extends Zend_Controller_Action
 		$formation->setNombreHeure($quantite)
 				  ->setType($request->getParam('nom_formation'))			
 				  ->setIdClient($this->utilisateur->id_utilisateur)
-				  ->setDate(date('d/m/y'))
+				  ->setDate(date('d/m/yy'))
 				  ->setHeureDebut($date)
 				  ->setIdFormationDispo($request->getParam('id_formation_dispo'));
 				  
@@ -298,13 +316,13 @@ class FormationController extends Zend_Controller_Action
 			'AZ5Qm4qEIjcG7hc-HNVmIi-E3qTnAuLQy.pWX8p-SxdJEc6n.Il-qGWQ');
 			
 			
-		$self = "http://dev.easylia.com/formation/enregistrercommande";
+		$self = "http://localhost/formation/enregistrercommande?id=".$this->commande->last_id;
 		$amount = $this->utilisateur->montant;	
 				
 		$paypal = new Zend_Service_PayPal_Nvp($authInfo);
 		$params = array('NOSHIPPING' => 1);
 					
- 		$reponse = $paypal->setExpressCheckout($this->commande->amount, $self.'?status=ok', $self.'?status=cancel', $params, $this->commande->payement_action, $this->commande->quantite, $this->commande->type, $this->commande->description);
+ 		$reponse = $paypal->setExpressCheckout($this->commande->amount, $self.'&status=ok', $self.'?status=cancel', $params, $this->commande->payement_action, $this->commande->quantite, $this->commande->type, $this->commande->description);
 
  			 				
  		if($reponse->isSuccess() && ($token = $reponse->getValue('TOKEN'))){
@@ -547,6 +565,15 @@ class FormationController extends Zend_Controller_Action
         $request = $this->getRequest();
         
         $this->formation_dispo_mapper->delete($request->getParam("id_formation_dispo"));
+    }
+
+    public function seeformationAction(){
+    	// Récupère la liste de toutes les formations commandés par un utilisateur
+
+    	// On récupère la liste de toutes les formations
+    	$formations = $this->formation_mapper->fetchAll($date_jour = null, $id_client = $this->utilisateur->id_utilisateur);
+    	
+    	$this->view->formations = $formations;
     }
 }
 
