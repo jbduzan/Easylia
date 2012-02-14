@@ -203,7 +203,7 @@ class CertificationsController extends Zend_Controller_Action
         /*                                                               */
         
         // On vérifie si l'utilisateur est loggué
-        if(empty($this->utilisateur->is_logged) && $this->utilisateur->is_logged != true){  
+        if($this->utilisateur->is_logged != true){  
             $this->_redirector->goToSimple('connexion','utilisateurs');
         }
         
@@ -537,7 +537,7 @@ class CertificationsController extends Zend_Controller_Action
         // Liste toute les certifications sous forme de lien pour le formateur
         
         // On vérifie si l'utilisateur est loggue
-        if(empty($this->user->is_logged) && $this->user->is_logged != true && $this->user->id_groupe != 1){          
+        if($this->utilisateur->is_logged != true){          
             $this->_redirector->goToUrl('/connexion');
         }   
         
