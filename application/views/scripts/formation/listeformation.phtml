@@ -299,7 +299,7 @@
         	// Récupère les informations de la formation et les créneaux disponible
         	$.ajax({
         		type : "post",
-        		url : "getformationdata",
+        		url : "/formation/getformationdata",
         		data : {id : id_formation},
         		beforeSend : function(){
         			console.log('toto');
