@@ -101,23 +101,33 @@ class DocumentController extends Zend_Controller_Action
         $limit = count($type);
 
         $type = $type[$limit - 1];
-    
-        // Gestion du cache
-        header('Pragma: public');
-        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-        header('Cache-Control: must-revalidate, pre-check=0, post-check=0, max-age=0');
 
-        // Informations sur le contenu à envoyer
-        header('Content-Type: '.type);
-        header('Content-Disposition: application/force-download; filename="'.$filename.'"');
-        header('Content-Disposition: attachement; filename="' . $filename . '"');
+        // Si c'est un pdf on l'affiche sinon on dl
+        if($type == "pdf"){
+            // Gestion du cache
+            header('Pragma: public');
+            header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+            header('Cache-Control: must-revalidate, pre-check=0, post-check=0, max-age=0');
 
+            // Informations sur le contenu à envoyer
+            header('Content-Type: application/'.$type);
+        }else{
+            // Gestion du cache
+            header('Pragma: public');
+            header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+            header('Cache-Control: must-revalidate, pre-check=0, post-check=0, max-age=0');
 
-        // Informations sur la réponse HTTP elle-même
-        header('Date: ' . gmdate('D, d M Y H:i:s', time()) . ' GMT');
-        header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 1) . ' GMT');
-        header('Last-Modified: ' . gmdate('D, d M Y H:i:s', time()) . ' GMT');
-        readfile($filepath);
+            // Informations sur le contenu à envoyer
+            header('Content-Type: '.type);
+            header('Content-Disposition: application/force-download; filename="'.$filename.'"');
+            header('Content-Disposition: attachement; filename="' . $filename . '"');
+
+            // Informations sur la réponse HTTP elle-même
+            header('Date: ' . gmdate('D, d M Y H:i:s', time()) . ' GMT');
+            header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 1) . ' GMT');
+            header('Last-Modified: ' . gmdate('D, d M Y H:i:s', time()) . ' GMT');
+            readfile($filepath);
+        }
 	}
 
 }
