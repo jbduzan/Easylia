@@ -41,6 +41,7 @@ class DocumentController extends Zend_Controller_Action
 			
 			// Et on le reinjecte avec l'id de l'utilisateur
 			$path = $path.$this->utilisateur->id_utilisateur.'-'.$request->getParam('type')."-".$temp_path[2];
+            $path = str_replace(' ', '-', $path);
 			
 			$adapter->addFilter('Rename', array('target' => $path, 'overwrite' => true));
 			if($adapter->receive()){
@@ -69,7 +70,7 @@ class DocumentController extends Zend_Controller_Action
     	
     	if($type == "cv" || $type == "motivation"){
     		$file->addValidator('Extension', false, array('pdf', 'doc', 'docx'))
-			 ->addValidator('Size', false, '10000000');
+			 ->addValidator('Size', false, '100000000');
     	}else if($type == "casier"){
 			$file->addValidator('Extension', false, array('pdf', 'doc', 'docx', 'jpg', 'bmp'))
 			 ->addValidator('Size', false, '10000000');   		
@@ -94,22 +95,19 @@ class DocumentController extends Zend_Controller_Action
 		$filename = $this->getRequest()->getParam('chemin');
   
 		$filepath = "https://in.easylia.com/documents/".$filename;
-
+        
         $type = explode('.', $filename);
 
         $limit = count($type);
 
         $type = $type[$limit - 1];
-               
-        $filemd5 = md5_file($filepath);
-
+    
         // Gestion du cache
         header('Pragma: public');
         header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
         header('Cache-Control: must-revalidate, pre-check=0, post-check=0, max-age=0');
 
         // Informations sur le contenu à envoyer
-        header('Content-MD5: ' . base64_encode($filemd5));
         header('Content-Type: '.type);
         header('Content-Disposition: application/force-download; filename="'.$filename.'"');
         header('Content-Disposition: attachement; filename="' . $filename . '"');
