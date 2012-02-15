@@ -4,6 +4,7 @@
 	color : #0f77a6;	
 	border-bottom: #0f77a6 solid 1px;
 	margin-bottom: 1em;
+	width: 45em;
 }
 
 /* css for timepicker */
@@ -37,7 +38,7 @@
 
 #sidebar{
 	float: right;
-	margin-top: -30.5em;
+	margin-top: -8.5em;
 	width: 23em;
 	margin-left : 2em;
 }
@@ -57,13 +58,13 @@
 
 #sidebar_formateur{
 	float: right;
-	margin-top: -27em;
+	margin-top: -8.5em;
 	width: 23em;
 }
 
 #sidebar_client{
 	float: right;
-	margin-top: -12em;
+	margin-top: -8.5em;
 	width: 23em;
 	margin-left : 2em;
 }
@@ -96,9 +97,10 @@
 }
 
 .block-right-bottom{
-	float: left;
-	margin-top : -3em;
+	float: right;
+	margin-top: -3em;
 	width: 20em;
+	margin-right: 13em;
 }
 
 #autre_action{
@@ -426,8 +428,8 @@
 /* Commande de formation */
 #slider{
 	width : 25em;
-	margin-left: 35em;
-	margin-top : -2.5em;
+	margin-left: 30em;
+	margin-top : -2.4em;
 }
 
 .div_checkbox{
