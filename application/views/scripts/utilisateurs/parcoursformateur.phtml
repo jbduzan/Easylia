@@ -666,7 +666,7 @@ L'équipe Easylia vous contactera très rapidement par mail pour vous indiquer l
 			$('#contenaire_onglets').tabs({
 				selected : numero_tab_selected
 			});
-
+			$('#loading').html(" ");
 		}else if(result == 2){
 			// Si il y a une erreur sur la taille ou le format
 			$("#error_"+type).html('La taille ou l\'extension de votre fichier n\'est pas valide');
@@ -674,6 +674,7 @@ L'équipe Easylia vous contactera très rapidement par mail pour vous indiquer l
             setTimeout(function() {
                 $("#error_"+type).fadeOut("slow");
             }, 2000 );
+            $('#loading').html(" ");
 		}else if(result == 0){
 			// Si il y a une erreur sur la taille ou le format
 			$("#error_"+type).html('La taille ou l\'extension de votre fichier n\'est pas valide');
