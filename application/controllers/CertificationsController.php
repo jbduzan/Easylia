@@ -126,7 +126,7 @@ class CertificationsController extends Zend_Controller_Action
     public function detailcertificationAction()
     {
         // On vérifie si l'utilisateur est loggue
-        if(empty($this->user->is_logged) && $this->user->is_logged != true && $this->user->id_groupe != 1){          
+        if($this->utilisateur->is_logged != true && $this->utilisateur->id_groupe != 1){          
             $this->_redirector->goToUrl('/connexion');
         }   
         // Vérification des permissions
