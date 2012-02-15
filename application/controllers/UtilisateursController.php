@@ -1223,4 +1223,38 @@ class UtilisateursController extends Zend_Controller_Action
             
         $this->view->liste = $liste_document;
     }
+
+    public function alertdisposkypeAction(){
+        $this->getHelper('layout')->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+
+        if($this->getRequest()->getParam('dispo') == true){
+            // On récupère les mails de tous les admins
+            $result = $this->userMapper->fetchAll();
+
+            $mails = array();
+
+            foreach($result as $row){
+                if($row->getIdGroupe() == 1){
+                    array_push($mails, $row->getMail());
+                }
+            }
+
+            // On récupère les infos du formateur qui vient de rentrer ses dispo
+            $utilisateur = new Application_Model_Utilisateurs();
+            $this->userMapper->find($this->getRequest()->getParam('id_utilisateur'), $utilisateur);
+
+            // On envoie un mail à chacun
+            if(count($mails) > 0){
+                foreach($mails as $row){
+                $mail = new Zend_Mail();
+                $mail->setFrom('no-reply@easylia.com', 'Easylia');
+                $mail->addTo($row);
+                $mail->setSubject('Un formateur est disponible pour un entretien');
+                $mail->setBodyHtml(utf8_decode($utilisateur->getNom().' '.$utilisateur->getPrenom().' viens de rentrer ses disponibilité pour un entretien, veuillez consulter l\'interface administrateur afin de le contacter '));
+                $mail->send();
+                }
+            }
+        }
+    }
 }	

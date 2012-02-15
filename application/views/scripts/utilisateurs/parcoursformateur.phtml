@@ -21,6 +21,7 @@
 		// Si il n'as pas encore passé la certification pédagogique
 		if($this->certification_pedagogique != ""){
 			?>
+				<a href="http://www.easylia.com/Installation" target="_blank">turlututu chapeaux pointu</a><br /><br />
 				<h2>Étape 1 - Certification pédagogique</h2>
 				<br />
 				<p>Nous vous invitons désormais à poursuivre la procédure d'inscription.</p>
@@ -449,6 +450,11 @@ L'équipe Easylia vous contactera très rapidement par mail pour vous indiquer l
 <script language="javascript" type="text/javascript">
 	$(document).ready(function(){
 
+		$('#information_juridique').click(function(event){
+			event.preventDefault();
+			$('#info_juridique').dialog();
+		});
+
 		// On desactive les heures du premier jours -4h
 		var date = new Date();
 		$('#checkbox_heures1 > input').each(function(){
@@ -593,7 +599,9 @@ L'équipe Easylia vous contactera très rapidement par mail pour vous indiquer l
         // Lorsque on envoie l'adresse Skype
         $('#send_adresse_skype').click(function(){
             // Récupération des checkbox pour l'envoie ajax
-					
+			
+			$('#loading').html("<img src='/images/loading.gif' /> Envoi en cours...");
+			
 			var disponibilite = [];
 			
 			$(".select_horaire").each(function(){
@@ -605,16 +613,30 @@ L'équipe Easylia vous contactera très rapidement par mail pour vous indiquer l
 						});						
 				});
 			});
-        
+        	
+        	if(disponibilite.length > 0){
+        		$.ajax({
+        			type : 'post',
+        			url : '/utilisateurs/alertdisposkype',
+        			data : {
+        				'dispo' : true,
+        				'id_utilisateur' : $('#id_utilisateur').val() 
+        			}
+        		})
+        	}
+
         	$.ajax({
         		type : 'post',
         		url : '/utilisateurs/edituser',
         		data : {'id_utilisateur' : $('#id_utilisateur').val(), 'adresseSkype': $('#adresse_skype').val(), 'DisponibiliteEntretien' : disponibilite},
         		success: function(){
-        			$('#select_jour_parcour').hide();
-        			$('.separateur').hide();
-        			$('#dispo_rentree').show();
         			$('#adresse_skype').val($('#adresse_skype').val());
+        			if(disponibilite.length > 0){
+        				$('#dispo_rentree').show();
+            			$('#select_jour_parcour').hide();
+        				$('.separateur').hide();
+        				$('#loading').html(" ");
+        			}
         		}
         	});
         });
