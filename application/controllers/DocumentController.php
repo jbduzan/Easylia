@@ -94,8 +94,15 @@ class DocumentController extends Zend_Controller_Action
 		$filename = $this->getRequest()->getParam('chemin');
   
 		$filepath = "https://in.easylia.com/documents/".$filename;
+
+        $type = explode('.', $filename);
+
+        $limit = count($type);
+
+        $type = $type[$limit - 1];
+               
         $filemd5 = md5_file($filepath);
- 
+
         // Gestion du cache
         header('Pragma: public');
         header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
@@ -103,8 +110,10 @@ class DocumentController extends Zend_Controller_Action
 
         // Informations sur le contenu à envoyer
         header('Content-MD5: ' . base64_encode($filemd5));
-        header('Content-Type: application/force-download; name="' . $filename . '"');
+        header('Content-Type: '.type);
+        header('Content-Disposition: application/force-download; filename="'.$filename.'"');
         header('Content-Disposition: attachement; filename="' . $filename . '"');
+
 
         // Informations sur la réponse HTTP elle-même
         header('Date: ' . gmdate('D, d M Y H:i:s', time()) . ' GMT');
