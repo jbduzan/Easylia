@@ -1,5 +1,6 @@
 <?php $this->user = new Zend_Session_Namespace('user');  	        
 echo $this->placeholder('menu-connecte');
+echo $this->placeholder('sidebar');
     if($this->is_admin){
     ?>
 
@@ -109,9 +110,14 @@ echo $this->placeholder('menu-connecte');
     <div id="action_client">
      	<div >
 	        <?php
-	    		echo "<br /><a href=/formations-disponibles><img src='/images/panier-acheter-ecommerce-shopping-icone-8314-48.png' class='img-left' /> Commander une formation</a>";
+	    		echo "<br /><a href=/liste-des-formations><img src='/images/panier-acheter-ecommerce-shopping-icone-8314-48.png' class='img-left' /> Commander une formation</a>";
 	        ?>
+        </div>
+        <div>
+        	<?php
+        		echo "<br /><a href=/formations-commandees>Voir mes formations</a>";
+        	?>
         </div>
     </div> <!-- action_client -->
     <?php }
-		 echo $this->placeholder('sidebar');?>
+		 ?>
