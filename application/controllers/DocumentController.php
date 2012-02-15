@@ -111,6 +111,7 @@ class DocumentController extends Zend_Controller_Action
 
             // Informations sur le contenu à envoyer
             header('Content-Type: application/'.$type);
+            readfile($filepath);
         }else{
             // Gestion du cache
             header('Pragma: public');
