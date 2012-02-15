@@ -33,7 +33,7 @@ if($user->id_groupe == 1){
 	    </li>
 	    <li><a id="deconnexion_menu">Déconnexion</a></li>
 </div> <!-- menu-connecte -->
-<p><?php echo $this->navigation()->breadcrumbs()->setSeparator(' > '); ?></p>
+<p><?php echo $this->navigation()->breadcrumbs()->setSeparator(' > ')->setLinkLast(false)->setMinDepth(0); ?></p>
 <?php
 }else if($user->id_groupe == 2){
 	// Menu formateur
@@ -45,7 +45,7 @@ if($user->id_groupe == 1){
 	    <li><a href="/mes-formations">Mes formations</a>
     <li><a id="deconnexion_menu">Déconnexion</a></li>
 </div> <!-- menu-connecte -->
-<p><?php echo $this->navigation()->breadcrumbs()->setSeparator(' > '); ?></p>
+<p><?php echo $this->navigation()->breadcrumbs()->setSeparator(' > ')->setLinkLast(false)->setMinDepth(0); ?></p>
 <?php 
 }else if($user->id_groupe == 5){
 	// Menu client
@@ -53,9 +53,10 @@ if($user->id_groupe == 1){
 <div id="menu-connecte">
     <li><a href="/profil-utilisateur">Acceuil</a></li>
     <li><a href="/formations-disponibles">Commander une formation</a></li>
+    <li><a href="/formations-commandees">Voir mes formations</a></li>
     <li><a id="deconnexion_menu">Déconnexion</a></li>
 </div>
-<p><?php echo $this->navigation()->breadcrumbs()->setSeparator(' > '); ?></p>
+<p><?php echo $this->navigation()->breadcrumbs()->setSeparator(' > ')->setLinkLast(false)->setMinDepth(0); ?></p>
 <?php
 }
 ?>
