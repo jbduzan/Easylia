@@ -421,6 +421,28 @@
 	width: 20em;
 }
 
+/* Formulaire ajout utilisateur */
+#label_add_user{
+	float : left;
+	margin-left : 1em;
+}
+
+#label_add_user > label{
+	display: block;
+	margin-top: 1em;
+}
+
+#input_add_user{
+	margin-right: 5em;
+	float: right;
+}
+
+#input_add_user > input, #input_add_user > select{
+	display: block;
+	margin-top: 1.2em;
+	width: 20em;
+}
+
 #nom_groupe > option{
 	text-align: center;
 }
