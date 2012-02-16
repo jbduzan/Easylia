@@ -97,7 +97,7 @@
          $("#code_postal,#ville").autocomplete({
             source: function(request, response){
                 var objData = {};
-                if($(this.element).attr('id') == 'codePostal'){
+                if($(this.element).attr('id') == 'code_postal'){
                     objData = {codePostal : request.term, pays : 'FR', maxRows : 10};
                 }else{
                     objData = {ville : request.term, pays : 'FR', maxRows : 10};
@@ -135,7 +135,7 @@
         $("#code_postal_add, #ville_add").autocomplete({
             source: function(request, response){
                 var objData = {};
-                if($(this.element).attr('id') == 'codePostal'){
+                if($(this.element).attr('id') == 'code_postal_add'){
                     objData = {codePostal : request.term, pays : 'FR', maxRows : 10};
                 }else{
                     objData = {ville : request.term, pays : 'FR', maxRows : 10};
