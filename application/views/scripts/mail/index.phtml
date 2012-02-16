@@ -59,10 +59,14 @@
                 $('#sujet_mail').val($('td[abbr="sujet"] >div', this).html());
                 $('#contenu_mail').val($('td[abbr="contenu"] >div', this).html());
 
+                $('#contenu_mail').ckeditor({
+                    height : 400
+                });
+
                 $('#edit_mail_form').dialog({
                 	title : 'Modification du mail',
-                	width : 765,
-                	height : 560,
+                	width : 1000,
+                	height : 750,
                 	buttons : [
                 		{
                 			text : 'Valider',
