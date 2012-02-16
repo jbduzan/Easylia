@@ -50,6 +50,12 @@
 						<detailcertification>
 							<label>Liste des questions</label>
 							<route>detailcertification</route>
+							<pages>
+								<detailquestion>
+									<label>Réponses à la question</label>
+									<route>detailquestion</route>
+								</detailquestion>
+							</pages>
 						</detailcertification>
 					</pages>
 				</listecertification>
@@ -95,6 +101,16 @@
 					<label>Mes formations</label>
 					<route>mesformations</route>
 				</mesformations>
+				<voirmesformations>
+					<label>Mes formations</label>
+					<route>voirmesformations</route>
+					<pages>
+						<detailformation>
+							<label>Détail de la formation</label>
+							<route>detailformation</route>
+						</detailformation>
+					</pages>
+				</voirmesformations>				
 				<changepassword>
 					<label>Changer mon mot de passe</label>
 					<route>changepassword</route>
