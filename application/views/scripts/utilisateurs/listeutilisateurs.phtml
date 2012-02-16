@@ -29,7 +29,47 @@
 		<input type="text" name="mail" id="mail"  />
 		<input type="text" name="date_naissance" id="date_naissance"  />
 	</div> <!-- input_edit_user -->
-</div>
+</div> <!-- form -->
+<div id="add_form" style="display : none;">
+    <div id="label_add_user">
+        <label for="civilite_add">Civilité :</label>
+        <label for="nom_add" class="optional">Nom :</label>
+        <label for="prenom_add" class="optional">Prénom :</label>
+        <label for="login_add" class="optional">Nom d'utilisateur :</label>
+        <label for="mdp_add">Mot de passe :</label>
+        <label for="nom_groupe_add" class="optional">Groupe :</label>
+        <label for="adresse_add" class="optional">Adresse :</label>
+        <label for="adresse2_add" class="optional">Complément d'adresse :</label>
+        <label for="code_postal_add" class="optional">Code postal :</label>
+        <label for="ville_add" class="optional">Ville :</label>
+        <label for="telephone_add" class="optional">Téléphone :</label>
+        <label for="mail_add" class="optional">Email :</label>
+        <label for="date_naissance_add" class="optional">Date de naissance :</label>
+        <label for="pays_naissance_add" class="optional">Pays de naissance :</label>
+        <label for="departement_naissance_add">Département de naissance :</label>
+    </div> <!-- label_add_user -->
+    <div id="input_add_user">
+        <select name="civilite" id="civilite_add">
+                    <option value="mr">M.</option>
+                    <option value="mlle">Mlle</option>
+                    <option value="mme">Mme</option>
+        </select>
+        <input type="text" name="nom" id="nom_add"  />
+        <input type="text" name="prenom" id="prenom_add"  />
+        <input type="text" name="login" id="login_add"  />
+        <input type="text" name="mdp" id="mdp_add" />
+        <select name="nom_groupe" id="nom_groupe_add"></select>
+        <input type="text" name="adresse" id="adresse_add"  />
+        <input type="text" name="adresse2edit" id="adresse2_add"  />
+        <input type="text" name="code_postal" id="code_postal_add"  />
+        <input type="text" name="ville" id="ville_add"  />
+        <input type="text" name="telephone" id="telephone_add"  />
+        <input type="text" name="mail" id="mail_add"  />
+        <input type="text" name="date_naissance" id="date_naissance_add"  />
+        <input type="text" name="pays_naissance" id="pays_naissance_add" />
+        <input type="text" name="departement_naissance" id="departement_naissance_add" />
+    </div> <!-- input_add_user -->
+</div> <!-- add_form -->
 <input type="hidden" id="editer_info" value="<?php echo $this->editer_info?>" />
 <input type="hidden" id="supprimer_utilisateur" value="<?php echo $this->supprimer_utilisateur ?>" />
 <input type="hidden" id="groupe_demande" value="<?php echo $this->groupe_demande?>" />
@@ -42,73 +82,88 @@
     $(document).ready(function(){
             
         // Datepicker sur la date de naissance
-        $("#date_naissance").datepicker({changeYear : true, autoSize : true, dateFormat : 'dd-mm-yy', changeMonth : true, yearRange : '1930 : 2011'});
+        $("#dateNaissance, #date_naissance_add").datepicker({
+            changeYear : true, 
+            autoSize : true,
+            defaultDate: null,
+            dateFormat : 'dd/mm/yy', 
+            changeMonth : true, 
+            yearRange : '-80 : -18',
+            maxDate : -6570,
+        });     
         
-        var cache = {};
-
             // Autocomplétion de la ville et du code postal
 
-         $("#code_postal, #ville").autocomplete({
+         $("#code_postal,#ville").autocomplete({
             source: function(request, response){
-                
-                // Si la réponse est dans le cache
-            	if (('FR' + '-' + request.term) in cache){
-    				response($.map(cache['FR' + '-' + request.term], function (item){
-    					return {
-    						label: item.code_postal + ", " + item.ville,
-    						value: function (){
-    							if ($(this).attr('id') == 'codePostal'){
-    								$('#ville').val(item.ville);
-    								$('#ville').attr('disabled', 'disabled');
-    								return item.codePostal;
+                var objData = {};
+                if($(this.element).attr('id') == 'codePostal'){
+                    objData = {codePostal : request.term, pays : 'FR', maxRows : 10};
+                }else{
+                    objData = {ville : request.term, pays : 'FR', maxRows : 10};
+                }
+            
+                $.ajax({
+                   url : "/Autocomplete/index",
+                   dataType : "json",
+                   data : objData,
+                   type : 'POST',
+                   success : function(data){
+                       // Ajout de reponse dans le cache
+                       response($.map(data, function (item){
+                           return{
+                               label : item.code_postal + ", " + item.ville,
+                               value: function (){
+    								if ($(this).attr('id') == 'code_postal'){
+    									$('#ville').val(item.ville);
+    									return item.code_postal;
+    								}
+    								else{
+    									$('#codePostal').val(item.code_postal);
+    									return item.ville;
+    								}
     							}
-    							else{
-    								$('#codePostal').val(item.codePostal);
-							    	$('#codePostal').attr('disabled', 'disabled');
-    								return item.ville;
-    							}
-    						}
-    					}
-    				}));
-    			}
-    			
-    			// Sinon -> Requete Ajax
-                else{
-                    var objData = {};
-                    if($(this.element).attr('id') == 'codePostal'){
-                        objData = {codePostal : request.term, pays : 'FR', maxRows : 10};
-                    }else{
-                        objData = {ville : request.term, pays : 'FR', maxRows : 10};
-                    }
-                
-                    $.ajax({
-                       url : "/Autocomplete/index",
-                       dataType : "json",
-                       data : objData,
-                       type : 'POST',
-                       success : function(data){
-                           // Ajout de reponse dans le cache
-						   cache[('FR' + '-' + request.term)] = data;
-                           response($.map(data, function (item){
-                               return{
-                                   label : item.code_postal + ", " + item.ville,
-                                   value: function (){
-										if ($(this).attr('id') == 'codePostal'){
-											$('#ville').val(item.ville);
-											$('#ville').attr('disabled', 'disabled');
-											return item.code_postal;
-										}
-										else{
-											$('#codePostal').val(item.code_postal);
-											$('#codePostal').attr('disabled', true);
-											return item.ville;
-										}
-									}
-                               }
-                           }));
-                       }
-                    });
-                }                
+                           }
+                       }));
+                   }
+                });                
+            }, 
+            minLength : 2,
+            delay : 0
+        });
+
+        $("#code_postal_add, #ville_add").autocomplete({
+            source: function(request, response){
+                var objData = {};
+                if($(this.element).attr('id') == 'codePostal'){
+                    objData = {codePostal : request.term, pays : 'FR', maxRows : 10};
+                }else{
+                    objData = {ville : request.term, pays : 'FR', maxRows : 10};
+                }
+            
+                $.ajax({
+                   url : "/autocomplete/index",
+                   dataType : "json",
+                   data : objData,
+                   type : 'POST',
+                   success : function(data){
+                       response($.map(data, function (item){
+                           return{
+                               label : item.code_postal + ", " + item.ville,
+                               value: function (){
+                                    if ($(this).attr('id') == 'code_postal_add'){
+                                        $('#ville_add').val(item.ville);
+                                        return item.code_postal;
+                                    }
+                                    else{
+                                        $('#code_postal_add').val(item.code_postal);
+                                        return item.ville;
+                                    }
+                                }
+                           }
+                       }));
+                   }
+                });                
             }, 
             minLength : 2,
             delay : 0
@@ -149,8 +204,8 @@
                                     url : '/utilisateurs/deleteuser',
                                     data : {'id_utilisateur' : id, 'delete' : $("#supprimer_utilisateur").val()},
                                     success : function(){
-                                        $("#delete_modal").dialog('close');
                                         $("#tableau_utilisateur").flexReload();
+                                        $("#delete_modal").dialog('close');
                                         $("#info").html('&nbsp;L\'utilisateur à été supprimé');
                                         $("#info").show();
                                         setTimeout(function() {
@@ -278,6 +333,66 @@
                  });
              });
          }
+
+        function add_record(command, grid){
+             $.ajax({
+                  type : 'post',
+                  async : false,
+                  url : '/groupe/getnomgroupe',
+                  success : function(data){
+                      $("#nom_groupe_add").html(data);
+                  }
+             });
+
+            $('#add_form').dialog({
+                title : 'Ajouter un utilisateur',
+                width : 650,
+                buttons : [
+                    {
+                        text : 'Ajouter',
+                        click : function(){
+                            // On envoie les donnés au controller
+                            $.ajax({
+                                type : 'post',
+                                url : '/utilisateurs/adduser',
+                                data : {
+                                    'Type' : $('#civilite_add').val(),
+                                    'Nom' : $("#nom_add").val(),
+                                    'Prenom' : $("#prenom_add").val(),
+                                    'Login' : $('#login_add').val(),
+                                    'Password' : $('#mdp_add').val(),
+                                    'Adresse' : $("#adresse_add").val(),
+                                    'Adresse2' : $("#adresse2_add").val(),
+                                    'CodePostal' : $("#code_postal_add").val(),
+                                    'Ville' : $("#ville_add").val(),
+                                    'Telephone' : $("#telephone_add").val(),
+                                    'Mail' : $("#mail_add").val(),
+                                    'DateNaissance' : $("#date_naissance").val(),
+                                    'PaysNaissance' : $('#pays_naissance_add').val(),
+                                    'DateNaissance' : $('#date_naissance_add').val(),
+                                    'IdGroupe' : $("#nom_groupe_add").val(),
+                                },
+                                success : function(){
+                                    $('#tableau_utilisateur').flexReload();
+                                    $('#add_form').dialog('close'); 
+                                    $("#info").html('&nbsp;L\'utilisateur à été ajouté');
+                                    $("#info").show();
+                                    setTimeout(function() {
+                                        $( "#info" ).fadeOut("slow");
+                                    }, 2000 );    
+                                }
+                            })
+                        }
+                    },
+                    {
+                        text : 'Annuler',
+                        click : function(){
+                            $(this).dialog('close');
+                        }
+                    }
+                ]
+            });
+        }
          
         var nom_page = "";
         
@@ -299,11 +414,13 @@
                     /* {display: 'Nom d\'utilisateur', name :'login', width : 100, sortable : true, align: 'left'}, */
                     {display: 'Groupe', name :'groupe_name', width : 100, sortable : true, align: 'left'},                    
                     {display: 'Adresse', name : 'adresse', width : 250, sortable : true, align: 'left'},
-                    {display: 'Téléphone', name : 'telephone', width : 100, sortable : true, align: 'left'},
+                    {display: 'Téléphone', name : 'telephone', width : 60, sortable : true, align: 'left'},
                     {display: 'Mail', name : 'mail', width : 170, sortable : true, align: 'left'},
-                    {display: 'Date de naissance', name : 'date_naissance', width : 100, sortable : true, align: 'left'}
+                    {display: 'Date de naissance', name : 'date_naissance', width : 70, sortable : true, align: 'left'}
             ],
             buttons : [
+                    {name: 'Ajouter', bclass: 'add', onpress : add_record},
+                    {separator: true},                    
                     {name: 'Editer', bclass: 'edit', onpress : edit_record},
                     {separator: true},                    
                     {name: 'Supprimer', bclass: 'delete', onpress : delete_record},

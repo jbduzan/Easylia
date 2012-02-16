@@ -1257,4 +1257,56 @@ class UtilisateursController extends Zend_Controller_Action
             }
         }
     }
+
+    public function adduserAction(){
+        // Ajoute un utilisateur
+        $this->getHelper('layout')->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+
+        $request = $this->getRequest();
+        
+        $utilisateur = new Application_Model_Utilisateurs();
+        
+        $proprietes = array_slice($request->getParams(), 3);
+        
+        // On les injecte à l'utilisateur
+        foreach($proprietes as $key=>$value){
+            // On saute l'id 
+            if($key == "id_utilisateur")
+                continue;
+            
+            // Si c'est le mdp on le chiffre
+            if($key == 'Password'){
+                $path = APPLICATION_PATH."/configs/application.ini";
+                $config = new Zend_Config_Ini($path, 'production');
+                
+                $password = sha1($config->salt.$request->getPost('Password'));
+                
+                $utilisateur->setPassword($password);
+                continue;
+            }
+
+            // Si la value est un array
+            if(is_array($value)){
+                $temp = "";
+                foreach($value as $row){
+                    $temp .= $row.",";
+                }
+                $temp = substr($temp, '0', '-1');
+                $utilisateur->__set($key,$temp);
+                continue;
+            }
+            $utilisateur->__set($key,$value);
+        }
+        
+        // On ajoute la date d'entrée 
+        $utilisateur->setDateEntree(date("d/m/Y"));
+
+        // Ainsi que la clé d'activation du compte
+        $cle_activation = substr(sha1(microtime(NULL)*100000),0,30);
+        $utilisateur->setCleActivation($cle_activation);
+
+        // Une fois que on a fait toute les opérations, on sauvegarde
+        $this->userMapper->save($utilisateur);
+    }
 }	
