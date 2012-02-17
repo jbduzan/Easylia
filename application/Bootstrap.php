@@ -91,6 +91,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$router->addRoute('voirmesformations', new Zend_Controller_Router_Route('formations-commandees', array('controller' => 'formation', 'action' => 'seeformation')));
 		$router->addRoute('detailformation', new Zend_Controller_Router_Route('details-formation', array('controller' => 'formation', 'action' => 'detailformation')));
 		$router->addRoute('detailquestion', new Zend_Controller_Router_Route('details-question', array('controller' => 'questions', 'action' => 'detailsquestion')));
+		$router->addRoute('pagedynamique', new Zend_Controller_Router_Route('pages-dynamique', array('controller' => 'pagedynamique', 'action' => 'index')));
     }
     
     public function _initSidebar(){

@@ -119,6 +119,10 @@
 					<label>Administrer les formations</label>
 					<route>gererformation</route>
 				</gererformation>
+				<pagedynamique>
+					<label>Gérer les pages dynamique</label>
+					<route>pagedynamique</route>
+				</pagedynamique>
 			</pages>
 		</home>
 	</nav>
