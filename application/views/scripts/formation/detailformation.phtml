@@ -1,0 +1,23 @@
+<?php 
+	echo $this->placeholder('menu-connecte');
+	echo $this->placeholder('sidebar');
+?>
+<h1>Détails de la formation</h1>
+	<?php
+		echo "Type de la formation : <b>".$this->formation->getType().'</b><br />';
+		echo "Date de la formation : <b>".$this->formation->getDate().'</b><br />';
+		echo "Nombre d'heures commandées : <b>".$this->formation->getNombreHeure().'h</b><br />';
+		
+		$disponibilite = explode(',', $this->formation->getHeureDebut());
+		if(count($disponibilite) > 1){
+			echo "Disponibilités : <br />";
+			foreach ($disponibilite as $row) {
+				echo $row.'<br />';	
+			}
+		}else{
+			echo "Heure de la formation : ".$disponibilite[0]."<br />";
+			echo $this->formateur->getNom().' '.$this->formateur->getPrenom().'<br />';
+			if($this->facture)
+				echo "<a href='/facture/genererfacture?id=".$this->formation->getIdFormation()."'>Acceder à la facture de cette formation</a>";
+		}
+	?>

@@ -1,0 +1,216 @@
+<?php
+	echo $this->placeholder('menu-connecte');
+?>
+<div id="form" style='display : none'>
+	<label for="nom">Nom : </label><input type="text" id="nom" /><br /><br />
+	<label for="description">Description : </label><input type="text" id="description" /><br /><br />
+	<label for="url">Url : </label><input type="text" id="url" /><br /><br />
+	<label for="contenu">Contenu : </label><br /><textarea id="contenu"></textarea>
+</div> <!-- form -->
+<div id="tableau_page">
+</div>
+<div id="delete_form">
+	<p>Etes vous sûr de vouloir supprime cette page ? </p>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#tableau_page").flexigrid({
+            url : '/pagedynamique/getpagedynamique',
+            dataType: 'json',
+            colModel : [
+                    {display: 'Nom', name : 'nom', width : 100, sortable : true, align: 'left'},
+                    {display: 'Description', name : 'description', width : 150, sortable : true, align: 'left'},
+                    {display: 'Url', name : 'url', width : 150, sortable : true, align: 'left'},
+                    {display: 'Contenu', name : 'contenu', width : 485, sortable : true, align: 'left'},
+                      ],
+            buttons : [
+                     {name: 'Ajouter', bclass: 'add', onpress : add_record},
+                     {separator: true},  
+                     {name: 'Editer', bclass: 'edit', onpress : edit_record},
+                     {separator: true},
+                     {name: 'Supprimer', bclass: 'delete', onpress : delete_record},
+                     {separator: true},
+            ],
+            searchitems : [
+                    {display: 'Nom', name : 'nom'},
+                    {display: 'Prenom', name : 'prenom', isdefault: true}
+                        ],
+            sortname: "id_page_dynamique",
+            sortorder: "asc",
+            usepager: true,
+            title: "Liste des pages dynamique",
+            useRp: true,
+            rp: 20,
+            showTableToggleBtn: false,
+            resizable: false,
+            height: 500,
+            singleSelect: true
+        });
+        $(".ftitle").append('<span id="info" style="color : green"></span>');
+        $(".ftitle").append('<span id="error" style="color : red"></span>');
+
+        function add_record(){
+        	// On vide tout les champs avant d'afficher la dialog
+        	$('#nom').val('');
+        	$('#description').val('');
+        	$('#url').val('');
+        	$('#contenu').val('');
+        	
+        	$('#contenu').ckeditor({
+        		height : 400
+        	});
+        	$('#form').dialog({
+        		title : 'Ajout d\'une page',
+        		width : 1000,
+        		buttons : [
+        			{
+        				text : 'Valider',
+        				click : function(){
+        					$.ajax({
+	        					type : 'post',
+	        					url : '/pagedynamique/ajouter',
+	        					data : {
+	        						'nom' : $('#nom').val(),
+	        						'description' : $('#description').val(),
+	        						'url' : $('#url').val(),
+	        						'contenu' : $('#contenu').val()
+	        					},
+	        					success : function(){
+	        						$('#tableau_page').flexReload();
+	        						$('#form').dialog('close');
+						            $("#info").html('&nbsp;La page a été ajoutée !');
+						            $("#info").show();
+						            setTimeout(function() {
+						                $("#info").fadeOut("slow");
+						            }, 2000 );
+						            return;
+	        					}
+        					});	
+        				}
+        			},
+        			{
+        				text : 'Fermer',
+        				click : function(){
+        					$(this).dialog('close');
+        				}
+        			}
+        		]
+        	});
+        }
+
+        function edit_record(command, grid){
+        	var record_count = $('.trSelected',grid).length;
+	        if (0 == record_count)
+	        {
+	            $("#error").html('&nbsp;Veuillez dabord sélectionner une ligne !');
+	            $("#error").show();
+	            setTimeout(function() {
+	                $("#error").fadeOut("slow");
+	            }, 2000 );
+	            return;
+	        }
+
+	        $('.trSelected',grid).each(function(){
+                var id = this.id.substr(3);
+                 
+            	$('#nom').val($('td[abbr="nom"] >div', this).html());
+                $('#description').val($('td[abbr="description"] >div', this).html());
+                $('#url').val($('td[abbr="url"] >div', this).html());
+                $('#contenu').val($('td[abbr="contenu"] >div', this).html());
+
+                $('#contenu').ckeditor({
+                    height : 400
+                });
+
+                $('#form').dialog({
+                	title : 'Edition d\'une page',
+	        		width : 1000, 
+	        		buttons : [
+	        			{
+	        				text : 'Valider',
+	        				click : function(){
+	        					$.ajax({
+		        					type : 'post',
+		        					url : '/pagedynamique/editer',
+		        					data : {
+		        						'id' : id,
+		        						'nom' : $('#nom').val(),
+		        						'description' : $('#description').val(),
+		        						'url' : $('#url').val(),
+		        						'contenu' : $('#contenu').val()
+		        					},
+		        					success : function(){
+		        						$('#tableau_page').flexReload();
+		        						$('#form').dialog('close');
+							            $("#info").html('&nbsp;La page a été modifiée !');
+							            $("#info").show();
+							            setTimeout(function() {
+							                $("#info").fadeOut("slow");
+							            }, 2000 );
+							            return;
+	        					}
+        					});
+	        				}
+	        			},
+	        			{
+	        				text : 'Fermer',
+	        				click : function(){
+	        					$(this).dialog('close');
+	        				}
+	        			}
+	        		]
+                });
+            });
+        }
+
+        function delete_record(command, grid){
+        	var record_count = $('.trSelected',grid).length;
+	        if (0 == record_count)
+	        {
+	            $("#error").html('&nbsp;Veuillez dabord sélectionner une ligne !');
+	            $("#error").show();
+	            setTimeout(function() {
+	                $("#error").fadeOut("slow");
+	            }, 2000 );
+	            return;
+	        }
+
+	        $('.trSelected',grid).each(function(){
+                var id = this.id.substr(3);
+
+                $('#delete_form').dialog({
+                	title : 'Supprimer une page',
+                	buttons : [
+                		{
+                			text : 'Valider',
+                			click : function(){
+                				$.ajax({
+                					type : 'post',
+                					url : '/pagedynamique/delete',
+                					data : {'id' : id},
+                					success : function(){
+                						$('#tableau_page').flexReload();
+                						$('#delete_form').dialog('close');
+                						$("#info").html('&nbsp;La page a été supprimée !');
+							            $("#info").show();
+							            setTimeout(function() {
+							                $("#info").fadeOut("slow");
+							            }, 2000 );
+							            return;
+                					}
+                				})
+                			}
+                		},
+                		{
+                			text : 'Fermer',
+                			click : function(){
+                				$(this).dialog('close');
+                			}
+                		}
+                	]
+                })
+            });
+        }
+	});
+</script>

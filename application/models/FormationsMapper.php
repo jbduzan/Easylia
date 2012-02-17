@@ -70,8 +70,14 @@ class Application_Model_FormationsMapper
             		  ->setIdFormationDispo($row->id_formation_dispo);
     }
     
-    public function fetchAll($date_jour = null){
-    	$result = $this->getDbTable()->fetchAll();
+    public function fetchAll($date_jour = null, $id_client = null){
+        $sql = 'select * from Formations';
+        $select = $this->getDbTable()->select($sql);
+
+        if($id_client != '')
+            $select->where('id_client = ?', $id_client);
+
+    	$result = $this->getDbTable()->fetchAll($select);
     	
     	if(count($result) == 0)
     		return;

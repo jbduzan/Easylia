@@ -569,11 +569,50 @@ class FormationController extends Zend_Controller_Action
 
     public function seeformationAction(){
     	// Récupère la liste de toutes les formations commandés par un utilisateur
+    	if(!$this->utilisateur->is_logged || $this->utilisateur->id_groupe != 5)
+    		$this->_redirector->goToUrl('profil-utilisateur');
 
     	// On récupère la liste de toutes les formations
     	$formations = $this->formation_mapper->fetchAll($date_jour = null, $id_client = $this->utilisateur->id_utilisateur);
     	
     	$this->view->formations = $formations;
+    }
+
+    public function detailformationAction(){
+    	// Affiche le détail d'une formation pour un client
+    	if(!$this->utilisateur->is_logged || $this->utilisateur->id_groupe != 5)
+    		$this->_redirector->goToUrl('profil-utilisateur');
+
+    	// On récupère les informations de la formation
+    	$formation = new Application_Model_Formations();
+    	$this->formation_mapper->find($this->getRequest()->getParam('id'), $formation);
+
+    	// On véfifie que c'est bien une formation pour cet utilisateur
+    	if($this->utilisateur->id_utilisateur != $formation->getIdClient())
+    		$this->_redirector->goToUrl('profil-utilisateur');
+        
+    	$this->view->formation = $formation;
+
+    	// On récupère le nom du formateur
+    	$formateur = new Application_Model_Utilisateurs();
+    	$this->utilisateur_mapper->find($formation->getIdFormateur(), $formateur);
+
+    	$this->view->formateur = $formateur;
+
+        // On teste si la formation est déjà passé afin de proposer la facturation
+        $date = $formation->getHeureDebut();
+        if(count($date) == 1){
+            $now = time();
+            $date = explode(' ', $date);
+            $date_formation = explode('/', $date[1]);
+            $date_formation = mktime(0,0,0, $date_formation[1], $date_formation[0], $date_formation[2]);   
+
+            if($date_formation < $now){
+                $this->view->facture = true;
+            }else
+                $this->view->facture = false;
+        }else
+            $this->view->facture = false;
     }
 }
 

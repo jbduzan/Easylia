@@ -1,0 +1,22 @@
+<?php
+	echo $this->placeholder('menu-connecte');
+	echo $this->placeholder('sidebar');
+?>
+<h1>Mes formations</h1>
+<?php
+	foreach($this->formations as $row){
+		// On récupère le nom du formateur
+    	$utilisateur = new Application_Model_Utilisateurs();
+    	$utilisateur_mapper = new Application_Model_UtilisateursMapper();
+    	$utilisateur_mapper->find($row->getIdFormateur(), $utilisateur);
+
+		echo "<a href='/formation/detailformation?id=".$row->getIdFormation()."'>".$row->getType()." - ".$row->getDate()." - ".($row->getNombreHeure() * 55)." €</a>";
+
+		if($row->getIdFormateur() != '')
+			echo " - ".$utilisateur->getNom()." ".$utilisateur->getPrenom();
+		echo "<br />";
+	}
+?>
+<?php 
+	
+?>

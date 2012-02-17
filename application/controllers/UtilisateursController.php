@@ -986,6 +986,9 @@ class UtilisateursController extends Zend_Controller_Action
 	    	// Les questions pour le test de motivation 
 	    	$this->view->test = $this->prepareMotivationTest();
 	    	$this->view->id_utilisateur = $this->user->id_utilisateur;
+
+            // Le contenu de la dialog info-juridique
+            $this->view->info_juridique = $this->getInformationJuridique();
 	    	      
 		}else{
 			$this->redirectToConnexion();
@@ -1045,6 +1048,23 @@ class UtilisateursController extends Zend_Controller_Action
 		// Sinon on renvoie l'id de la certification pour la faire passer
 		return intval($id_certification);
 	}
+
+    protected function getInformationJuridique(){
+        // Récupère le contenu de la page des informations juridique
+
+        $page_mapper = new Application_Model_PageDynamiqueMapper();
+        $result = $page_mapper->fetchAll();
+
+        $contenu = '';
+
+        foreach($result as $row){
+            // On récupère la page qui nous interesse
+            if($row->get('url') == 'info-juridique')
+                $contenu = $row->get('contenu');
+        }
+
+        return $contenu;
+    }
 	
 	public function getentretiendataAction(){
 		$this->_helper->viewRenderer->setNoRender(true);

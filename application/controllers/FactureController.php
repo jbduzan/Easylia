@@ -11,6 +11,7 @@ class FactureController extends Zend_Controller_Action
         $this->commande = new Zend_Session_Namespace('commande');              
 		$this->facture_mapper = new Application_Model_FacturesMapper();
         $this->utilisateur_mapper = new Application_Model_UtilisateursMapper();
+        $this->formation_mapper = new Application_Model_FormationsMapper();
         $this->groupe_mapper = new Application_Model_GroupesMapper();
         $this->nom_groupe = $this->groupe_mapper->getGroupeNameWithId($this->utilisateur->id_groupe);
     }
@@ -33,27 +34,30 @@ class FactureController extends Zend_Controller_Action
         $this->view->liste = $liste;
     }
 
-    public function genererFacture($id_utilisateur, $montant, $date)
+    protected function genererFacture($id_utilisateur, $montant, $date)
     {    	
         // Génère une facture au format pdf
 		$utilisateur = new Application_Model_Utilisateurs();
 		
 		$this->utilisateur_mapper->find($id_utilisateur, $utilisateur);
 	
-		$test = new Zend_Service_LiveDocx_MailMerge(array(
+		$facture = new Zend_Service_LiveDocx_MailMerge(array(
 			"username" => "jbduzan",
 			"password" => "zorander33"
 		));
 		
 		$invoice_number = rand(0, 9999);
 						
-		$facture->setLocalTemplate('invoice_template.docx');
+		$facture->setLocalTemplate('invoice_template.doc');
 	
+        $date = explode(' ', $date);
+
 		$facture->assign('phone', $utilisateur->getTelephone())
-         		 ->assign('customer_number', $utilisateur->getIdUtilisateur())
-         		 ->assign('invoice_number',  $invoice_number)
-          		 ->assign('date', $date)
-        		 ->assign('total',  $montant);
+         		->assign('customer_number', $utilisateur->getIdUtilisateur())
+         		->assign('invoice_number',  $invoice_number)
+          		->assign('date', $date[1])
+        		->assign('total',  $montant)
+        		->assign('prénom',  'trucmuche');
 
 		
 		$facture->createDocument();
@@ -61,7 +65,7 @@ class FactureController extends Zend_Controller_Action
 		
 		$document = $facture->retrieveDocument('pdf');
 		
-		$filename = "documents/facture-".$invoice_number;
+		$filename = "documents/facture-".$invoice_number.'.pdf';
 		
 		file_put_contents($filename, $document);        
 		
@@ -69,17 +73,33 @@ class FactureController extends Zend_Controller_Action
 		
 		$facture->setNumeroFacture($invoice_number)
 				->setIdUtilisateur($utilisateur->getIdUtilisateur())
-				->setMontant($monteant)
+				->setMontant($montant)
 				->setNumeroFacture($invoice_number);
 				
-		$this->facture_mapper->save($facture);
-		
-		fwrite($filename, $document);
+		//$this->facture_mapper->save($facture);
+		$file = fopen($filename, 'r+');
+
+		fwrite($file, $document);
 		
     }
     
     public function genererfactureAction(){
-    	$this->genererfacture();
+    	// On génère une facture à partir de l'id transmis
+
+    	// On vérifie que l'utilisateur est connecté est que c'est bien le bon utilisateur
+
+    	$request = $this->getRequest();
+
+    	$formation = new Application_Model_Formations();
+    	$this->formation_mapper->find($request->getParam('id'), $formation);
+
+    	if(!$this->utilisateur->is_logged || $this->utilisateur->id_utilisateur != $formation->getIdClient())
+    		$this->_redirector->goToUrl('profil-utilisateur');
+
+    	// On génère la facture par rapport au info sur la formation
+
+    	$montant = $formation->getNombreHeure() * 55;
+    	$this->genererfacture($this->utilisateur->id_utilisateur, $montant, $formation->getHeureDebut());
     }
 
 

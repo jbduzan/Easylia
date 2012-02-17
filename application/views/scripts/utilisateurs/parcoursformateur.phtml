@@ -1,6 +1,11 @@
 <?php
 	echo $this->placeholder('sidebar');
 ?>
+<div id="info_juridique" style="display : none">
+	<?php 
+		echo $this->info_juridique;
+	?>
+</div>
 <div id="content_parcour">
 	<h1>Renseignez votre profil formateur</h1>
 	<div id="etapes">
@@ -21,7 +26,7 @@
 		// Si il n'as pas encore passé la certification pédagogique
 		if($this->certification_pedagogique != ""){
 			?>
-				<a href="http://www.easylia.com/Installation" target="_blank">turlututu chapeaux pointu</a><br /><br />
+				<!-- <a href="" id="information_juridique">turlututu chapeaux pointu</a><br /><br /> -->
 				<h2>Étape 1 - Certification pédagogique</h2>
 				<br />
 				<p>Nous vous invitons désormais à poursuivre la procédure d'inscription.</p>
@@ -452,7 +457,19 @@ L'équipe Easylia vous contactera très rapidement par mail pour vous indiquer l
 
 		$('#information_juridique').click(function(event){
 			event.preventDefault();
-			$('#info_juridique').dialog();
+			$('#info_juridique').dialog({
+				title : 'Informations',
+				width : 800,
+				height : 500,
+				buttons : [
+					{
+						text : 'Fermer',
+						click : function(){
+							$(this).dialog('close');
+						}
+					}
+				]
+			});
 		});
 
 		// On desactive les heures du premier jours -4h

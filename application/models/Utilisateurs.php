@@ -58,7 +58,7 @@ class Application_Model_Utilisateurs
     
     public function __set($name, $value){
         
-        $method = 'set'.$name;
+        $method = 'set'.ucfirst($name);
         if(('mapper' == $name) || !method_exists($this, $method)){
             throw new Exception('Invalid Utilisateurs property');
         }
@@ -68,12 +68,25 @@ class Application_Model_Utilisateurs
 
     public function __get($name){
         
-        $method = 'get'.$name;
+        $method = 'get'.ucfirst($name);
         if(('mapper' == $name) || !method_exists($this, $method)){
             throw new Exception('Invalid Utilisateurs property');
         }
         return $this->$method();
         
+    }
+
+    public function set(array $option){
+        foreach($option as $key => $value){
+            $option = "_".$key;
+            $this->$option = $value;
+            return $this;   
+        }
+    }
+
+    public function get($name){
+        $option = "_".$name;
+        return $this->$option;
     }
     
     // Setters et Getters

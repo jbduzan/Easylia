@@ -1,1 +1,13 @@
-<div id="content"></div>
+<textarea id="truc" style="display : none"></textarea>
+<p id="chose">truc</p>
+<script type="text/javascript">
+	$(document).ready(function(){
+
+		$('#truc').val('<div><img src="https://in.easylia.com/images/logo.jpg"></div><div><p>Bonjour, <br><br>Vous venez de vous inscrire chez Easylia, et nous vous en remercions. <br><br> Nous vous invitons tout d');
+
+		$('#chose').click(function(){
+			$('#truc').dialog();
+			$('#truc').ckeditor();
+		});
+	});
+</script>
