@@ -21,7 +21,7 @@
 			monthNamesShort : ['Jan','Fev','Mar','Avr','Mai','Juin','Juil','Aout','Sep','Oct','Nov','Dec'],
 			dayNames : ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
 			dayNamesShort : ['Dim','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Sam'],
-			events : 'getcalendardata',
+			events : '/formation/getcalendardata',
 			defaultView : 'agendaWeek',
 			titleFormat : {
 				day: 'dddd d MMMM yyyy' ,
@@ -45,7 +45,7 @@
 		function getEventData(event_id){
 			$.ajax({
 				type : "post",
-				url : 'geteventdata',
+				url : '/formation/geteventdata',
 				data : {id : event_id},
 				success : function(data){
 					$("#event_detail").html(data);
