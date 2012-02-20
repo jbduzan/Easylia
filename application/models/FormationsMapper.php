@@ -37,7 +37,9 @@ class Application_Model_FormationsMapper
             'payee' => $formation->getPayee(),
             'date' => $formation->getDate(),
             'heure_debut' => $formation->getHeureDebut(),
-            'id_formation_dispo' => $formation->getIdFormationDispo()
+            'id_formation_dispo' => $formation->getIdFormationDispo(),
+            'formation_effectue' => $formation->getFormationEffectue(),
+            'raison_refus' => $formation->getRaisonRefus()
         );
          
         $id = ""; 
@@ -67,7 +69,9 @@ class Application_Model_FormationsMapper
             		  ->setPayee($row->payee)
             		  ->setDate($row->date)
             		  ->setHeureDebut($row->heure_debut)
-            		  ->setIdFormationDispo($row->id_formation_dispo);
+            		  ->setIdFormationDispo($row->id_formation_dispo)
+                      ->setFormationEffectue($row->formation_effectue)
+                      ->setRaisonRefus($row->raison_refus);
     }
     
     public function fetchAll($date_jour = null, $id_client = null){
@@ -116,7 +120,9 @@ class Application_Model_FormationsMapper
             	  ->setPayee($row->payee)
             	  ->setDate($row->date)
             	  ->setHeureDebut($row->heure_debut)
-            	  ->setIdFormationDispo($row->id_formation_dispo);
+            	  ->setIdFormationDispo($row->id_formation_dispo)
+                  ->setFormationEffectue($row->formation_effectue)
+                  ->setRaisonRefus($row->raison_refus);
             	  
             array_push($entries, $entry);
     	}
@@ -233,7 +239,9 @@ class Application_Model_FormationsMapper
             	  ->setPayee($row->payee)
             	  ->setDate($row->date)
             	  ->setHeureDebut($row->heure_debut)
-            	  ->setIdFormationDispo($row->id_formation_dispo);
+            	  ->setIdFormationDispo($row->id_formation_dispo)
+                  ->setFormationEffectue($row->formation_effectue)
+                  ->setRaisonRefus($row->raison_refus);
             	  
             array_push($entries, $entry);
     	}
@@ -255,12 +263,21 @@ class Application_Model_FormationsMapper
     		$heure = substr($date_formated[2], '0', '-1');
     		$timestamp_start = mktime($heure, 0, 0, $date[1], $date[0], 2012);
     		$timestamp_end = $timestamp_start + $row->nombre_heure * 3600;
+
+            if($row->formation_effectue == 1)
+                $color = 'green';
+            else if($row->formation_effectue == 2)
+                $color = 'red';
+            else
+                $color = '#36C';
+
     		$data[] = array(
     			'id' => $row->id_formation,
     			'title' => $row->type,
     			'start' => $timestamp_start,
     			'end' => $timestamp_end,
-    			'allDay' => false
+    			'allDay' => false,
+                'color' => $color
     		);
     	}
     	

@@ -13,6 +13,117 @@
 	<p>Date : <?php echo $this->date ?></p><br />
 	<p>Durée : <?php echo $this->duree ?></p><br />
 	<p>Formation : <?php echo $this->formation ?></p><br />
-	J'ai effectué cette formation :<br /> 
-	<button class="add">Oui</button><button>Non</button>
+	<p id="formation_effectue">
+		J'ai effectué cette formation :<br /> 
+		<a id="valider" href="" > <img src="../images/accepter-verifier-vert-ok-oui-icone-6380-16.png" /> Oui</a>&nbsp;	<a href="" id="refuser"><img src="../images/lannuler-supprimer-icone-8790-16.png" /> Non</a>
+	</p>
 </div>
+<div id="raison_refus" style="display : none">	
+	<br />
+	<p>Veuillez selectionner la raison pour laquelle vous n'avez pas pus effectuer la formation</p>
+	<select id="raison">
+		<option>1</option>
+		<option>2</option>
+		<option>3</option>
+		<option value="autre">autre</option>
+	</select>
+	<input type="text" id="autre" style="display : none"/><br /><br />
+	<input type="submit" class="submit" id="valider_refus" value="enregistrer"/>
+</div>
+<div id="valider_formation" style="display : none">
+	Etes vous sûr de vouloir valider cette formation ? <br />
+	Vous ne pourrez plus modifier cette information par la suite.	
+</div>
+<input type="hidden" id="id_formation" value="<?php echo $this->id_formation?>" />
+<input type="hidden" id="val_formation_effectue" value="<?php echo $this->formation_effectue?>" />
+<input type="hidden" id="val_raison_refus" value="<?php echo $this->raison_refus?>" />
+<script type="text/javascript">
+	$(document).ready(function(){
+
+		// On vérifie si le formateur à déjà remplis sa présence
+		if($('#val_formation_effectue').val() == 1 || $('#val_formation_effectue').val() == 2){
+			if($('#val_formation_effectue').val() == 1){
+				$('#formation_effectue').html('Vous avez déjà validé votre présence sur cette formation');
+				$('#formation_effectue').css('color', 'green');
+			}else if($('#val_formation_effectue').val() == 2){
+				var raison = 
+				$('#formation_effectue').html('Vous avez déjà validé votre non-présence sur cette formation, pour la raison : ' + $('#val_raison_refus').val());
+				$('#formation_effectue').css('color', 'red');
+			}
+		}
+
+		// Lorsque le formateur valide ou non sa formation 
+		$('#valider').click(function(event){
+			event.preventDefault();
+			$('#valider_formation').dialog({
+				title : 'Valider la formation',
+				buttons : [
+					{
+						text : 'Valider',
+						click : function(){
+							$.ajax({
+								type : 'post',
+								url : '/formation/presenceformation',
+								data : {
+									'id_formation' : $('#id_formation').val(),
+									'formation_effectue' : 1,
+									'raison_refus' : ' '
+								},
+								success : function(){
+									$('#formation_effectue').html('Votre présence sur cette formation a été enregistrée.');
+									$('#formation_effectue').css('color', 'green');
+									$('#valider_formation').dialog('close');
+								}
+							});
+						}
+					},
+					{
+						text : 'Annuler',
+						click : function(){
+							$(this).dialog('close');
+						}	
+					}
+				]
+			});
+		});
+
+		$('#refuser').click(function(event){
+			event.preventDefault();
+			$('#raison_refus').show();
+			$('#raison').focus();
+		});
+
+		$('#valider_refus').click(function(){
+			var raison;
+
+			if($('#raison').val() == 'autre')
+				raison = $('#autre').val();
+			else
+				raison = $('#raison').val();
+
+			$.ajax({
+				type : 'post',
+				url : '/formation/presenceformation',
+				data : {
+					'id_formation' : $('#id_formation').val(),
+					'formation_effectue' : 2,
+					'raison_refus' : raison
+				},
+				success : function(){
+					$('#formation_effectue').html('La raison à été enregistrée');
+					$('#raison_refus').hide();
+					$('#formation_effectue').css('color', 'red');
+					$('#valider_formation').dialog('close');
+				}
+			});
+		});
+
+		// Lorsque le formateur selectionne l'option autre
+		$('#raison').change(function(){
+			if($('#raison').val() == 'autre')
+				$('#autre').show();
+			else
+				$('#autre').hide();
+		});
+	});
+</script>

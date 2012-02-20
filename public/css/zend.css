@@ -34,6 +34,14 @@
 .flexigrid div.fbutton .refuser { background : url('../images/icone_erreur_16.png') no-repeat center left;}
 .flexigrid div.fbutton .document { background : url('../images/documents-dossier-icone-5436-16.png') no-repeat center left;}
 
+.add{
+	background : url('../images/ajouter-modifier-icone-9159-16.png') no-repeat center left;
+}
+
+.refuser{
+	background : url('../images/icone_erreur_16.png') no-repeat center left;
+}
+
 /* Sidebar */
 
 #sidebar{

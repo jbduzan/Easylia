@@ -11,6 +11,8 @@ class Application_Model_Formations
     protected $_date;
     protected $_heure_debut;
     protected $_id_formation_dispo;
+    protected $_formation_effectue;
+    protected $_raison_refus;
     
     // Constructeur
     
@@ -30,7 +32,7 @@ class Application_Model_Formations
         if(('mapper' == $name) || !method_exists($this, $method)){
             throw new Exception('Invalid Utilisateurs property');
         }
-        return $this->$method();
+        return $this->$method($value);
         
     }
 
@@ -139,6 +141,27 @@ class Application_Model_Formations
 	public function getIdFormationDispo(){
 		return $this->_id_formation_dispo;
 	}
+
+    public function setFormationEffectue($formation_effectue){
+        $this->_formation_effectue = $formation_effectue;
+        return $this;
+    }
+
+    public function getFormationEffectue(){
+        return $this->_formation_effectue;
+    }
+
+    public function setRaisonRefus($raison_refus){
+        $this->_raison_refus = $raison_refus;
+        return $this;
+    }
 	
+    public function getRaisonRefus(){
+        return $this->_raison_refus;
+    }
 }
+
+
+
+
 

@@ -391,6 +391,15 @@ class FormationController extends Zend_Controller_Action
 		$this->view->date = $formation->getHeureDebut();
 		$this->view->duree = $formation->getNombreHeure()."H";
 		$this->view->formation = $formation->getType();
+        $this->view->id_formation = $formation->getIdFormation();
+
+        if($formation->getFormationEffectue() == 1)
+            $this->view->formation_effectue = $formation->getFormationEffectue();
+        else if($formation->getFormationEffectue() == 2){
+            $this->view->formation_effectue = $formation->getFormationEffectue();
+            $this->view->raison_refus = $formation->getRaisonRefus();
+        }
+
 	}
 	
 	public function getformationdataAction(){
@@ -613,6 +622,22 @@ class FormationController extends Zend_Controller_Action
                 $this->view->facture = false;
         }else
             $this->view->facture = false;
+    }
+
+    public function presenceformationAction(){
+        $this->getHelper('layout')->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+
+        $request = $this->getRequest();
+
+        // On récupère la formation
+        $formation = new Application_Model_Formations();
+        $this->formation_mapper->find($request->getParam('id_formation'), $formation);
+
+        $formation->setFormationEffectue($request->getParam('formation_effectue'))
+                  ->setRaisonRefus($request->getParam('raison_refus'));
+
+        $this->formation_mapper->save($formation);
     }
 }
 
