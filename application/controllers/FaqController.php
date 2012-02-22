@@ -43,7 +43,7 @@ class FaqController extends Zend_Controller_Action
     		$categories = explode(',', $row->getCategorie());
     		if(in_array($categorie, $categories) || $row->getCategorie() == "Non-connecté"){
 	    		$i++;
-	    		$faq .= "<dt class='question-faq'>".$i.". ".ucfirst($row->getQuestion())." ?</dt>";
+	    		$faq .= "<dt class='question-faq'>".$i.". ".ucfirst($row->getQuestion())." </dt>";
 	    		$faq .= "<dd class='reponse-faq'>".ucfirst($row->getReponse())."</dd>";
     		}
     	}
