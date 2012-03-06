@@ -1,0 +1,212 @@
+<?php 
+	echo $this->placeholder('menu-connecte');
+	echo $this->placeholder('sidebar');
+?>
+<h1>Gérer mes factures</h1>
+
+<p>
+	<label for="facture">Liste des factures que vous avez déjà envoyées : </label>
+
+	<select id="select_facture">
+		<?php 
+			foreach($this->factures as $row){
+				echo "<option id='".$row->getNumeroFacture()."' value='".$row->getNumeroFacture()."'>Facture N° ".$row->getNumeroFacture()." - ".$row->getMontant()."€</option>";
+			}
+		?>
+	</select>
+	<input type="submit" class="submit" value="Telecharger" id="telecharger"/>
+</p>
+
+<div class="separateur"></div>
+
+<p><i>Afin qu'une formation apparaisse dans la liste, vous devez au préalable avoir validé votre présence sur cette formation depuis la page "<a href="/mes-formations">Mes formations</a>".</i></p>
+<p><i>Vous devez indiquer le numéro de la facture que vous souhaitez envoyer, ainsi que les formations que vous avez inclues dans votre facture. Attention une formation n'est facturable qu'une seule fois, une fois celles-ci séléctionnées et envoyées, vous ne pourrez plus revenir en arrière.</i></p>
+
+<form target='facture_target' id='facture_target' action='/document/upload' enctype='multipart/form-data' method='post'>
+	<p>
+		<label for="numero_facture">Numéro de la facture : </label><input type="text" name="numero_facture" id="numero_facture" /><br />
+	</p>
+
+	<div id="liste_formations">
+		<h4 class="ui-widget-header">Formations disponibles</h4>
+		<div class="ui-widget-content">
+		<ul>
+			<?php 
+				foreach($this->formations as $row){
+					echo "<li value='".$row->getIdFormation()."' title='".($row->getNombreHeure() * 55)."'>".$row->getType()." - ".$row->getDate()." - ".($row->getNombreHeure() * 55)."€</li>";
+				}	
+			?>
+		</ul>
+		</div>	
+	</div>
+
+	<div id="selected_formation">
+		<h4 class="ui-widget-header">Formations facturées</h4>
+		<div class="ui-widget-content">
+			<ol>
+				<li class="placeholder">Ajouter votre formation ici</li>
+			</ol>
+		</div>
+		<div class="ui-widget-content" style="border-top : 0px">
+			Total : <span id="montant">0</span> €
+		</div>
+	</div>
+	<div id="div_facture">
+		<input id='facture_file' style='width: 25em;' name='cv_file' type='file'/><br />
+		<input type='hidden' id='facture' name='facture' value='true' /><br />
+		<input type='hidden' id='type' name='type' value='facture' /><br />
+		<input type='hidden' id="montant_input" name="montant_input" />
+		<input type="submit" class="submit" id ="generer_facture" value="Envoyer ma facture"/>
+		<span id="info" style="color : green"></span><span id="error" style="color : red"></span>
+	</div>	
+</form>
+<iframe id='facture_target' name='facture_target' src='#' style='width:0;height:0;border:0px solid #fff;'></iframe>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+
+		// Lorsque on clicque sur le bouton télécharger
+		$('#telecharger').click(function(){
+			$.ajax({
+				type : 'post',
+				url : '/facture/downloadfacture',
+				data : { 'numero_facture' : $('#select_facture').val()},
+				success : function(data){
+					location.href = '/document/downloadfile?chemin='+data;
+				}
+			});
+		});
+
+		// Système de drag&drop
+
+		$('#liste_formations li').draggable({
+			appendTo: "body",
+			helper: "clone",
+			hoverClass : 'hoverclass'
+		});
+
+		$('#selected_formation ol').droppable({
+			activeClass: "ui-state-default",
+			hoverClass: "ui-state-hover",
+			accept: "#liste_formations li",
+			drop: function( event, ui ) {
+				var id = ui.draggable.val();
+				$( this ).find( ".placeholder" ).remove();
+				$( "<li alt="+ id +" title='"+ui.draggable.attr('title')+"'></li>" ).text( ui.draggable.text() ).appendTo( this );
+				ui.draggable.remove();
+				var montant = Math.round($('#montant').html()) + Math.round(ui.draggable.attr('title'));
+				$('#montant').html(Math.round(montant));
+				$('#montant_input').val(Math.round(montant));
+			}
+		}).sortable({
+			items: "li:not(.placeholder)",
+			sort: function() {
+				// gets added unintentionally by droppable interacting with sortable
+				// using connectWithSortable fixes this, but doesn't allow you to customize active/hoverClass options
+				$( this ).removeClass( "ui-state-default" );
+			}
+		});
+
+		$('#liste_formations ul').droppable({
+			activeClass: "custom-state-active",
+			hoverClass: "ui-state-hover",
+			accept: "#selected_formation li",
+			drop: function( event, ui ) {
+				$( '<li class="ui-draggable" title="'+ui.draggable.attr('title')+'"></li>' ).text( ui.draggable.text() ).appendTo( this );
+				ui.draggable.remove();
+				var montant = Math.round($('#montant').html()) - Math.round(ui.draggable.attr('title'));
+				$('#montant').html(Math.round(montant));
+				$('#montant_input').val(Math.round(montant));
+			}
+		}).sortable({
+			items: "li:not(.placeholder)",
+			sort: function() {
+				// gets added unintentionally by droppable interacting with sortable
+				// using connectWithSortable fixes this, but doesn't allow you to customize active/hoverClass options
+				$( this ).removeClass( "ui-state-default" );
+			}
+		});
+
+		// Lorsque on click sur créer une facture
+		$('#generer_facture').click(function(){
+
+			// On vérifie que tout est bien remplis avant d'envoyer
+			if($('#numero_facture').val() == ''){
+             	$("#error").html('&nbsp;Veuillez saisir un numéro de facture.');
+                $("#error").show();
+                setTimeout(function() {
+                    $("#error").fadeOut("slow");
+                }, 2000 );
+                return false;
+			}
+
+			if($('#montant_input').val() == 0){
+				$("#error").html('&nbsp;Veuillez séléctionner au moins une formation');
+                $("#error").show();
+                setTimeout(function() {
+                    $("#error").fadeOut("slow");
+                }, 2000 );
+                return false;
+			}
+
+			if($('#facture_file').val().length == 0){
+				$("#error").html('&nbsp;Veuillez séléctionner un fichier à envoyer (pdf)');
+                $("#error").show();
+                setTimeout(function() {
+                    $("#error").fadeOut("slow");
+                }, 2000 );
+                return false;	
+			}
+
+			// On bloque l'interface 
+    		$.blockUI({ 
+		        message: '<p><span style = "margin-top: 0.5em;float: left;margin-left: 10em;margin-right: 1em;">Envoi de la facture </span><img style="float : left" src="/images/loading.gif" /></p>' 
+		    }); 
+ 
+		});
+	});
+
+	function formUploadCallback(result, type, id_facture) {
+		
+		// Si l'envoie c'est bien déroulé
+		if(result == 1){
+					var array_formation = [];
+
+			// On récupère l'id de toute les formations séléctionnée
+			$('#selected_formation li').each(function(){
+				array_formation.push($(this).attr('alt'));
+			});
+
+			// Et on envoie la requete ajax pour générer la facture
+	    	$.ajax({
+	    		type : 'post',
+	    		url : '/formation/setformationfacture',
+	    		data : {
+	    			'array_formation' : array_formation,
+	    			'id_facture' : id_facture
+	    		},
+	    		success : function(data){
+	    			$('#selected_formation ol').html('<li class="placeholder">Ajouter votre formation ici</li>');
+	    			$('#montant').html(0);
+					$('#montant_input').val(0);
+					$('#numero_facture').val('');
+					$('#facture_file').val('');
+					$("#info").html('&nbsp;Votre facture a été envoyée');
+		            $("#info").show();
+		            setTimeout(function() {
+		                $("#info").fadeOut("slow");
+		            }, 2000 );
+		            return false;
+	    		}
+	    	});
+		}else{
+			$("#error").html('&nbsp;La taille ou le format du fichier n\'est pas valide.');
+            $("#error").show();
+            setTimeout(function() {
+                $("#error").fadeOut("slow");
+            }, 2000 );
+		}
+
+		$.unblockUI();
+	}
+</script>

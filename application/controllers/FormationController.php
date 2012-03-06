@@ -16,6 +16,7 @@ class FormationController extends Zend_Controller_Action
         $this->historique_mapper = new Application_Model_HistoriqueCertificationsMapper();
         $this->certification_mapper = new Application_Model_ListeCertificationMapper();
         $this->mail_mapper = new Application_Model_MailMapper();
+        $this->facture_mapper = new Application_Model_FacturesMapper();
         $this->nom_groupe = $this->groupe_mapper->getGroupeNameWithId($this->utilisateur->id_groupe);
         
         if(!$this->utilisateur->is_logged)
@@ -638,6 +639,60 @@ class FormationController extends Zend_Controller_Action
                   ->setRaisonRefus($request->getParam('raison_refus'));
 
         $this->formation_mapper->save($formation);
+    }
+
+    public function selectformationfacturationAction(){
+        // Affiche la liste des formations que il est possible d'ajouter à une facture
+
+        // On vérifie que l'utilisateur est loggué et que il est bien formateur
+        if(!$this->utilisateur->is_logged || $this->utilisateur->id_groupe != 2)
+            $this->_redirector->goToUrl('/profil-utilisateur');
+
+        // On liste dabord toutes les factures qui on été crée par le formateur
+        $factures = array();
+
+        $result = $this->facture_mapper->fetchAll();
+
+        if(count($result) > 0){
+            foreach($result as $row){
+                if($row->getIdUtilisateur() == $this->utilisateur->id_utilisateur )
+                    array_push($factures, $row);
+            }
+        }
+
+        $this->view->factures = $factures;
+
+        // On liste toutes les formations qui on été validé par le formateur
+        $result = $this->formation_mapper->fetchAll();
+
+        $formations = array();
+
+        if(count($result) > 0){
+            foreach($result as $row){
+                // On vérifie que la formation est bien attribuée au formateur et que elle n'as pas déjà été facturée
+                if($row->getFormationEffectue() == 1 && $row->getIdFormateur() == $this->utilisateur->id_utilisateur && $row->getFacture() == 0)
+                    array_push($formations, $row);
+            }
+        }
+
+        $this->view->formations = $formations;
+    }
+
+    public function setformationfactureAction(){
+        // Marque des formations comme facturé
+
+        $this->getHelper('layout')->disableLayout();
+        $this->_helper->viewRenderer->setNoRender('true');
+
+        $request = $this->getRequest();
+
+        foreach($request->getParam('array_formation') as $row){
+            // On récupère la formation afin de l'éditer
+            $formation = new Application_Model_Formations();
+            $this->formation_mapper->find($row, $formation);
+            $formation->setFacture($request->getParam("id_facture"));
+            $this->formation_mapper->save($formation);
+        }
     }
 }
 

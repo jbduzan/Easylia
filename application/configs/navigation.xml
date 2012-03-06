@@ -123,6 +123,14 @@
 					<label>Gérer les pages dynamique</label>
 					<route>pagedynamique</route>
 				</pagedynamique>
+				<genererfacture>
+					<label>Gérer mes factures</label>
+					<route>genererfacture</route>
+				</genererfacture>
+				<gererfacture>
+					<label>Gérer mes factures</label>
+					<route>gererfacture</route>
+				</gererfacture>
 			</pages>
 		</home>
 	</nav>

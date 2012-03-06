@@ -13,7 +13,8 @@ class Application_Model_Formations
     protected $_id_formation_dispo;
     protected $_formation_effectue;
     protected $_raison_refus;
-    
+    protected $_facture;
+
     // Constructeur
     
     public function __Construct(array $options = null){
@@ -158,6 +159,15 @@ class Application_Model_Formations
 	
     public function getRaisonRefus(){
         return $this->_raison_refus;
+    }
+
+    public function setFacture($facture){
+        $this->_facture = $facture;
+        return $this;
+    }
+
+    public function getFacture(){
+        return $this->_facture;
     }
 }
 

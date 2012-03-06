@@ -58,6 +58,7 @@
 								text : "OK",
 								click : function(){
 									$(this).dialog('close');
+									$('#calendrier').fullCalendar('refetchEvents');
 								}
 							}
 						]

@@ -10,6 +10,7 @@ class DocumentController extends Zend_Controller_Action
         $this->utilisateur = new Zend_Session_Namespace('user');      
         $this->utilisateur_mapper = new Application_Model_UtilisateursMapper();             
         $this->groupeMapper = new Application_Model_GroupesMapper();
+        $this->facture_mapper = new Application_Model_FacturesMapper();
 		$this->nom_groupe = $this->groupeMapper->getGroupeNameWithId($this->utilisateur->id_groupe); 
 		$this->document_mapper = new Application_Model_DocumentMapper();
 
@@ -28,7 +29,7 @@ class DocumentController extends Zend_Controller_Action
 		$adapter = new Zend_File_Transfer_Adapter_Http();
 		
 		$path = "/home/easylia/production/public/documents/";
-						
+
 		// Si le fichier passe la validation
 		if(!$this->validateFile($adapter, $request->getParam('type'))){
 	    	// Sinon on affiche un message d'erreur
@@ -40,7 +41,12 @@ class DocumentController extends Zend_Controller_Action
 			$temp_path = explode('/', $adapter->getFileName());
 			
 			// Et on le reinjecte avec l'id de l'utilisateur
-			$path = $path.$this->utilisateur->id_utilisateur.'-'.$request->getParam('type')."-".$temp_path[2];
+            if($request->getParam('facture') == 'true')
+                $type = $request->getParam('type').$request->getParam('numero_facture');
+            else
+                $type = $request->getParam('type');
+
+			$path = $path.$this->utilisateur->id_utilisateur.'-'.$type."-".$temp_path[3];
             $path = str_replace(' ', '-', $path);
 			
 			$adapter->addFilter('Rename', array('target' => $path, 'overwrite' => true));
@@ -52,7 +58,26 @@ class DocumentController extends Zend_Controller_Action
     					 ->setChemin($adapter->getFileName())
     					 ->setDateUpload(date("d/m/Y"))
     					 ->setIdUtilisateur($this->utilisateur->id_utilisateur);
-    					 
+
+                // Si le document est une facture
+                if($request->getParam('facture') == 'true'){
+                    // On enregistre les infos de la facture
+                    $facture = new Application_Model_Factures();
+
+                    $facture->setIdUtilisateur($this->utilisateur->id_utilisateur)
+                            ->setMontant($request->getParam('montant_input'))
+                            ->setNumeroFacture($request->getParam('numero_facture'))
+                            ->setDateCreation(date('d/m/Y'));
+
+                    $id = $this->facture_mapper->save($facture);
+
+                    // On rajoute l'id de la facture dans les infos du document 
+
+                    $document->setIdFacture($id);
+
+                    $this->view->id_facture = $id;
+                }
+   					 
     			$this->document_mapper->save($document);
     			
     			$this->view->type = $request->getParam('type');
@@ -74,7 +99,10 @@ class DocumentController extends Zend_Controller_Action
     	}else if($type == "casier"){
 			$file->addValidator('Extension', false, array('pdf', 'doc', 'docx', 'jpg', 'bmp'))
 			 ->addValidator('Size', false, '10000000');   		
-    	}
+    	}else if($type == "facture"){
+            $file->addValidator('Extension', false, array('pdf'))
+             ->addValidator('Size', false, '10000000');         
+        }
 			 
 		if($file->isValid())
 			return true;
@@ -95,7 +123,7 @@ class DocumentController extends Zend_Controller_Action
 		$filename = $this->getRequest()->getParam('chemin');
   
 		$filepath = "https://in.easylia.com/documents/".$filename;
-        
+
         $type = explode('.', $filename);
 
         $limit = count($type);

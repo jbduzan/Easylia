@@ -39,7 +39,8 @@ class Application_Model_FormationsMapper
             'heure_debut' => $formation->getHeureDebut(),
             'id_formation_dispo' => $formation->getIdFormationDispo(),
             'formation_effectue' => $formation->getFormationEffectue(),
-            'raison_refus' => $formation->getRaisonRefus()
+            'raison_refus' => $formation->getRaisonRefus(),
+            'facture' => $formation->getFacture()
         );
          
         $id = ""; 
@@ -71,15 +72,19 @@ class Application_Model_FormationsMapper
             		  ->setHeureDebut($row->heure_debut)
             		  ->setIdFormationDispo($row->id_formation_dispo)
                       ->setFormationEffectue($row->formation_effectue)
-                      ->setRaisonRefus($row->raison_refus);
+                      ->setRaisonRefus($row->raison_refus)
+                      ->setFacture($row->facture);
     }
     
-    public function fetchAll($date_jour = null, $id_client = null){
+    public function fetchAll($date_jour = null, $id_client = null, $array_formation = null){
         $sql = 'select * from Formations';
         $select = $this->getDbTable()->select($sql);
 
         if($id_client != '')
             $select->where('id_client = ?', $id_client);
+
+        if($array_formation != '')
+            $select->where('id_formation IN (?)', $array_formation);
 
     	$result = $this->getDbTable()->fetchAll($select);
     	
@@ -122,7 +127,8 @@ class Application_Model_FormationsMapper
             	  ->setHeureDebut($row->heure_debut)
             	  ->setIdFormationDispo($row->id_formation_dispo)
                   ->setFormationEffectue($row->formation_effectue)
-                  ->setRaisonRefus($row->raison_refus);
+                  ->setRaisonRefus($row->raison_refus)
+                  ->setFacture($row->facture);
             	  
             array_push($entries, $entry);
     	}
@@ -241,7 +247,8 @@ class Application_Model_FormationsMapper
             	  ->setHeureDebut($row->heure_debut)
             	  ->setIdFormationDispo($row->id_formation_dispo)
                   ->setFormationEffectue($row->formation_effectue)
-                  ->setRaisonRefus($row->raison_refus);
+                  ->setRaisonRefus($row->raison_refus)
+                  ->setFacture($row->facture);
             	  
             array_push($entries, $entry);
     	}

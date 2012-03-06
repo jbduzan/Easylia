@@ -7,6 +7,8 @@ class Application_Model_Factures
 	protected $_id_fournisseur;
 	protected $_montant;
 	protected $_numero_facture;
+    protected $_date_creation;
+    protected $_paye;
 	
     // Constructeur
     
@@ -26,7 +28,7 @@ class Application_Model_Factures
         if(('mapper' == $name) || !method_exists($this, $method)){
             throw new Exception('Invalid Utilisateurs property');
         }
-        return $this->$method();
+        return $this->$method($value);
         
     }
 
@@ -100,5 +102,22 @@ class Application_Model_Factures
     	return $this->_numero_facture;
     }
 
+    public function setDateCreation($date_creation){
+        $this->_date_creation = $date_creation;
+        return $this;
+    }
+
+    public function getDateCreation(){
+        return $this->_date_creation;
+    }
+
+    public function setPaye($paye){
+        $this->_paye = $paye;
+        return $this;
+    }
+
+    public function getPaye(){
+        return $this->_paye;
+    }
 }
 

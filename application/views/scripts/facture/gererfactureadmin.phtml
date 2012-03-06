@@ -1,0 +1,124 @@
+<?php
+	echo $this->placeholder('menu-connecte');
+?>
+<table id="tableau_facture"></table>
+
+<div id="confirmer_valider" style="display : none">
+	<p>Etes vous sûr de vouloir marquer cette facture comme payée ? </p>
+</div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#tableau_facture').flexigrid({
+			url : '/facture/getfactureadmin',
+            dataType: 'json',
+            colModel : [
+                    {display: 'Numéro facture', name : 'numero_facture', width : 100, sortable : true, align: 'left'},
+                    {display: 'Montant', name : 'montant', width : 50, sortable : true, align: 'left'},
+                    {display: 'Date de création', name : 'date_creation', width : 100, sortable : true, align: 'left'},
+                    {display: 'Payée', name : 'paye', width : 50, sortable : true, align: 'left'}
+            ],
+            buttons : [
+                    {name: 'Détail', bclass: 'detail', onpress : detail_facture},
+                    {separator: true},                    
+                    {name: 'Marquer comme Payée', bclass: 'valider', onpress : valide_payement},
+                    {separator: true},
+            ],
+            searchitems : [
+                    {display: 'Nom', name : 'nom'},
+                    {display: 'Prenom', name : 'prenom', isdefault: true},
+                    {display: 'Description', name : 'description'}
+            ],
+            sortname: "id_facture",
+            sortorder: "asc",
+            usepager: true,
+            title: "Liste des factures",
+            useRp: true,
+            rp: 20,
+            showTableToggleBtn: false,
+            resizable: false,
+            height: 500,
+            singleSelect: true
+        });
+        $(".ftitle").append('<span id="info" style="color : green">&nbsp;</span>');
+        $(".ftitle").append('<span id="error" style="color : red">&nbsp;</span>');
+
+        function detail_facture(command, grid){
+        	// Affiche la facture envoyé par le formateur
+
+            var record_count = $('.trSelected',grid).length;
+            if (0 == record_count)
+            {
+                $("#error").html('&nbsp;Veuillez dabord sélectionner une ligne !');
+                $("#error").show();
+                setTimeout(function() {
+                    $("#error").fadeOut("slow");
+                }, 2000 );
+                return;
+            }
+
+        	$('.trSelected',grid).each(function(){
+                 
+                var numero_facture = $('td[abbr="numero_facture"] >div', this).html();
+                 
+	        	$.ajax({
+	        		type : 'post',
+	        		url : '/facture/downloadfacture',
+	        		data : { 'numero_facture' : numero_facture },
+	        		success : function(data){
+	        			location.href="/document/downloadfile?chemin="+data;
+	        		}
+	        	});
+	        });
+        }
+
+        function valide_payement(command, grid){
+        	// Marque la facture comme payée
+        	var record_count = $('.trSelected',grid).length;
+            if (0 == record_count)
+            {
+                $("#error").html('&nbsp;Veuillez dabord sélectionner une ligne !');
+                $("#error").show();
+                setTimeout(function() {
+                    $("#error").fadeOut("slow");
+                }, 2000 );
+                return;
+            }
+
+            $('#confirmer_valider').dialog({
+            	title : 'Confirmer la facture comme payée',
+            	buttons : [
+            		{
+            			text : 'Valider',
+            			click : function(){
+            				$('.trSelected',grid).each(function(){
+				        		var id = this.id.substr(3);
+
+				        		$.ajax({
+				        			type : 'post',
+				        			url : '/facture/setfacturepaye',
+				        			data : { 'id' : id },
+				        			success : function(){
+				        				$('#tableau_facture').flexReload();
+				        				$('#confirmer_valider').dialog('close');
+				        				$("#info").html('&nbsp;Votre facture à été marquée comme payée !');
+						                $("#info").show();
+						                setTimeout(function() {
+						                    $("#info").fadeOut("slow");
+						                }, 2000 );
+						                return;
+				        			} 
+				        		});
+				        	});
+            			}
+            		},
+            		{
+            			text : 'Fermer',
+            			click : function(){
+            				$(this).dialog('close');
+            			}
+            		}
+            	]
+            });
+        }
+	});
+</script>

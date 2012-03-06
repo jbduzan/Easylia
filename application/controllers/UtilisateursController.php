@@ -15,6 +15,7 @@ class UtilisateursController extends Zend_Controller_Action
 		$this->nom_groupe = $this->groupeMapper->getGroupeNameWithId($this->user->id_groupe); 
 		$this->document_mapper = new Application_Model_DocumentMapper();
 		$this->certification_mapper = new Application_Model_ListeCertificationMapper();
+        $this->facture_mapper = new Application_Model_FacturesMapper();
 		$this->formation_mapper = new Application_Model_FormationsMapper();
 		$this->question_mapper = new Application_Model_QuestionsMapper();
 		$this->historique_mapper = new Application_Model_HistoriqueCertificationsMapper();
@@ -57,6 +58,20 @@ class UtilisateursController extends Zend_Controller_Action
 
            	$this->view->nombre_formation = $nombre_formation;
             
+            // Vérifie si il y a des factures à payer
+            $result = $this->facture_mapper->fetchAll();
+
+            $nombre_facture = 0;
+
+            if(count($result) > 0){
+                foreach($result as $row){
+                    if($row->getPaye() == 0)
+                        $nombre_facture += 1;
+                }
+            }
+
+            $this->view->nombre_facture = $nombre_facture;
+
             $this->view->utilisateur = $utilisateur->getPrenom()." ".$utilisateur->getNom();
             
             // On récupère les permissions de l'utilisateur

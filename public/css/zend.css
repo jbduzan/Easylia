@@ -147,6 +147,12 @@
 	margin-bottom: 5em;
 }
 
+.block-right-bottom-formateur{
+	width: 20em;
+	margin-left	: 25em;
+	margin-top : -10.7em;
+}
+
 #action_formateur{
 	margin-top: 5em;
 }
@@ -276,7 +282,7 @@
 	margin: 3em;
 	height: 1em;
 	border-bottom: 1px solid #0f77a6;
-	margin-left: 25em;
+	margin-left: 15em;
 	margin-top: 2em;
 }
 
@@ -835,4 +841,40 @@
 	width : 52.7em;
 }
 
+/* Dropzone facture */
+
+#liste_formations li, #selected_formation li{
+	cursor : pointer;
+}	
+
+#liste_formations { 
+	float:left; 
+	width: 25em; 
+	margin-right: 2em; 
+	margin-bottom: 2em;
+}
+
+#liste_formations ul, #selected_formation ol { 
+	margin: 0; 
+	padding: 1em 0 1em 3em; 
+}
+
+#liste_formations h4, #selected_formation h4 { 
+	padding: .2em; margin: 0; 
+}
+
+#selected_formation { 
+	width: 25em; 
+	float: left; 
+}
+
+#div_facture{
+	margin-right: 32em;
+}
+
+#message_growl{
+	float: left;
+	margin-top : 0.4em;
+	margin-left : 0.5em;
+}
 

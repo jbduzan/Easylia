@@ -57,7 +57,9 @@ echo $this->placeholder('sidebar');
 	       			echo "<a href=".$this->url(array('controller' => 'faq', 'action' => 'gestion'), 'default', true).">Gérer la FAQ</a><br />";
 	           			
 				if($this->voir_login_interdit)
-					echo "<a href=".$this->url(array('controller' => 'logininterdit', 'action' => 'index'), 'default', true).">Voir la liste des logins interdits</a>";
+					echo "<a href=".$this->url(array('controller' => 'logininterdit', 'action' => 'index'), 'default', true).">Voir la liste des logins interdits</a><br />";
+					echo "<a href='/factures'>Factures (".$this->nombre_facture.")</a>";
+					echo "<input type='hidden' id='nombre_facture' value=".$this->nombre_facture." />";
 	           	?>	
 	       </div>
 	       <div class="block-right-bottom">
@@ -100,6 +102,12 @@ echo $this->placeholder('sidebar');
 					echo "<br /><a href='mes-formations'><img src='/images/evolution-calendrier-icone-6518-48.png' class='img-left' /> Mes formations planifiées</a>";	                                    
 	        ?>
         </div>
+        <div class="block-right-bottom-formateur">
+	        <?php
+				if($this->creer_facture)
+					echo "<br /><a href='/gerer-facture'><img src='/images/facture-icone-7188-48.png' class='img-left' /> Gérer mes facture</a>";	                                    
+	        ?>
+        </div>
     </div> <!-- action_formateur -->
     <?php 
     	}
@@ -122,3 +130,34 @@ echo $this->placeholder('sidebar');
     </div> <!-- action_client -->
     <?php }
 		 ?>
+<div id="growl" style="display : none">
+	<img src="/images/brown-nouveau-splash-icone-8189-32.png" style="float : left"/> <span id="message_growl">Des factures sont en attente de payement !</span>
+</div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		// On regarde si il y a des nouvelles factures
+		if($('#nombre_facture').val() > 0){
+       		$.blockUI({ 
+            message: $('#growl'), 
+            fadeIn: 700, 
+            fadeOut: 700, 
+            timeout: 2000, 
+            showOverlay: false, 
+            centerY: false, 
+            css: { 
+                width: '350px', 
+                top: '10px', 
+                left: '', 
+                right: '10px', 
+                border: 'none', 
+                padding: '5px', 
+                backgroundColor: 'black', 
+                '-webkit-border-radius': '10px', 
+                '-moz-border-radius': '10px', 
+                opacity: 1, 
+                color: 'white' 
+            } 
+        })
+		} 		
+	});
+</script>

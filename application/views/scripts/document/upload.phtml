@@ -1,3 +1,7 @@
 <script type="text/javascript">
-	window.top.window.formUploadCallback(<?php echo $this->result; ?>, '<?php echo $this->type ?>');
+	<?php if($this->id_facture != ''){?>
+	window.top.window.formUploadCallback(<?php echo $this->result; ?>, '<?php echo $this->type ?>', <?php echo $this->id_facture ?>);
+	<?php }else{ ?>
+	window.top.window.formUploadCallback(<?php echo $this->result; ?>, '<?php echo $this->type ?>');	
+	<?php }?>
 </script>
