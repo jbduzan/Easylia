@@ -131,6 +131,10 @@
 					<label>Gérer mes factures</label>
 					<route>gererfacture</route>
 				</gererfacture>
+				<document>
+					<label>Documents</label>
+					<route>document</route>
+				</document>
 			</pages>
 		</home>
 	</nav>
