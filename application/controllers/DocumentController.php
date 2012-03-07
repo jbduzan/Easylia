@@ -47,7 +47,7 @@ class DocumentController extends Zend_Controller_Action
 		else{	
 			// On récupère le nom temporaire
 			$temp_path = explode('/', $adapter->getFileName());
-			
+			print_r($temp_path);
 			// Et on le reinjecte avec l'id de l'utilisateur
             if($request->getParam('facture') == 'true')
                 $type = $request->getParam('type').$request->getParam('numero_facture');
