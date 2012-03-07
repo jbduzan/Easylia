@@ -138,13 +138,16 @@ echo $this->placeholder('sidebar');
 	        ?>
         </div>
     </div> <!-- action_formateur -->
+    <div id="grow_formateur" style='display : none'>
+    	<p>Veuillez penser à envoyer votre rib (<a href="/document">ici</a>), afin que nous puissions effectuer les virement pour solder les factures</p>
+    </div>
     <input type="hidden" id="rib" value="<?php echo $this->rib?>" />
     <script type="text/javascript">
 	$(document).ready(function(){
 		// On regarde si il y a des nouvelles factures
 		if($('#rib').val() == 'false'){
        		$.blockUI({ 
-            message: 'Veuillez penser à envoyer votre rib, afin que nous puissions effectuer les virement pour solder les factures', 
+            message: $('#grow_formateur'), 
             fadeIn: 700, 
             fadeOut: 700, 
             timeout: 5000, 
