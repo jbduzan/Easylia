@@ -74,6 +74,35 @@ echo $this->placeholder('sidebar');
 		</div> <!-- autre_action -->
 	</div> <!-- action_admin -->
 
+<script type="text/javascript">
+	$(document).ready(function(){
+		// On regarde si il y a des nouvelles factures
+		if($('#nombre_facture').val() > 0){
+       		$.blockUI({ 
+            message: $('#growl'), 
+            fadeIn: 700, 
+            fadeOut: 700, 
+            timeout: 4000, 
+            showOverlay: false, 
+            centerY: false, 
+            css: { 
+                width: '350px', 
+                top: '10px', 
+                left: '', 
+                right: '10px', 
+                border: 'none', 
+                padding: '5px', 
+                backgroundColor: 'black', 
+                '-webkit-border-radius': '10px', 
+                '-moz-border-radius': '10px', 
+                opacity: 1, 
+                color: 'white' 
+            } 
+        })
+		} 		
+	});
+</script>
+
 <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Profil formateur !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 
 	<?php
@@ -109,6 +138,35 @@ echo $this->placeholder('sidebar');
 	        ?>
         </div>
     </div> <!-- action_formateur -->
+    <input type="hidden" id="rib" value="<?php echo $this->rib?>" />
+    <script type="text/javascript">
+	$(document).ready(function(){
+		// On regarde si il y a des nouvelles factures
+		if($('#rib').val() == 'false'){
+       		$.blockUI({ 
+            message: 'Veuillez penser à envoyer votre rib, afin que nous puissions effectuer les virement pour solder les factures', 
+            fadeIn: 700, 
+            fadeOut: 700, 
+            timeout: 5000, 
+            showOverlay: false, 
+            centerY: false, 
+            css: { 
+                width: '350px', 
+                top: '10px', 
+                left: '', 
+                right: '10px', 
+                border: 'none', 
+                padding: '5px', 
+                backgroundColor: 'black', 
+                '-webkit-border-radius': '10px', 
+                '-moz-border-radius': '10px', 
+                opacity: 1, 
+                color: 'white' 
+            } 
+        })
+		} 		
+	});
+</script>
     <?php 
     	}
 	    if($this->is_client){ 
@@ -131,33 +189,5 @@ echo $this->placeholder('sidebar');
     <?php }
 		 ?>
 <div id="growl" style="display : none">
-	<img src="/images/brown-nouveau-splash-icone-8189-32.png" style="float : left"/> <span id="message_growl">Des factures sont en attente de payement !</span>
+	<img src="/images/brown-nouveau-splash-icone-8189-32.png" style="float : left"/> <span id="message_growl">Des factures sont en attente de paiement !</span>
 </div>
-<script type="text/javascript">
-	$(document).ready(function(){
-		// On regarde si il y a des nouvelles factures
-		if($('#nombre_facture').val() > 0){
-       		$.blockUI({ 
-            message: $('#growl'), 
-            fadeIn: 700, 
-            fadeOut: 700, 
-            timeout: 2000, 
-            showOverlay: false, 
-            centerY: false, 
-            css: { 
-                width: '350px', 
-                top: '10px', 
-                left: '', 
-                right: '10px', 
-                border: 'none', 
-                padding: '5px', 
-                backgroundColor: 'black', 
-                '-webkit-border-radius': '10px', 
-                '-moz-border-radius': '10px', 
-                opacity: 1, 
-                color: 'white' 
-            } 
-        })
-		} 		
-	});
-</script>

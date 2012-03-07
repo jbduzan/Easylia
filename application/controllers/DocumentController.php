@@ -16,9 +16,16 @@ class DocumentController extends Zend_Controller_Action
 
     }
 
+    public function preDispatch(){
+        $this->view->render('utilisateurs/menu-connecte.phtml');
+        $this->view->render('utilisateurs/sidebar.phtml');
+    }
+
     public function indexAction()
     {
-        // action body
+        $result = $this->document_mapper->fetchAll($id_utilisateur = $this->utilisateur->id_utilisateur);
+
+        $this->view->rows = $result;
     }
 
     public function uploadAction()
@@ -28,7 +35,8 @@ class DocumentController extends Zend_Controller_Action
     	
 		$adapter = new Zend_File_Transfer_Adapter_Http();
 		
-		$path = "/home/easylia/production/public/documents/";
+		//$path = "/home/easylia/production/public/documents/";
+        $path = "/Users/jbduzan/Sites/easylia/public/documents/";
 
 		// Si le fichier passe la validation
 		if(!$this->validateFile($adapter, $request->getParam('type'))){

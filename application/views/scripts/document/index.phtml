@@ -1,1 +1,65 @@
-<br /><br /><center>View script for controller <b>Document</b> and script/action name <b>index</b></center>
+<?php
+	echo $this->placeholder('menu-connecte');
+	echo $this->placeholder('sidebar');
+?>
+	<h1>Documents</h1>
+<?php
+	$cv = new Application_Model_Document();
+	$motiv = new Application_Model_Document();
+	$casier = new Application_Model_Document();
+	$rib = new Application_Model_Document();
+
+	foreach($this->rows as $row){
+		if($row->getType() == 'rib')
+			$rib = $row;
+		else if($row->getType() == 'motivation')
+			$motiv = $row;
+		else if($row->getType() == 'casier')
+			$casier = $row;
+		else if($row->getType() == 'cv')
+			$cv = $row;
+	}
+?>
+
+<p>
+	<?php 
+		$chemin = explode('/', $cv->getChemin());
+		echo "Curriculum vitae - <a href='/document/downloadfile?chemin=".$chemin[sizeof($chemin) - 1]."'>Afficher</a>";
+	?>
+</p>
+<p>
+	<?php 
+		$chemin = explode('/', $motiv->getChemin());
+		echo "Lettre de motivation - <a href='/document/downloadfile?chemin=".$chemin[sizeof($chemin) - 1]."'>Afficher</a>";
+	?>
+</p>
+<p>
+	<?php 
+		$chemin = explode('/', $casier->getChemin());
+		echo "Extrait de casier judicaire - <a href='/document/downloadfile?chemin=".$chemin[sizeof($chemin) - 1]."'>Afficher</a>";
+	?>
+</p>
+<p>
+	<?php
+		if(count($rib->getIdUtilisateur()) == 0){
+			echo "Relevé d'identité bancaire <br />";
+			echo "<form target='rib_target' id='rib_target' action='/document/upload' enctype='multipart/form-data' method='post'>";
+			echo "<input id='rib_file' style='width: 25em;' name='rib_file' type='file'/>";
+			echo "<input type='hidden' id='type' name='type' value='rib' />";
+			echo "<input id='rib_envoyer' type='submit' class='submit' value='Envoyer'/>";
+			echo "</form>";
+			echo "<iframe id='rib_target' name='rib_target' src='#' style='width:0;height:0;border:0px solid #fff;'></iframe>";
+		}else{
+			$chemin = explode('/', $rib->getChemin());
+			echo "Relevé d'identité banquaire - <a href='/document/downloadfile?chemin=".$chemin[sizeof($chemin) - 1]."'>Afficher</a>";
+		}
+	?>
+</p>
+
+<script type="text/javascript">
+	function formUploadCallback(result, type) {
+		if(result == 1){
+			location.reload();
+		}
+	}
+</script>

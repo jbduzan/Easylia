@@ -43,6 +43,9 @@ class UtilisateursController extends Zend_Controller_Action
             	// Si l'utilisateur est client
                 $this->view->is_client = true;
             }
+
+            // On regarde si le rib a été uploadé
+            $this->view->rib = $this->checkRib();
             
             // Compte le nombre de formation en attente de formateur
             $result = $this->formation_mapper->fetchAll($date_jour = true);
@@ -644,58 +647,6 @@ class UtilisateursController extends Zend_Controller_Action
             else 
                 // Si il n'existe pas.
                 $this->view->password_correct = 'false';
-        }
-        
-    }
-
-    public function checkDocumentExist()
-    {
-		// Vérifie si le formateur à bien uploadé tous les documents nécessaires
-		
-		$utilisateur = new Application_Model_Utilisateurs();
-		$this->userMapper->find($this->user->id_utilisateur, $utilisateur);
-		
-		if($utilisateur->getDocumentEnvoye())
-			return true;
-		
-		// Si il ne l'as pas fait on fait la liste de ceux qu'il a déjà uploadé
-		$liste_document = array();
-		
-		$result = $this->document_mapper->fetchAll();
-		
-		if(count($result) == 0)
-			return false;
-		
-		foreach($result as $row){
-			if($row->getIdUtilisateur() == $this->user->id_utilisateur){
-				array_push($liste_document, $row->getType());
-			}
-		}
-		
-		if(count($liste_document) >= 3)
-			return true;
-
-		return $liste_document;
-    }
-
-    public function validerdocumentAction()
-    {
-    
-    	$this->getHelper('layout')->disableLayout();
-        // Envoie les documents d'un formateur dans le processessus de validation
-        
-        $request = $this->getRequest();
-        
-        if($request->getParam('valid_doc') == true){
-        	$utilisateur = new Application_Model_Utilisateurs();
-        	
-        	$this->userMapper->find($this->user->id_utilisateur, $utilisateur);
-        	
-        	$utilisateur->setDocumentEnvoye("1");
-        	
-        	$this->userMapper->save($utilisateur);
-        	
-        	$this->view->retour = true;
         }
         
     }
@@ -1343,5 +1294,21 @@ class UtilisateursController extends Zend_Controller_Action
 
         // Une fois que on a fait toute les opérations, on sauvegarde
         $this->userMapper->save($utilisateur);
+    }
+
+    protected function checkRib(){
+        // Vérifie si l'utilisateur à uploadé son rib
+        $result = $this->document_mapper->fetchAll();
+
+        $return = '';
+        foreach($result as $row){
+            if($row->getType() == 'rib' && $row->getIdUtilisateur() == $this->user->id_utilisateur){
+                $return = 'true';
+                break;
+            }else 
+                $return = 'false';
+        }
+
+        return $return;
     }
 }	
