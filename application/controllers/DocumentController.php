@@ -35,8 +35,8 @@ class DocumentController extends Zend_Controller_Action
     	
 		$adapter = new Zend_File_Transfer_Adapter_Http();
 		
-		//$path = "/home/easylia/production/public/documents/";
-        $path = "/Users/jbduzan/Sites/easylia/public/documents/";
+		$path = "/home/easylia/production/public/documents/";
+        //$path = "/Users/jbduzan/Sites/easylia/public/documents";
 
 		// Si le fichier passe la validation
 		if(!$this->validateFile($adapter, $request->getParam('type'))){
