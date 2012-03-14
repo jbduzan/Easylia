@@ -1363,6 +1363,9 @@ class UtilisateursController extends Zend_Controller_Action
                 $return = false;
         }
 
+        if($this->user->id_groupe != 2)
+            $return = true;
+
         if(!$return)
             $this->_redirector->goToUrl('/convention-formateur');
     }
