@@ -96,7 +96,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$router->addRoute('gererfacture', new Zend_Controller_Router_Route('factures', array('controller' => 'facture', 'action' => 'gererfactureadmin')));
 		$router->addRoute('document', new Zend_Controller_Router_Route('document', array('controller' => 'document', 'action' => 'index')));
 		$router->addRoute('convention', new Zend_Controller_Router_Route('convention-formateur', array('controller' => 'document', 'action' => 'contratformateur')));
-		$router->addRoute('presentation', new Zend_Controller_Router_Route('présentation-detaillée', array('controller' => 'utilisateurs', 'action' => 'presentationformateur')));
+		$router->addRoute('presentation', new Zend_Controller_Router_Route('presentation-detaillee', array('controller' => 'utilisateurs', 'action' => 'presentationformateur')));
     }
     
     public function _initSidebar(){

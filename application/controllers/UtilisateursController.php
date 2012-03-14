@@ -970,7 +970,7 @@ class UtilisateursController extends Zend_Controller_Action
 
             // On regarde si il a déjà accepté la page de présentation, sinon on le redirige dessus
             if($utilisateur->getPresentationAccepte() != 1)
-                $this->_redirector->goToUrl('/présentation-détaillée');
+                $this->_redirector->goToUrl('/presentation-detaillee');
 		
 			// On vérifie si l'utilisateur a activé son compte
 			if($utilisateur->getProfilActif() != 1)
