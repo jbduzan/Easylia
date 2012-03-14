@@ -60,8 +60,14 @@ class Application_Model_PageDynamiqueMapper
     }
     
     // Tous les enregistrements
-    public function fetchAll(){
-        $resultSet = $this->getDbTable()->fetchAll();
+    public function fetchAll($nom = null){
+        $sql = "select * from page_dynamique";
+        $select = $this->getDbTable()->select($sql);
+
+        if($nom != "")
+          $select->where('nom = ?', $nom);
+
+        $resultSet = $this->getDbTable()->fetchAll($select);
         
         $entries = array();
         

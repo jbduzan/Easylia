@@ -43,6 +43,8 @@ class Application_Model_Utilisateurs
     protected $_adresse_skype;
     protected $_date_entretien_skype;
     protected $_disponibilite_entretien;
+    protected $_siren;
+    protected $_presentation_accepte;
     
     // Constructeur
     
@@ -461,5 +463,23 @@ class Application_Model_Utilisateurs
 	public function getDisponibiliteEntretien(){
 		return $this->_disponibilite_entretien;
 	}
+
+    public function setSiren($siren){
+        $this->_siren = $siren;
+        return $this;
+    }
+
+    public function getSiren(){
+        return $this->_siren;
+    }
+
+    public function setPresentationAccepte($presentation_accepte){
+        $this->_presentation_accepte = $presentation_accepte;
+        return $this;
+    }
+
+    public function getPresentationAccepte(){
+        return $this->_presentation_accepte;
+    }
 }	
 

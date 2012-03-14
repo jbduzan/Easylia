@@ -19,6 +19,7 @@ class UtilisateursController extends Zend_Controller_Action
 		$this->formation_mapper = new Application_Model_FormationsMapper();
 		$this->question_mapper = new Application_Model_QuestionsMapper();
 		$this->historique_mapper = new Application_Model_HistoriqueCertificationsMapper();
+        $this->page_dynamique_mapper = new Application_Model_PageDynamiqueMapper();
     }
     
     public function preDispatch(){
@@ -37,12 +38,14 @@ class UtilisateursController extends Zend_Controller_Action
             
             // Si l'utilisateur est formateur non approuvé
             if($this->user->id_groupe == 3){
-            	// On redirige sur la page d'approuvation
+            	// On redirige sur la page de renseignement de profil
 	           	$this->_redirector->goToSimple('index','renseigner-son-profil');            	
             }else if($this->user->id_groupe == 5){
             	// Si l'utilisateur est client
                 $this->view->is_client = true;
             }
+
+            $this->checkConvention();
 
             // On regarde si le rib a été uploadé
             $this->view->rib = $this->checkRib();
@@ -860,6 +863,36 @@ class UtilisateursController extends Zend_Controller_Action
     		$this->view->test_motivation = false;   	
     }
 
+    public function checkDocumentExist()
+    {
+        // Vérifie si le formateur à bien uploadé tous les documents nécessaires
+
+        $utilisateur = new Application_Model_Utilisateurs();
+        $this->userMapper->find($this->user->id_utilisateur, $utilisateur);
+
+        if($utilisateur->getDocumentEnvoye())
+            return true;
+
+        // Si il ne l'as pas fait on fait la liste de ceux qu'il a déjà uploadé
+        $liste_document = array();
+
+        $result = $this->document_mapper->fetchAll();
+
+        if(count($result) == 0)
+            return false;
+
+        foreach($result as $row){
+            if($row->getIdUtilisateur() == $this->user->id_utilisateur){
+                array_push($liste_document, $row->getType());
+            }
+        }
+
+        if(count($liste_document) >= 3)
+            return true;
+
+        return $liste_document;
+    }
+
     public function checkFormateurValide()
     {
     	// return true si le formatter a été validé
@@ -931,10 +964,13 @@ class UtilisateursController extends Zend_Controller_Action
 	public function parcoursformateurAction(){
 		// On vérifie que l'utilisateur est bien connecte
 		if(!empty($this->user->is_logged) && $this->user->is_logged === true){
-					
-			// On vérifie que l'utilisateur n'as pas déjà remplis ça
+
 			$utilisateur = new Application_Model_Utilisateurs();
 			$this->userMapper->find($this->user->id_utilisateur, $utilisateur);
+
+            // On regarde si il a déjà accepté la page de présentation, sinon on le redirige dessus
+            if($utilisateur->getPresentationAccepte() != 1)
+                $this->_redirector->goToSimple('presentationformateur', 'utilisateurs');
 		
 			// On vérifie si l'utilisateur a activé son compte
 			if($utilisateur->getProfilActif() != 1)
@@ -954,7 +990,7 @@ class UtilisateursController extends Zend_Controller_Action
 	    	$this->view->id_utilisateur = $this->user->id_utilisateur;
 
             // Le contenu de la dialog info-juridique
-            $this->view->info_juridique = $this->getInformationJuridique();
+            //$this->view->info_juridique = $this->getInformationJuridique();
 	    	      
 		}else{
 			$this->redirectToConnexion();
@@ -1310,5 +1346,52 @@ class UtilisateursController extends Zend_Controller_Action
         }
 
         return $return;
+    }
+
+    public function checkConvention(){
+        // Vérifie si le formateur à accepté la convention, sinon redirige dessus.
+        $result = $this->document_mapper->fetchAll($id_utilisateur = $this->user->id_utilisateur);
+
+        $return = false;
+
+        foreach($result as $row){
+            if($row->getType() == 'convention'){
+                $return = true;
+                break;
+            }
+            else
+                $return = false;
+        }
+
+        if(!$return)
+            $this->_redirector->goToUrl('/convention-formateur');
+    }
+
+    public function presentationformateurAction(){
+        // On récupère le contenu de la page de présentation pour l'afficher à l'écran
+        $page = new Application_Model_PageDynamique();
+        $result = $this->page_dynamique_mapper->fetchAll($nom = "Presentation detaillee");
+
+        foreach($result as $row){
+            $page = $row;
+        }
+
+        $this->view->contenu = $page->get('contenu');
+        $this->view->id_utilisateur = $this->user->id_utilisateur;
+    }
+
+    public function setpresentationaccepteAction(){
+        // Valide l'acceptation de la présentation par l'utilisateur
+        $this->getHelper('layout')->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+
+        $utilisateur = new Application_Model_Utilisateurs();
+        $this->userMapper->find($this->user->id_utilisateur, $utilisateur);
+
+        $utilisateur->setPresentationAccepte(1);
+
+        $this->userMapper->save($utilisateur);
+
+        echo "true";
     }
 }	

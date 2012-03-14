@@ -137,5 +137,9 @@
 				</document>
 			</pages>
 		</home>
+		<convention>
+			<label>Convention de prestation</label>
+			<route>convention</route>
+		</convention>
 	</nav>
 </configdata>

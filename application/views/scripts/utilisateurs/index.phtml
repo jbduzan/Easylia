@@ -29,9 +29,9 @@ echo $this->placeholder('sidebar');
 				    ?>
 		    </div>
 	    </div> <!-- action_utilisateur -->
-	    <div id="autre_action" >
-	    	<h5>Autre actions</h5>
-	    	<div class="block-left block-top">
+	    <div id="autre_action">
+	    	<h5 id="toggle">Autres actions <img style="vertical-align : middle" src="/images/bullet-fleche-vers-le-bas-icone-5704-16.png" /></h5>
+	    	<div class="block-left block-top hidden">
 			    <?php
 			    if($this->voir_groupe)    
 			        echo "<a href=".$this->url(array('controller' => 'groupe', 'action' => 'index'), 'default', true).">Liste des groupes</a><br />";
@@ -40,7 +40,7 @@ echo $this->placeholder('sidebar');
 			        echo "<a href=".$this->url(array('controller' => 'certifications', 'action' => 'index'), 'default', true).">Liste des certifications</a>";
 			    ?>
 		    </div>
-		    <div class="block-top block-right block-bottom">
+		    <div class="block-top block-right block-bottom hidden">
 			    <?php
 			    if($this->voir_question)
 			        echo "<a href=".$this->url(array('controller' => 'questions', 'action' => 'index'), 'default', true).">Liste des questions</a><br />";
@@ -50,7 +50,7 @@ echo $this->placeholder('sidebar');
 				
 	            ?>
 	        </div>
-            <div class="block-left-bottom ">
+            <div class="block-left-bottom hidden">
 	           	<?php
 	           	
 	           	if($this->voir_liste_faq)
@@ -62,7 +62,7 @@ echo $this->placeholder('sidebar');
 					echo "<input type='hidden' id='nombre_facture' value=".$this->nombre_facture." />";
 	           	?>	
 	       </div>
-	       <div class="block-right-bottom">
+	       <div class="block-right-bottom hidden">
 				<?php
 					echo "<a href=".$this->url(array('controller' => 'questions', 'action' => 'listequestionmotivation'), 'default', true).">Liste des questions de motivation</a><br />";
 				?>
@@ -99,7 +99,18 @@ echo $this->placeholder('sidebar');
                 color: 'white' 
             } 
         })
-		} 		
+		}
+
+		$('.hidden').hide();
+
+		$('#toggle').click(function(){
+			$('.hidden').toggle('blind', function(){
+				if($('.hidden').is(':visible')){
+					$('#toggle').attr('src', '/images/bullet-fleche-vers-le-haut-icone-8574-16.png');
+				}else
+					$('#toggle').attr('src', '/images/bullet-fleche-vers-le-bas-icone-5704-16.png');
+			});
+		})
 	});
 </script>
 

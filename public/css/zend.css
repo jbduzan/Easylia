@@ -878,3 +878,41 @@
 	margin-left : 0.5em;
 }
 
+/* Contrat formateur */
+
+#div_refuser_contrat{
+	float: left;
+	border-right : 1px solid #0F77A6;
+	width : 37em;
+	margin-right : 1.5em;
+}
+
+#div_accepter_contrat{
+	float: left;
+	width : 30em;
+}
+
+#print{
+	width : 50em;
+}
+
+/* Présentation détaillée */
+#div_refuser_presentation{
+	float: left;
+	border-right : 1px solid #0F77A6;
+	width : 37em;
+	margin-right : 1.5em;
+}
+
+#div_accepter_presentation{
+	float: left;
+	width : 30em;
+}
+
+
+
+
+
+
+
+

@@ -11,6 +11,7 @@ class DocumentController extends Zend_Controller_Action
         $this->utilisateur_mapper = new Application_Model_UtilisateursMapper();             
         $this->groupeMapper = new Application_Model_GroupesMapper();
         $this->facture_mapper = new Application_Model_FacturesMapper();
+        $this->page_mapper = new Application_Model_PageDynamiqueMapper();
 		$this->nom_groupe = $this->groupeMapper->getGroupeNameWithId($this->utilisateur->id_groupe); 
 		$this->document_mapper = new Application_Model_DocumentMapper();
 
@@ -167,6 +168,66 @@ class DocumentController extends Zend_Controller_Action
         }
 	}
 
+    public function contratformateurAction(){
+        // Remplis un contrat pour le formateur
+
+        if(!$this->utilisateur->is_logged || $this->utilisateur->id_groupe != 2)
+            $this->_redirector->goToUrl('/profil-utilisateur');
+
+        $utilisateur = new Application_Model_Utilisateurs();
+        $this->utilisateur_mapper->find($this->utilisateur->id_utilisateur, $utilisateur);
+
+        // On récupère le texte du contrat
+        $contrat = new Application_Model_PageDynamique();
+        $result = $this->page_mapper->fetchAll($nom = "Convention prestation de services");
+
+        foreach($result as $row){
+            $contrat = $row;
+        }
+
+        $contenu = $contrat->get('contenu');
+
+        // On remplace les variables par les infos user
+        $contenu = str_replace('{Civilite}', ucfirst($utilisateur->getType()), $contenu);
+        $contenu = str_replace('{Prenom}', ucfirst($utilisateur->getPrenom()), $contenu);
+        $contenu = str_replace('{NOM}', strtoupper($utilisateur->getNom()), $contenu);
+        $contenu = str_replace('{siren}', $utilisateur->getSiren(), $contenu);
+        $contenu = str_replace('{Adresse1}', ucfirst($utilisateur->getAdresse()), $contenu);
+        
+        if($utilisateur->getAdresse2() != '')        
+            $contenu = str_replace('{, Adresse 2}', ', '.ucfirst($utilisateur->getAdresse2()), $contenu);
+        else
+            $contenu = str_replace('{, Adresse 2}', '', $contenu);
+
+        $contenu = str_replace('{code postal}', $utilisateur->getCodePostal(), $contenu);
+        $contenu = str_replace('{VILLE}', strtoupper($utilisateur->getVille()), $contenu);
+        $contenu = str_replace('{telephone}', $utilisateur->getTelephone(), $contenu);
+        $contenu = str_replace('{site internet}', '', $contenu);
+        $contenu = str_replace('{email}', $utilisateur->getMail(), $contenu);
+        $contenu = str_replace('{date du jour}', date('d/m/Y'), $contenu);
+        $contenu= str_replace('{date du jour + 6 mois}', date('d/m/Y', strtotime('+6 month')), $contenu);
+
+
+        $this->view->contrat = $contenu;
+        $this->view->id_utilisateur = $this->utilisateur->id_utilisateur;
+    }
+
+
+    public function setconventionsigneAction(){
+        $this->getHelper('layout')->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+
+        // Enregistre l'acceptation de la convention par un formateur
+        $document = new Application_Model_Document();
+        $document->setType('convention')
+                 ->setDateUpload(date('d/m/Y'))
+                 ->setDateValidite(date('d/m/Y', strtotime('+6 month')))
+                 ->setIdUtilisateur($this->utilisateur->id_utilisateur);
+
+        $this->document_mapper->save($document);
+
+        echo "true";
+    }   
 }
 
 

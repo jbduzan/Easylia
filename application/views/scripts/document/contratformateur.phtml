@@ -1,0 +1,116 @@
+<?php
+	echo $this->placeholder('menu-connecte');
+	echo $this->placeholder('sidebar');	
+
+	echo "<h1>Convention de prestation de service</h1>";
+	echo "<div id='print'>";
+		echo $this->contrat;
+	echo "</div>";
+?>
+
+<div class="separateur" style="margin-left : 27em"></div>
+
+<div id="div_refuser_contrat">
+	<p>
+		Je refuse cette convention. Je suis conscient que mon inscription sera alors complètement annulée et que l'ensemble des données que possède Easylia à mon sujet sera détruit.
+	</p>
+	<input type="submit" class="submit" id="refuser" value="Je refuse" />
+</div>
+
+<div id="div_accepter_contrat">
+	<p>
+		J'accepte intégralement et sans condition cette convention.
+	</p>
+	<input type="submit" class="submit" id="imprimer" value="Imprimer cette page" />
+	<input type="submit" class="submit" id="accepter" value="J'accepte" />
+</div>
+
+<div id="refuser_dialog" style="display : none">
+	<p>
+		Etes vous sur de vouloir refuser la convention ? <br />
+		Toutes vos données seront supprimées, et vous devrez recommencer tout le processus si vous changer d'avis.
+	</p>
+</div>
+<div id="accepter_dialog" style="display : none">
+	<p>
+		Etes vous sur de vouloir accepter la convention ? <br />
+		Une fois ce choix validé, vous ne pourrez plus l'annuler.
+	</p>
+</div>	
+<input type="hidden" id="id_utilisateur" value="<?php echo $this->id_utilisateur ?>" />
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		// Lorsque on clique sur le bouton imprimer
+		$('#imprimer').click(function(){
+			$('#print').css('color', 'black');
+			$('#print').jqprint({
+				importCSS : true,
+				operaSupport : true
+			});
+			$('#print').css('color', '#7A7A7A');
+		})
+
+		// Lorsque on clique sur le bouton accepter
+		$('#accepter').click(function(){
+			$('#accepter_dialog').dialog({
+				title : 'Accepter la convetion',
+				width : 500,
+				buttons : [
+					{
+						text : 'Valider',
+						click : function(){
+							// Envoie d'une requete ajax pour signifier l'acceptation
+							$.ajax({
+								type : 'post',
+								url : '/document/setconventionsigne',
+								success : function(data){
+									if(data == "true")
+										location.href = "/profil-utilisateur";
+								}
+							});
+						}
+					},
+					{
+						text : 'Annuler',
+						click : function(){
+							$(this).dialog('close');
+						}
+					}
+				]
+			});
+		});
+
+		// Lorsque on clique sur le bouton refuser
+		$('#refuser').click(function(){
+			$('#refuser_dialog').dialog({
+				width : 500,
+				title : 'Refuser la convention',
+				buttons : [
+					{
+						text : 'Valider',
+						click : function(){
+							$.ajax({
+								type : 'post',
+								url : '/utilisateurs/deleteuser',
+								data : { 
+									'delete' : true, 
+									'id_utilisateur' : $('#id_utilisateur').val()
+								},
+								success : function(){
+									location.href = "http://www.easylia.com";
+								}
+							})
+						}
+					},
+					{
+						text : 'Annuler',
+						click : function(){
+							$(this).dialog('close');
+						}
+					}
+				]
+			});
+		});
+	});
+</script>

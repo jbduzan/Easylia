@@ -65,7 +65,9 @@ class Application_Model_UtilisateursMapper
             'test_motivation' =>$utilisateur->getTestMotivation(),
             'adresse_skype' => $utilisateur->getAdresseSkype(),
             'date_entretien_skype' => $utilisateur->getDateEntretienSkype(),
-            'disponibilite_entretien' => $utilisateur->getDisponibiliteEntretien()
+            'disponibilite_entretien' => $utilisateur->getDisponibiliteEntretien(),
+            'siren' => $utilisateur->getSiren(),
+            'presentation_accepte' => $utilisateur->getPresentationAccepte()
         );
         
         $id = "";
@@ -122,6 +124,8 @@ class Application_Model_UtilisateursMapper
         $utilisateur->setAdresseSkype(utf8_encode($row->adresse_skype));
         $utilisateur->setDateEntretienSkype($row->date_entretien_skype);
         $utilisateur->setDisponibiliteEntretien($row->disponibilite_entretien);
+        $utilisateur->setSiren($row->siren);
+        $utilisateur->setPresentationAccepte($row->presentation_accepte);
     }
     
     // Cherche dans la bdd un utilisateur par rapport à son login
@@ -163,7 +167,9 @@ class Application_Model_UtilisateursMapper
         $utilisateur->setTestMotivation($row->test_motivation);
         $utilisateur->setAdresseSkype($row->adresse_skype);
         $utilisateur->setDateEntretienSkype($row->date_entretien_skype);
-        $utilisateur->setDisponibiliteEntretien($row->disponibilite_entretien);        
+        $utilisateur->setDisponibiliteEntretien($row->disponibilite_entretien);     
+        $utilisateur->setSiren($row->siren);
+        $utilisateur->setPresentationAccepte($row->presentation_accepte);
     }
     
     // Ressort tout les utilisateurs
@@ -203,6 +209,8 @@ class Application_Model_UtilisateursMapper
        		$entry->setAdresseSkype($row->adresse_skype);
        		$entry->setDateEntretienSkype($row->date_entretien_skype);
        		$entry->setDisponibiliteEntretien($row->disponibilite_entretien);
+            $entry->setSiren($row->siren);
+            $entry->setPresentationAccepte($row->presentation_accepte);
             $entries[] = $entry;
         }
         return $entries;
