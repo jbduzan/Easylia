@@ -9,6 +9,7 @@ class Application_Model_ListeCertification
     protected $_temps_certification;
     protected $_score_minimum;
     protected $_duree_validite;
+    protected $_nombre_passage;
     
     // Constructeur
     
@@ -118,6 +119,15 @@ class Application_Model_ListeCertification
     
     public function getDureeValidite(){
     	return $this->_duree_validite;
+    }
+
+    public function setNombrePassage($nombre_passage){
+        $this->_nombre_passage = $nombre_passage;
+        return $this;
+    }
+
+    public function getNombrePassage(){
+        return $this->_nombre_passage;
     }
 
 }

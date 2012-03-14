@@ -84,7 +84,8 @@ class CertificationsController extends Zend_Controller_Action
             $certification->setNombreQuestion($request->getParam('nombre_question'));
             $certification->setTempsCertification($request->getParam('temps_certification'));
             $certification->setScoreMinimum($request->getParam('score_minimum'))
-                         ->setDureeValidite($request->getParam('duree_validite'));
+                          ->setDureeValidite($request->getParam('duree_validite'))
+                          ->setNombrePassage($request->getParam('nombre_passage'));
             
             $this->certification_mapper->save($certification);
         }
@@ -116,7 +117,8 @@ class CertificationsController extends Zend_Controller_Action
             $certification->setNombreQuestion($request->getParam('nombre_question'));
             $certification->setTempsCertification($request->getParam('temps_certification'));
             $certification->setScoreMinimum($request->getParam('score_minimum'))
-                         ->setDureeValidite($request->getParam('duree_validite'));
+                          ->setDureeValidite($request->getParam('duree_validite'))
+                          ->setNombrePassage($request->getParam('nombre_passage'));
             
             $this->certification_mapper->save($certification);
         }
@@ -559,13 +561,19 @@ class CertificationsController extends Zend_Controller_Action
         foreach($result as $row){
             if(in_array($row->getIdCertification(),$certification_acquise))
                 continue;
-                
-            // Nombre de questions dans la certification
-            $questions = $this->question_certification_mapper->fetchAllWithId($row->getIdCertification());
             
-            $nbr_questions = count($questions);
-            
-            $liste_lien .= "<p><a href='/passer-une-certification?id=".$row->getIdCertification()."' title='Temps de passage : ".$row->getTempsCertification()."mn, nombre de questions : ".$nbr_questions."'>".$row->getNom()."</a></p>";
+            // On regarde si l'utilisateur peut passer la certification
+            $can_pass = $this->checkCertificationAvailability($row->getIdCertification(), $this->utilisateur->id_utilisateur);
+
+            if($row->getNombrePassage() == 0)
+                $nombre_passage = "Pas de limite";
+            else
+                $nombre_passage = $row->getNombrePassage();
+
+            if($can_pass)
+                $liste_lien .= "<p><a href='/passer-une-certification?id=".$row->getIdCertification()."' title='Temps de passage : ".$row->getTempsCertification()."mn, nombre de questions : ".$row->getNombreQuestion().", nombre de passage par mois : ".$nombre_passage."'>".$row->getNom()."</a></p>";
+            else
+                $liste_lien .= "<p><a onclick='return false;' style='color : orange' href='/passer-une-certification?id=".$row->getIdCertification()."' title='Vous avez dépassé le nombre authorisé de passage par mois'>".$can_pass.$row->getNom()."</a></p>";
         }
         
         $this->view->lien = $liste_lien;
@@ -627,6 +635,41 @@ class CertificationsController extends Zend_Controller_Action
 
         echo $option;
 
+    }
+
+    protected function checkCertificationAvailability($id_certification, $id_utilisateur){
+        // Vérifie si un utilisateur n'as pas dépassé le nombre de passage authorisé pour la certification
+
+        // On récupère les infos de la certification
+        $certification = new Application_Model_ListeCertification();
+        $this->certification_mapper->find($id_certification, $certification);
+
+        // On récupère la liste de toutes les certifications passé par l'utilisateur
+        $certification_utilisateur = $this->historique_mapper->findByIdUtilisateur($id_utilisateur);
+
+        $liste_certification = array();
+
+        foreach($certification_utilisateur as $row){
+            // On récupère la bonne certification
+            if($row->getIdCertification() == $id_certification){
+                // On vérifie si les certifications on été passé dans le mois en cours
+                $current_date = date('m');
+                $certification_date = $row->getDatePassage();
+                $certification_date = explode('/', $certification_date);
+
+                if($current_date == $certification_date[1])
+                    array_push($liste_certification, $row);
+            }
+        }
+
+        // Si le nombre de passage est à 0 c'est que il n'y as pas de limitation
+        if($certification->getNombrePassage() == 0)
+            return true;
+
+        if(count($liste_certification) >= $certification->getNombrePassage())
+            return false;
+        else
+            return true;
     }
 
 }
