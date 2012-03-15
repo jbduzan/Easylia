@@ -214,20 +214,8 @@ class CertificationsController extends Zend_Controller_Action
         $id_certification = $request->getParam('id');
         
         // On vérifie si l'utilisateur n'as pas déjà passé cette certification
-       // $authorisation = $this->authorisePassageCertification($this->utilisateur->id_utilisateur, $id_certification);
-        
-        // Suivant le code on effectue la bonne action
-       /*
- if($authorisation == 1){
-            $this->view->test = "Vous avez déjà reussi cette certification";
-        }else if($authorisation == 2){
-            $this->view->test = "Plus valide, vous pouvez la repasser";
-        }else if($authorisation == 3){
-            $this->view->test = "Vous avez déjà tenté cette certification, veuillez payer pour ressayer";
-        }else if($authorisation == 4){
-            $this->view->test = "Vous avez payé, vous pouvez repasser";
-        }
-*/
+        if(!$this->checkCertificationAvailability($id_certification, $this->utilisateur->id_utilisateur))
+            $this->_redirector->goToUrl('/certification-disponible');
         
         // On récupère le temps et le nombre de question
         $certification = new Application_Model_ListeCertification();

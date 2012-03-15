@@ -145,11 +145,11 @@ echo $this->placeholder('sidebar');
         <div class="block-right-bottom-formateur">
 	        <?php
 				if($this->creer_facture)
-					echo "<br /><a href='/gerer-facture'><img src='/images/facture-icone-7188-48.png' class='img-left' /> Gérer mes facture</a>";	                                    
+					echo "<br /><span id='facture_formateur'><a href='/gerer-facture'><img src='/images/facture-icone-7188-48.png' class='img-left' /> Gérer mes factures</a></span>";
 	        ?>
         </div>
     </div> <!-- action_formateur -->
-    <div id="grow_formateur" style='display : none'>
+    <div id="growl_formateur" style='display : none'>
     	<p>Veuillez penser à envoyer votre rib (<a href="/document">ici</a>), afin que nous puissions effectuer les virement pour solder les factures</p>
     </div>
     <input type="hidden" id="rib" value="<?php echo $this->rib?>" />
@@ -157,8 +157,11 @@ echo $this->placeholder('sidebar');
 	$(document).ready(function(){
 		// On regarde si il y a des nouvelles factures
 		if($('#rib').val() == 'false'){
+			// Et on masque le lien facture tant que il n'y as pas le rib
+			$('#facture_formateur').hide();
+
        		$.blockUI({ 
-            message: $('#grow_formateur'), 
+            message: $('#growl_formateur'), 
             fadeIn: 700, 
             fadeOut: 700, 
             timeout: 5000, 

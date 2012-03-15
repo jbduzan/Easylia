@@ -51,7 +51,12 @@ $this->placeholder('sidebar')->captureStart();
 					<li><a href='/changer-mot-de-passe'>Changer mon mot de passe</a></li>
 					<?php
 						if($user->id_groupe == 1 || $user->id_groupe == 2 || $user->id_groupe == 5)
-						echo "<li><a href='/document'>Documents</a></li>";
+							echo "<li><a href='/document'>Documents</a></li>";
+
+						if($user->id_groupe == 2){
+							echo "<li><a href='/presentation-detaillee'>Présentation détaillée </a></li>";
+							echo "<li><a href='/convention-formateur'>Convention formateur </a></li>";
+						}
 					?>
 				</ul>
 			<?php

@@ -34,6 +34,25 @@
 			sans_formateur = false; 
 			
 		$("#heure_disponible").buttonset();
+
+        var button = [];
+
+        if($('#modifier_formation').val() == "true"){
+            button.push({name: 'Editer', bclass: 'edit', onpress : edit_record});
+            button.push({separator : true});
+        }
+
+        if($('#supprimer_formation').val() == "true"){
+            button.push({name: 'Supprimer', bclass: 'delete', onpress : delete_record});
+            button.push({separator : true});    
+        }
+
+        if($('#ajouter_formateur').val() == "true"){
+            button.push({name : 'Positionner un formateur sur la formation', bclass : 'add', onpress: add_formateur_admin});
+            button.push({separator : true});
+        }
+
+        button.push({name: 'Se positioner sur la formation', bclass: 'add', onpress: add_formateur});
 	
         $("#tableau_formation").flexigrid({
             url : '/formation/getlisteformation?sansFormateur='+sans_formateur,
@@ -46,15 +65,7 @@
                     /* {display: 'Date', name : 'date', width : 150, sortable : true, align: 'center'}, */
                     /* {display: 'Payée', name : 'payee', width : 100, sortable : true, align: 'center'} */
             ],
-            buttons : [
-                    {name: 'Editer', bclass: 'edit', onpress : edit_record},
-                    {separator: true},                    
-                    {name: 'Supprimer', bclass: 'delete', onpress : delete_record},
-                    {separator: true},
-                    {name: 'Se positioner sur la formation', bclass: 'add', onpress: add_formateur},
-                    {separator: true},
-                    {name : 'Positionner un formateur sur la formation', bclass : 'add', onpress: add_formateur_admin}
-            ],
+            buttons : button,
             searchitems : [
                     {display: 'Nom', name : 'nom', isdefault: true},
                     {display: 'Client', name : 'client'},

@@ -926,13 +926,20 @@ class UtilisateursController extends Zend_Controller_Action
 			$this->userMapper->save($utilisateur);
 			
 			// On envoie un mail au formateur pour lui signifier son acceptation
-			$mail = new Zend_Mail();
-			$mail->setFrom('no-reply@easylia.com', 'Easylia');
-			$mail->addTo($utilisateur->getMail());
-			$mail->setSubject(utf8_decode("Réponse à votre entretien"));
-			$mail->setBodyHtml(utf8_decode("<div><img src='http://dev.easylia.com/images/logo.jpg'/><br /><br/><br/></div><div><p>Ceci est un mail automatique, merci de ne pas y r&eacute;pondre</p><p>Après avoir examiné votre candidature, il a été décidé de l'accepter. <br /> Merci de votre participation</p></div>"));
-			$mail->send();
 
+            // On récupère les informations du mail à envoyer
+            $mail_bdd = new Application_Model_Mail();
+            $this->mail_mapper->find(4, $mail_bdd);
+            $contenu = $mail_bdd->getContenu();
+            $contenu = str_replace('{ID}', $id, $contenu);
+            $contenu = str_replace('{KEY}', $client->getCleActivation(), $contenu);
+
+            $mail = new Zend_Mail();
+            $mail->setFrom('no-reply@easylia.com', 'Easylia');
+            $mail->addTo($client->getMail());
+            $mail->setSubject($mail_bdd->getSujet());
+            $mail->setBodyHtml(utf8_decode($contenu));
+            $mail->send();
 		}
     }
 	
@@ -1131,12 +1138,19 @@ class UtilisateursController extends Zend_Controller_Action
 		$this->userMapper->save($utilisateur);
 		
 		// On envoie un mail au formateur pour lui signifier son refus
-		$mail = new Zend_Mail();
-		$mail->setFrom('no-reply@easylia.com', 'Easylia');
-		$mail->addTo($utilisateur->getMail());
-		$mail->setSubject(utf8_decode("Réponse à votre entretien"));
-		$mail->setBodyHtml(utf8_decode("<div><img src='http://dev.easylia.com/images/logo.jpg'/><br /><br/><br/></div><div><p>Ceci est un mail automatique, merci de ne pas y r&eacute;pondre</p><p>Après avoir examiné votre candidature, il a été décidé de ne pas l'accepter. <br /> Merci de votre participation</p></div>"));
-		$mail->send();
+		// On récupère les informations du mail à envoyer
+        $mail_bdd = new Application_Model_Mail();
+        $this->mail_mapper->find(5, $mail_bdd);
+        $contenu = $mail_bdd->getContenu();
+        $contenu = str_replace('{ID}', $id, $contenu);
+        $contenu = str_replace('{KEY}', $client->getCleActivation(), $contenu);
+
+        $mail = new Zend_Mail();
+        $mail->setFrom('no-reply@easylia.com', 'Easylia');
+        $mail->addTo($client->getMail());
+        $mail->setSubject($mail_bdd->getSujet());
+        $mail->setBodyHtml(utf8_decode($contenu));
+        $mail->send();
 	}
 	
 	public function nonactiveAction(){
@@ -1356,7 +1370,17 @@ class UtilisateursController extends Zend_Controller_Action
 
         foreach($result as $row){
             if($row->getType() == 'convention'){
-                $return = true;
+                // On vérifie bien que elle est encore valable
+                $current_time = time();
+                $date_validite = $row->getDateValidite();
+                $date_validite = explode('/', $date_validite);
+                $date_validite = mktime(0,0,0,$date_validite[1], $date_validite[0], $date_validite[2]);
+
+                if($date_validite > $current_time)
+                    $return = true;
+                else
+                    $return = false;
+
                 break;
             }
             else
@@ -1381,6 +1405,13 @@ class UtilisateursController extends Zend_Controller_Action
 
         $this->view->contenu = $page->get('contenu');
         $this->view->id_utilisateur = $this->user->id_utilisateur;
+
+        // On regarde si elle a été déjà accepté pour afficher ou non les boutons
+        $utilisateur = new Application_Model_Utilisateurs();
+        $this->userMapper->find($this->user->id_utilisateur, $utilisateur);
+
+        if($utilisateur->getPresentationAccepte() == 1)
+            $this->view->presentation_accepte = true;
     }
 
     public function setpresentationaccepteAction(){

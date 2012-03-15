@@ -29,6 +29,7 @@
 	</p>
 </div>
 <input type="hidden" id="id_utilisateur" value="<?php echo $this->id_utilisateur ?>" />
+<input type="hidden" id="presentation_accepte" value="<?php echo $this->presentation_accepte ?>" />
 
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -76,5 +77,10 @@
 				]
 			});
 		});
+
+		// Si la présentation a déjà été accepté on masque les boutons accepter et refuser
+		if($('#presentation_accepte').val() == true){
+			$('#div_accepter_presentation, #div_refuser_presentation').hide();
+		}
 	});
 </script>

@@ -1,6 +1,6 @@
 <?php
 	echo $this->placeholder('menu-connecte');
-	echo $this->placeholder('sidebar');	
+	echo $this->placeholder('sidebar');
 
 	echo "<h1>Convention de prestation de service</h1>";
 	echo "<div id='print'>";
@@ -38,9 +38,13 @@
 	</p>
 </div>	
 <input type="hidden" id="id_utilisateur" value="<?php echo $this->id_utilisateur ?>" />
+<input type="hidden" id="contrat_accepte" value="<?php echo $this->contrat_accepte ?>" />
 
 <script type="text/javascript">
 	$(document).ready(function(){
+		// On masque la sidebar et le menu-connecte
+		$('#menu-connecte, #sidebar_formateur').hide();
+
 		// Lorsque on clique sur le bouton imprimer
 		$('#imprimer').click(function(){
 			$('#print').css('color', 'black');
@@ -112,5 +116,14 @@
 				]
 			});
 		});
+
+		// Si la convention a déjà été accepté on masque les boutons accepter et refuser
+		if($('#contrat_accepte').val() == true){
+			$('#div_accepter_contrat, #div_refuser_contrat').hide();
+
+			// Et on affiche la sidebar et le menu connecte
+			$('#menu-connecte, #sidebar_formateur').show();
+		}
+
 	});
 </script>

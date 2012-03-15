@@ -210,6 +210,24 @@ class DocumentController extends Zend_Controller_Action
 
         $this->view->contrat = $contenu;
         $this->view->id_utilisateur = $this->utilisateur->id_utilisateur;
+
+        // On regarde si l'utilisateur l'as déjà accepté pour enlever les bouttons
+        $result = $this->document_mapper->fetchAll($id_utilisateur = $this->utilisateur->id_utilisateur);
+
+        foreach($result as $row){
+            if($row->getType() == 'convention'){
+                // On vérifie bien que elle est encore valable
+                $current_time = time();
+                $date_validite = $row->getDateValidite();
+                $date_validite = explode('/', $date_validite);
+                $date_validite = mktime(0,0,0,$date_validite[1], $date_validite[0], $date_validite[2]);
+
+                if($date_validite > $current_time){
+                    $this->view->contrat_accepte = true;
+                    break;
+                }
+            }
+        }
     }
 
 
@@ -219,6 +237,14 @@ class DocumentController extends Zend_Controller_Action
 
         // Enregistre l'acceptation de la convention par un formateur
         $document = new Application_Model_Document();
+
+        // On vérifie que elle n'existe pas sinon on la modifie
+        $result = $this->document_mapper->fetchAll($id_utilisateur = $this->utilisateur->id_utilisateur);
+
+        foreach($result as $row){
+            $document = $row;
+        }
+
         $document->setType('convention')
                  ->setDateUpload(date('d/m/Y'))
                  ->setDateValidite(date('d/m/Y', strtotime('+6 month')))

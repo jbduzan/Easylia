@@ -135,11 +135,15 @@
 					<label>Documents</label>
 					<route>document</route>
 				</document>
+				<presentation>
+					<label>Présentation détaillée</label>
+					<route>presentation</route>
+				</presentation>
+				<convention>
+					<label>Convention de prestation</label>
+					<route>convention</route>
+				</convention>
 			</pages>
 		</home>
-		<convention>
-			<label>Convention de prestation</label>
-			<route>convention</route>
-		</convention>
 	</nav>
 </configdata>
