@@ -204,8 +204,8 @@ class CertificationsController extends Zend_Controller_Action
         /* Récupération des questions et paramétrage de la certification */
         /*                                                               */
         
-        // On vérifie si l'utilisateur est loggué
-        if($this->utilisateur->is_logged != true){  
+        // On vérifie si l'utilisateur est loggué et que il est formateur 
+        if($this->utilisateur->is_logged != true || $this->utilisateur->id_groupe == 3){  
             $this->_redirector->goToSimple('connexion','utilisateurs');
         }
         
@@ -527,8 +527,8 @@ class CertificationsController extends Zend_Controller_Action
         // Liste toute les certifications sous forme de lien pour le formateur
         
         // On vérifie si l'utilisateur est loggue
-        if($this->utilisateur->is_logged != true){          
-            $this->_redirector->goToUrl('/connexion');
+        if($this->utilisateur->is_logged != true || $this->utilisateur->id_groupe == 3){          
+            $this->_redirector->goToUrl('/profil-utilisateur');
         }   
         
         // On fait dabord la liste des certifications que le formateur a deja afin de ne pas les afficher
