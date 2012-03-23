@@ -1,0 +1,18 @@
+<?php
+	echo $this->placeholder('menu-connecte');
+	echo $this->placeholder('sidebar');
+
+	echo "<h1>Mes certifications</h1>";
+?>
+<table>
+	<th>Nom de la certification</th>
+	<th>Date d'expiration</th>
+<?php
+	foreach($this->certifications as $row){
+		echo "<tr>";
+		echo "<td>$row[0]</td>";
+		echo "<td>$row[1]</td>";
+		echo "</tr>";
+	}
+?>
+</table>	

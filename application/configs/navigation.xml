@@ -143,6 +143,10 @@
 					<label>Convention de prestation</label>
 					<route>convention</route>
 				</convention>
+				<mescertification>
+					<label>Mes certifications</label>
+					<route>mescertifications</route>
+				</mescertification>
 			</pages>
 		</home>
 	</nav>

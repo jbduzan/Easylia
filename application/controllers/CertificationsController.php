@@ -660,8 +660,40 @@ class CertificationsController extends Zend_Controller_Action
             return true;
     }
 
-}
+    public function mescertificationsAction(){
+        // Affiche au formateur la liste de ces certifications
 
+        // On vérifie que l'utilisateur est connecté et que il est formateur
+        if(!$this->utilisateur->is_logged || $this->utilisateur->id_groupe != 2)
+            $this->_redirector->goToUrl('/profil-utilisateur');
+
+        // On récupère toutes les certifications de l'utilisateur
+        $result = $this->historique_mapper->findByIdUtilisateur($this->utilisateur->id_utilisateur);
+
+        $certifications = array();
+
+        foreach($result as $row){
+            // Pour chaque certifications on va récuperer le score nécessaire à l'obtention et vérifier si elle est valide
+            $certification = new Application_Model_ListeCertification();
+
+            $this->certification_mapper->find($row->getIdCertification(), $certification);
+
+            // On vérifie le score
+            if($row->getScore() >= $certification->getScoreMinimum()){
+                // Puis la date de validité
+                $date_jour = explode('/', date('d/m/Y'));
+                $date_validite = explode('/', $row->getDateValidite());
+
+                if(mktime('0','0','0',$date_validite[1], $date_validite[0], $date_validite[2]) >= mktime('0','0','0',$date_jour[1], $date_jour[0], $date_jour[2])){
+                    $certification_valide = array($certification->getNom(), $row->getDateValidite());
+                    array_push($certifications, $certification_valide);
+                }
+            }
+        }
+
+        $this->view->certifications = $certifications;
+    }
+}
 
 
 
